@@ -1,0 +1,3 @@
+{
+  "/api/alerts/ec2/scan/route": "app/api/alerts/ec2/scan/route.js"
+}

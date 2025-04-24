@@ -1,0 +1,248 @@
+/* Correções específicas para o tema claro */
+
+/* Garantir que o fundo e texto tenham as cores corretas no tema claro */
+html.light {
+  background-color: #ffffff !important;
+}
+
+body.light, 
+.light body {
+  background-color: #ffffff !important;
+  color: #171717 !important;
+}
+
+/* Correções para a barra lateral no tema claro */
+.light .bg-slate-900,
+.light [class*="bg-slate-900"] {
+  background-color: #f8fafc !important; /* Cor de fundo clara para a sidebar */
+}
+
+.light .dark\:bg-slate-900 {
+  background-color: #f8fafc !important;
+}
+
+.light .dark\:bg-slate-800 {
+  background-color: #f1f5f9 !important;
+}
+
+.light .dark\:border-slate-700 {
+  border-color: #e2e8f0 !important;
+}
+
+.light .dark\:text-white {
+  color: #0f172a !important;
+}
+
+.light .dark\:text-gray-400 {
+  color: #64748b !important;
+}
+
+.light .dark\:text-gray-300 {
+  color: #334155 !important;
+}
+
+.light .dark\:text-indigo-400 {
+  color: #4f46e5 !important;
+}
+
+.light .dark\:hover\:bg-slate-800:hover {
+  background-color: #e2e8f0 !important;
+}
+
+/* Outros itens de navegação na barra lateral */
+.light .text-gray-300 {
+  color: #4b5563 !important;
+}
+
+.light .hover\:bg-gray-800:hover {
+  background-color: #f1f5f9 !important;
+}
+
+.light .hover\:text-white:hover {
+  color: #111827 !important;
+}
+
+/* Forçar o background para branco em elementos com tema claro */
+.light [class*="bg-white"],
+.light .bg-white,
+.light div[class^="bg-white"],
+.light div[class*=" bg-white"] {
+  background-color: #ffffff !important;
+}
+
+.light [class*="bg-gray-50"],
+.light [class*="bg-gray-100"] {
+  background-color: #f3f4f6 !important;
+}
+
+/* Forçar cores de texto claras */
+.light [class*="text-gray-900"],
+.light [class*="text-gray-800"],
+.light [class*="text-gray-700"] {
+  color: #171717 !important;
+}
+
+.light [class*="border-gray-200"],
+.light [class*="border-gray-300"] {
+  border-color: #e5e7eb !important;
+}
+
+/* Correções para cards no tema claro */
+.light .card {
+  background-color: #ffffff !important;
+  color: #171717 !important;
+}
+
+/* Correções para sombras no tema claro */
+.light .shadow,
+.light .shadow-sm,
+.light .shadow-md,
+.light .shadow-lg,
+.light .shadow-xl {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Garantir cores corretas para alertas e notificações */
+.light div[class*="bg-green-50"] {
+  background-color: #ecfdf5 !important;
+  color: #065f46 !important;
+  border-color: #a7f3d0 !important;
+}
+
+.light div[class*="bg-red-50"] {
+  background-color: #fef2f2 !important;
+  color: #991b1b !important;
+  border-color: #fecaca !important;
+}
+
+.light div[class*="bg-blue-50"] {
+  background-color: #eff6ff !important;
+  color: #1e40af !important;
+  border-color: #bfdbfe !important;
+}
+
+.light div[class*="bg-orange-50"],
+.light div[class*="bg-amber-50"],
+.light div[class*="bg-yellow-50"] {
+  background-color: #fff7ed !important;
+  color: #9a3412 !important;
+  border-color: #fed7aa !important;
+}
+
+/* Garantir cores para tabelas no tema claro */
+.light table {
+  color: #171717 !important;
+  border-color: #e5e7eb !important;
+}
+
+.light thead {
+  background-color: #f3f4f6 !important;
+}
+
+.light tbody tr:hover {
+  background-color: #f9fafb !important;
+}
+
+/* Garantir cores para formulários no tema claro */
+.light input,
+.light select,
+.light textarea {
+  background-color: #ffffff !important;
+  color: #171717 !important;
+  border-color: #e5e7eb !important;
+}
+
+/* Corrigir links no tema claro */
+.light a {
+  color: #4f46e5 !important;
+}
+
+.light a:hover {
+  color: #4338ca !important;
+}
+
+/* Correções adicionais para a barra lateral no tema claro */
+.light .dark\:bg-indigo-700 {
+  background-color: #4f46e5 !important;
+}
+
+.light .dark\:text-gray-200 {
+  color: #374151 !important;
+}
+
+/* Correção para o botão de alternância de tema e botões na barra lateral */
+.light .hover\:dark\:bg-slate-800:hover {
+  background-color: #e2e8f0 !important;
+}
+
+/* Específico para o botão de alternância e navegação ativa */
+.light .bg-indigo-800 {
+  background-color: #4f46e5 !important;
+}
+
+/* Ajuste de contraste para item ativo */
+.light .bg-indigo-800.text-white {
+  color: white !important;
+}
+
+/* Correção para a classe hover:bg-gray-100 */
+.light .hover\:bg-gray-100:hover {
+  background-color: #f3f4f6 !important;
+}
+
+/* Correções para o Dashboard Layout */
+.light .dark\:bg-slate-900,
+.light .bg-gray-50.dark\:bg-slate-900 {
+  background-color: #f8fafc !important;
+}
+
+.light .dark\:border-indigo-400 {
+  border-color: #4f46e5 !important;
+}
+
+.light .dark\:text-gray-100 {
+  color: #111827 !important;
+}
+
+/* Ajuste para o conteúdo principal no tema claro */
+.light main,
+.light .container {
+  background-color: #f8fafc !important;
+  color: #111827 !important;
+}
+
+/* Regras gerais para garantir aparência correta no tema claro */
+
+/* Cores de texto */
+.light [class*="dark:text-white"] {
+  color: #111827 !important;
+}
+
+.light [class*="dark:text-gray"] {
+  color: #374151 !important;
+}
+
+/* Cores de fundo */
+.light [class*="dark:bg-slate"],
+.light [class*="dark:bg-gray"] {
+  background-color: #f8fafc !important;
+}
+
+/* Cores de borda */
+.light [class*="dark:border"] {
+  border-color: #e5e7eb !important;
+}
+
+/* Resets para hover */
+.light [class*="dark:hover:bg"] {
+  background-color: #f1f5f9 !important;
+}
+
+/* Garantir que textos em cores primárias tenham contraste adequado */
+.light [class*="text-white"] {
+  color: #ffffff !important;
+}
+
+.light [class*="bg-indigo"] [class*="text-white"] {
+  color: #ffffff !important;
+} 

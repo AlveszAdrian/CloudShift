@@ -1,0 +1,272 @@
+/* Efeitos Cybersecurity para o tema escuro */
+
+/* Pequeno efeito de "scan line" para criar uma estética de monitor */
+.dark::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    transparent 50%,
+    rgba(0, 0, 0, 0.02) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 9999;
+  animation: scanlines 2s steps(50) infinite;
+  opacity: 0;
+}
+
+@keyframes scanlines {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 100%;
+  }
+}
+
+/* Borda sutil de destaque para cards de segurança */
+.dark .security-card,
+.dark .alert-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.dark .security-card::after,
+.dark .alert-card::after,
+.dark .security-score-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 200%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(56, 189, 248, 0.3),
+    transparent
+  );
+  animation: cyber-scan 2s linear infinite;
+}
+
+@keyframes cyber-scan {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+/* Efeito de pulse para alertas críticos */
+.dark .critical-alert {
+  position: relative;
+  overflow: hidden;
+}
+
+.dark .critical-alert::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  border-radius: inherit;
+  animation: critical-pulse 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes critical-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.2);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+/* Efeito sutil em botões de ação */
+.dark .cyber-button {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: all 0.4s ease;
+}
+
+.dark .cyber-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(56, 189, 248, 0.1),
+    transparent
+  );
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+.dark .cyber-button:hover::before {
+  left: 100%;
+  transition: all 0.5s ease;
+}
+
+/* Efeito de destaque para ícones importantes de segurança */
+.dark .security-icon {
+  filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.5));
+  transition: all 0.3s ease;
+}
+
+.dark .security-icon:hover {
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.7));
+  transform: scale(1.05);
+}
+
+/* Tipografia cybersecurity para títulos de seção */
+.dark .cyber-title {
+  font-family: monospace;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #e2e8f0;
+  position: relative;
+  display: inline-block;
+}
+
+.dark .cyber-title::before {
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 30%;
+  background-color: #38bdf8;
+  bottom: -4px;
+  left: 0;
+}
+
+.dark .cyber-title::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 5%;
+  background-color: #38bdf8;
+  bottom: -8px;
+  left: 0;
+}
+
+/* Efeito suave para gráficos e visualizações */
+.dark .recharts-wrapper {
+  position: relative;
+}
+
+.dark .recharts-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Loader de estilo cyber */
+.dark .cyber-loader {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #131517;
+  border-top: 2px solid #38bdf8;
+  border-radius: 50%;
+  position: relative;
+  animation: loader-spin 1s linear infinite;
+}
+
+.dark .cyber-loader::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 1px solid rgba(56, 189, 248, 0.1);
+  border-radius: 50%;
+  animation: loader-pulse 1s linear infinite;
+}
+
+@keyframes loader-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader-pulse {
+  0% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+}
+
+/* Terminal/console effect for code blocks */
+.dark pre,
+.dark code {
+  background-color: #0a0b0c !important;
+  border: 1px solid #252830 !important;
+  border-radius: 4px;
+  position: relative;
+  font-family: monospace;
+  color: #e2e8f0 !important;
+}
+
+.dark pre::before {
+  content: "> ";
+  color: #38bdf8;
+  position: absolute;
+  left: 8px;
+  top: 4px;
+}
+
+/* Dashboard gauges and meters */
+.dark .cyber-gauge .high-value {
+  color: #ef4444 !important;
+  text-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
+}
+
+.dark .cyber-gauge .medium-value {
+  color: #eab308 !important;
+  text-shadow: 0 0 5px rgba(234, 179, 8, 0.5);
+}
+
+.dark .cyber-gauge .low-value {
+  color: #38bdf8 !important;
+  text-shadow: 0 0 5px rgba(56, 189, 248, 0.5);
+}
+
+/* Add this class to the security dashboard container for the full effect */
+.dark .cyber-security-dashboard {
+  /* Removido o background com gradientes radiais
+  background-image: 
+    radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.05) 0%, transparent 35%),
+    radial-gradient(circle at 20% 80%, rgba(239, 68, 68, 0.03) 0%, transparent 20%);
+  background-attachment: fixed;
+  */
+} 

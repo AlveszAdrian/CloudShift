@@ -1,0 +1,3 @@
+{
+  "/api/aws/iam/groups/route": "app/api/aws/iam/groups/route.js"
+}

@@ -1,0 +1,297 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --popover: #ffffff;
+  --popover-foreground: #171717;
+  --primary: #4f46e5;
+  --primary-foreground: #ffffff;
+  --secondary: #f3f4f6;
+  --secondary-foreground: #111827;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+  --accent: #f3f4f6;
+  --accent-foreground: #111827;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #4f46e5;
+  --radius: 0.5rem;
+  
+  /* Service-specific colors - light theme */
+  --color-ec2: #3b82f6;
+  --color-iam: #f97316;
+  --color-s3: #eab308;
+  --color-rds: #10b981;
+  --color-critical: #ef4444;
+  --color-high: #f97316;
+  --color-medium: #eab308;
+  --color-low: #3b82f6;
+}
+
+.dark {
+  --background: #0a0b0c;
+  --foreground: #e2e8f0;
+  --card: #131517;
+  --card-foreground: #e2e8f0;
+  --popover: #131517;
+  --popover-foreground: #e2e8f0;
+  --primary: #38bdf8;
+  --primary-foreground: #e2e8f0;
+  --secondary: #1e2023;
+  --secondary-foreground: #e2e8f0;
+  --muted: #1e2023;
+  --muted-foreground: #94a3b8;
+  --accent: #1e2023;
+  --accent-foreground: #e2e8f0;
+  --destructive: #f87171;
+  --destructive-foreground: #ffffff;
+  --border: #252830;
+  --input: #252830;
+  --ring: #38bdf8;
+  
+  /* Service-specific colors - dark theme cyber */
+  --color-ec2: #38bdf8;
+  --color-iam: #fb923c;
+  --color-s3: #facc15;
+  --color-rds: #22c55e;
+  --color-critical: #ef4444;
+  --color-high: #f97316;
+  --color-medium: #eab308;
+  --color-low: #3b82f6;
+}
+
+/* Garante que o tema claro use as cores corretas mesmo quando a preferência do sistema for escura */
+.light {
+  --background: #ffffff;
+  --foreground: #171717;
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --popover: #ffffff;
+  --popover-foreground: #171717;
+  --primary: #4f46e5;
+  --primary-foreground: #ffffff;
+  --secondary: #f3f4f6;
+  --secondary-foreground: #111827;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+  --accent: #f3f4f6;
+  --accent-foreground: #111827;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #4f46e5;
+  --radius: 0.5rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Fix para componentes comuns */
+/* Cards e superfícies */
+.dark .bg-white {
+  background-color: var(--card);
+}
+
+.dark .bg-gray-50,
+.dark .bg-gray-100 {
+  background-color: var(--secondary);
+}
+
+.dark .text-gray-900 {
+  color: var(--card-foreground);
+}
+
+.dark .text-gray-800 {
+  color: var(--card-foreground);
+}
+
+.dark .text-gray-700 {
+  color: var(--card-foreground);
+}
+
+.dark .text-gray-600 {
+  color: var(--muted-foreground);
+}
+
+.dark .border-gray-200,
+.dark .border-gray-300 {
+  border-color: var(--border);
+}
+
+.dark .shadow,
+.dark .shadow-md,
+.dark .shadow-lg,
+.dark .shadow-sm {
+  --tw-shadow-color: rgba(0, 0, 0, 0.25);
+}
+
+/* Gráficos e elementos de visualização */
+.dark .recharts-cartesian-grid-horizontal line,
+.dark .recharts-cartesian-grid-vertical line {
+  stroke: var(--border);
+}
+
+.dark .recharts-text {
+  fill: var(--foreground);
+}
+
+.dark .recharts-legend-item-text {
+  color: var(--foreground) !important;
+}
+
+/* Tabelas */
+.dark table {
+  border-color: var(--border);
+}
+
+.dark th,
+.dark td {
+  border-color: var(--border);
+}
+
+.dark tr {
+  border-color: var(--border);
+}
+
+.dark tr:hover {
+  background-color: var(--accent);
+}
+
+/* Melhoria de contraste para elementos de interface */
+/* Tema claro */
+.light input, 
+.light select, 
+.light textarea {
+  border: 1px solid var(--input) !important;
+  background-color: white !important;
+  color: var(--foreground) !important;
+  padding: 0.5rem !important;
+}
+
+.light input::placeholder, 
+.light select::placeholder, 
+.light textarea::placeholder {
+  color: var(--muted-foreground) !important;
+}
+
+.light input:focus, 
+.light select:focus, 
+.light textarea:focus {
+  border-color: var(--ring) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3) !important;
+}
+
+.light button[type="submit"],
+.light button[type="button"] {
+  border: 1px solid var(--primary) !important;
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+  font-weight: 500 !important;
+}
+
+.light button[type="submit"]:hover,
+.light button[type="button"]:hover {
+  background-color: #4338ca !important;
+}
+
+.light button[type="submit"]:disabled,
+.light button[type="button"]:disabled {
+  background-color: var(--muted) !important;
+  border-color: var(--muted-foreground) !important;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.light label {
+  color: var(--foreground) !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.25rem !important;
+}
+
+/* Tema escuro */
+.dark input, 
+.dark select, 
+.dark textarea {
+  border: 1px solid var(--input) !important;
+  background-color: var(--card) !important;
+  color: var(--foreground) !important;
+  padding: 0.5rem !important;
+}
+
+.dark input::placeholder, 
+.dark select::placeholder, 
+.dark textarea::placeholder {
+  color: var(--muted-foreground) !important;
+}
+
+.dark input:focus, 
+.dark select:focus, 
+.dark textarea:focus {
+  border-color: var(--ring) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3) !important;
+}
+
+.dark button[type="submit"],
+.dark button[type="button"] {
+  border: 1px solid var(--primary) !important;
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+  font-weight: 500 !important;
+}
+
+.dark button[type="submit"]:hover,
+.dark button[type="button"]:hover {
+  background-color: #4f46e5 !important;
+}
+
+.dark button[type="submit"]:disabled,
+.dark button[type="button"]:disabled {
+  background-color: var(--muted) !important;
+  border-color: var(--muted-foreground) !important;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.dark label {
+  color: var(--foreground) !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.25rem !important;
+}
+
+/* Estilos BASE - Não sobreescrever */
+html.light,
+html[class*="light"] {
+  background-color: #ffffff !important;
+}
+
+body.light,
+body[class*="light"] {
+  background-color: #ffffff !important;
+  color: #171717 !important;
+}
+
+/* Tema claro */
+.light {
+  --background: #ffffff !important;
+  --foreground: #171717 !important;
+  --card: #ffffff !important;
+  --card-foreground: #171717 !important;
+}

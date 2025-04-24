@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file://E%3A/Github%20Projects/AWS-Monitor/src/app/dashboard/iam/advanced/layout.tsx"],"sourcesContent":["\"use client\";\r\n\r\nexport default function AdvancedLayout({\r\n  children,\r\n}: {\r\n  children: React.ReactNode;\r\n}) {\r\n  return (\r\n    <div className=\"bg-white shadow rounded-lg p-6\">\r\n      {children}\r\n    </div>\r\n  );\r\n} "],"names":[],"mappings":";;;;AAAA;;AAEe,SAAS,eAAe,EACrC,QAAQ,EAGT;IACC,qBACE,6LAAC;QAAI,WAAU;kBACZ;;;;;;AAGP;KAVwB","debugId":null}}]
+}

@@ -1,0 +1,3 @@
+{
+  "/api/aws/security/vulnerabilities/route": "app/api/aws/security/vulnerabilities/route.js"
+}

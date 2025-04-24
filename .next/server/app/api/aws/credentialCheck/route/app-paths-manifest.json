@@ -1,0 +1,3 @@
+{
+  "/api/aws/credentialCheck/route": "app/api/aws/credentialCheck/route.js"
+}

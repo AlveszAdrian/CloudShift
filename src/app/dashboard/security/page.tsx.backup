@@ -1,0 +1,1443 @@
+"use client";
+
+import React from 'react';
+import { useAlerts } from "@/hooks/useAlerts";
+import { motion } from "framer-motion";
+import { useState, useEffect, useCallback } from "react";
+import { useAwsCredentials } from "@/hooks/useAwsCredentials";
+import { 
+  Bell, AlertTriangle, AlertCircle, Info, 
+  CheckCircle, XCircle, Archive, Shield, 
+  Search, Filter, RefreshCw, Trash2, 
+  User, Key, Lock, Database, Server,
+  BarChart as BarChartIcon, PieChart as PieChartIcon,
+  ChevronRight, ChevronDown, Eraser,
+  Check, Slash, Clock, HardDrive, Cloud,
+  FileText, Users, Settings, AlertOctagon,
+  X, ExternalLink, Loader2
+} from "lucide-react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { 
+  ResponsiveContainer, 
+  PieChart, 
+  Pie, 
+  Cell, 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  Tooltip, 
+  Legend, 
+  CartesianGrid,
+  LineChart,
+  Line,
+  AreaChart,
+  Area
+} from "recharts";
+import CredentialSelector from "@/components/aws/CredentialSelector";
+
+export default function SecurityPage() {
+  const { selectedCredential } = useAwsCredentials();
+  const { 
+    alerts, 
+    loading, 
+    error, 
+    filters, 
+    setFilters, 
+    dismissAlert, 
+    resolveAlert,
+    fetchAlerts
+  } = useAlerts();
+  
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get('category');
+
+  const [cleanupLoading, setCleanupLoading] = useState(false);
+  const [cleanupMessage, setCleanupMessage] = useState<string | null>(null);
+  const [showCleanupMessage, setShowCleanupMessage] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [iamScanLoading, setIamScanLoading] = useState(false);
+  const [ec2CleanupLoading, setEc2CleanupLoading] = useState(false);
+  const [iamScanMessage, setIamScanMessage] = useState<string | null>(null);
+  const [showIamScanMessage, setShowIamScanMessage] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<string>('all'); // 'all', 'iam', 'ec2', etc.
+  const [timeRange, setTimeRange] = useState<number>(7);
+  const [viewMode, setViewMode] = useState<'dashboard' | 'list'>('dashboard');
+  const [expandedSections, setExpandedSections] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [severityFilters, setSeverityFilters] = useState<Record<string, boolean>>({
+    'CRITICAL': true,
+    'HIGH': true,
+    'MEDIUM': true,
+    'LOW': true,
+    'INFO': true
+  });
+  const [statusFilters, setStatusFilters] = useState<Record<string, boolean>>({
+    'OPEN': true,
+    'IN_PROGRESS': true,
+    'RESOLVED': true,
+    'DISMISSED': false
+  });
+  
+  // Estado para controlar o modal de detalhes do alerta
+  const [selectedAlert, setSelectedAlert] = useState<any | null>(null);
+  const [showModal, setShowModal] = useState(false);
+
+  // Função para fechar o modal
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedAlert(null);
+  };
+
+  // Função para abrir o modal com o alerta selecionado
+  const openAlertDetails = (alert: any) => {
+    setSelectedAlert(alert);
+    setShowModal(true);
+  };
+
+  // Set initial category from URL parameter
+  useEffect(() => {
+    if (categoryParam) {
+      setActiveCategory(categoryParam);
+    }
+  }, [categoryParam]);
+
+  // Effect to show notification messages when they're set
+  useEffect(() => {
+    if (cleanupMessage) setShowCleanupMessage(true);
+    if (iamScanMessage) setShowIamScanMessage(true);
+  }, [cleanupMessage, iamScanMessage]);
+
+  // Effect to load alerts when component mounts
+  useEffect(() => {
+    fetchAlerts();
+  }, [fetchAlerts]);
+
+  const activeAlerts = alerts.filter(a => a.status === 'active' || a.status === 'OPEN');
+  const criticalAlerts = activeAlerts.filter(a => a.severity === 'CRITICAL');
+  const highAlerts = activeAlerts.filter(a => a.severity === 'HIGH');
+  const mediumAlerts = activeAlerts.filter(a => a.severity === 'MEDIUM');
+  const lowAlerts = activeAlerts.filter(a => a.severity === 'LOW');
+
+  // Filter alerts based on category, search term, severity, and status
+  const filteredAlerts = alerts.filter(alert => {
+    // Filter by category
+    if (activeCategory !== 'all' && getAlertCategory(alert.resourceType) !== activeCategory) {
+      return false;
+    }
+    
+    // Filter by search term
+    if (searchTerm && !alert.title.toLowerCase().includes(searchTerm.toLowerCase()) && 
+        !alert.description.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        !alert.resourceId.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        !alert.resourceType.toLowerCase().includes(searchTerm.toLowerCase())) {
+      return false;
+    }
+    
+    // Filter by severity
+    if (!severityFilters[alert.severity as keyof typeof severityFilters]) {
+      return false;
+    }
+    
+    // Filter by status (normalize 'active' to 'OPEN' for consistency)
+    const normalizedStatus = alert.status === 'active' ? 'OPEN' : alert.status;
+    
+    if (!statusFilters[normalizedStatus as keyof typeof statusFilters]) {
+      return false;
+    }
+    
+    return true;
+  });
+
+  const handleDismiss = async (id: string) => {
+    setActionLoading(id);
+    await dismissAlert(id);
+    setActionLoading(null);
+  };
+
+  const handleResolve = async (id: string) => {
+    setActionLoading(id);
+    await resolveAlert(id);
+    setActionLoading(null);
+  };
+
+  const handleRefresh = async () => {
+    await fetchAlerts();
+  };
+
+  const handleScanIAMThreats = async () => {
+    if (!selectedCredential) {
+      setIamScanMessage("Selecione uma credencial AWS para realizar a verificação");
+      setShowIamScanMessage(true);
+      return;
+    }
+
+    try {
+      setIamScanLoading(true);
+      setIamScanMessage(null);
+      
+      const response = await fetch('/api/alerts/iam', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          credentialId: selectedCredential.id
+        })
+      });
+      
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Erro ao verificar ameaças do IAM');
+      }
+      
+      const result = await response.json();
+      setIamScanMessage(result.message);
+      setShowIamScanMessage(true);
+      
+      // Recarregar alertas
+      await fetchAlerts();
+      
+      // Ativar a categoria IAM
+      setActiveCategory('iam');
+    } catch (error) {
+      setIamScanMessage(`Erro: ${error instanceof Error ? error.message : 'Erro desconhecido'}`);
+      setShowIamScanMessage(true);
+    } finally {
+      setIamScanLoading(false);
+    }
+  };
+
+  const handleCleanupDuplicates = async () => {
+    if (window.confirm("Deseja remover todos os alertas duplicados? Esta ação não pode ser desfeita.")) {
+      try {
+        setCleanupLoading(true);
+        setCleanupMessage(null);
+        
+        const response = await fetch('/api/alerts/cleanup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (!response.ok) {
+          const data = await response.json();
+          throw new Error(data.error || 'Erro ao limpar alertas duplicados');
+        }
+        
+        const result = await response.json();
+        setCleanupMessage(result.message);
+        setShowCleanupMessage(true);
+        
+        // Recarregar alertas em vez de recarregar a página inteira
+        await fetchAlerts();
+      } catch (error) {
+        setCleanupMessage(`Erro: ${error instanceof Error ? error.message : 'Erro desconhecido'}`);
+        setShowCleanupMessage(true);
+      } finally {
+        setCleanupLoading(false);
+      }
+    }
+  };
+  
+  // Função para limpar alertas de EC2
+  const handleCleanupEC2Alerts = async () => {
+    const confirmCleanup = window.confirm("Esta ação removerá todos os alertas de EC2 da plataforma. Deseja continuar?");
+    
+    if (!confirmCleanup) return;
+    
+    setEc2CleanupLoading(true);
+    setCleanupMessage(null);
+    
+    try {
+      const response = await fetch("/api/alerts/ec2/cleanup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        setCleanupMessage(result.message);
+        setShowCleanupMessage(true);
+        handleRefresh();
+      } else {
+        const errorData = await response.json();
+        setCleanupMessage(`Erro ao limpar alertas de EC2: ${errorData.error || "Erro desconhecido"}`);
+        setShowCleanupMessage(true);
+      }
+    } catch (error: any) {
+      console.error("Erro ao limpar alertas de EC2:", error);
+      setCleanupMessage("Erro ao limpar alertas de EC2: " + (error.message || "Erro desconhecido"));
+      setShowCleanupMessage(true);
+    } finally {
+      setEc2CleanupLoading(false);
+    }
+  };
+  
+  // Função para determinar a categoria de um alerta com base no tipo de recurso
+  const getAlertCategory = (resourceType: string): string => {
+    if (resourceType.startsWith('IAM') || resourceType === 'SecretManagerSecret') {
+      return 'iam';
+    } else if (resourceType.startsWith('EC2') || resourceType === 'SecurityGroup' || 
+              resourceType === 'Volume' || resourceType === 'VPC' || 
+              resourceType.includes('Gateway') || resourceType === 'Subnet' || 
+              resourceType === 'RouteTable' || resourceType === 'NetworkInterface' || 
+              resourceType === 'ElasticIP' || resourceType === 'NetworkACL' ||
+              resourceType.includes('ACL')) {
+      return 'ec2';
+    } else if (resourceType.startsWith('S3') || resourceType.includes('Bucket')) {
+      return 's3';
+    } else if (resourceType.startsWith('RDS') || resourceType.startsWith('DB') || 
+               resourceType.includes('Database')) {
+      return 'rds';
+    } else if (resourceType.startsWith('DynamoDB') || resourceType.includes('DynamoDB')) {
+      return 'dynamodb';
+    } else if (resourceType.startsWith('Lambda')) {
+      return 'lambda';
+    }
+    
+    // Log tipos desconhecidos para depuração
+    console.log('Tipo de recurso não categorizado:', resourceType);
+    return 'other';
+  };
+
+  // Função para formatar o tipo de recurso para exibição
+  const formatResourceType = (resourceType: string): string => {
+    // Identificar o prefixo do serviço
+    let prefix = '';
+    let name = resourceType;
+    
+    if (resourceType.startsWith('IAM')) {
+      prefix = 'IAM';
+      name = resourceType.substring(3);
+    } else if (resourceType.startsWith('EC2')) {
+      prefix = 'EC2';
+      name = resourceType.substring(3);
+    } else if (resourceType.startsWith('S3')) {
+      prefix = 'S3';
+      name = resourceType.substring(2);
+    } else if (resourceType.startsWith('RDS')) {
+      prefix = 'RDS';
+      name = resourceType.substring(3);
+    } else if (resourceType.startsWith('DB')) {
+      prefix = 'DB';
+      name = resourceType.substring(2);
+    } else if (resourceType.startsWith('DynamoDB')) {
+      prefix = 'DynamoDB';
+      name = resourceType.substring(8);
+    } else if (resourceType.startsWith('Lambda')) {
+      prefix = 'Lambda';
+      name = resourceType.substring(6);
+    }
+    
+    // Se o nome começar com letra maiúscula e não tiver espaço, 
+    // adiciona um espaço antes de cada letra maiúscula (exceto a primeira)
+    if (name.length > 0 && /^[A-Z]/.test(name) && !name.includes(' ')) {
+      name = name.replace(/([A-Z])/g, ' $1').trim();
+    }
+    
+    return prefix ? `${prefix}-${name}` : resourceType;
+  };
+
+  // Função para formatar o tipo de recurso para texto legível
+  const getResourceTypeText = (resourceType: string): string => {
+    switch (resourceType) {
+      case 'IAMUser': return 'Usuário IAM';
+      case 'IAMRole': return 'Role IAM';
+      case 'IAMPolicy': return 'Política IAM';
+      case 'SecretManagerSecret': return 'Secrets Manager';
+      case 'EC2Instance': return 'Instância EC2';
+      case 'SecurityGroup': return 'Grupo de Segurança';
+      case 'VPC': return 'VPC';
+      case 'S3Bucket': return 'Bucket S3';
+      case 'RDSInstance': return 'Instância RDS';
+      case 'DynamoDBTable': return 'Tabela DynamoDB';
+      case 'LambdaFunction': return 'Função Lambda';
+      default: return formatResourceType(resourceType);
+    }
+  };
+
+  // Helper functions for severity and status
+  type SeverityType = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW' | 'INFO';
+  type StatusType = 'OPEN' | 'IN_PROGRESS' | 'RESOLVED' | 'DISMISSED';
+
+  const getSeverityLabel = (severity: SeverityType) => {
+    const labels = {
+      'CRITICAL': 'Crítico',
+      'HIGH': 'Alto',
+      'MEDIUM': 'Médio',
+      'LOW': 'Baixo',
+      'INFO': 'Informativo'
+    };
+    return labels[severity];
+  };
+
+  const getStatusLabel = (status: StatusType) => {
+    const labels = {
+      'OPEN': 'Aberto',
+      'IN_PROGRESS': 'Em Progresso',
+      'RESOLVED': 'Resolvido',
+      'DISMISSED': 'Ignorado'
+    };
+    return labels[status];
+  };
+
+  const getSeverityIcon = (severity: SeverityType, options = {}) => {
+    switch (severity) {
+      case 'CRITICAL':
+        return <AlertCircle className="text-red-600" {...options} />;
+      case 'HIGH':
+        return <AlertTriangle className="text-orange-500" {...options} />;
+      case 'MEDIUM':
+        return <AlertTriangle className="text-yellow-500" {...options} />;
+      case 'LOW':
+        return <Info className="text-blue-500" {...options} />;
+      case 'INFO':
+        return <Info className="text-gray-500" {...options} />;
+      default:
+        return <Info className="text-gray-500" {...options} />;
+    }
+  };
+
+  const getStatusIcon = (status: StatusType, options = {}) => {
+    switch (status) {
+      case 'OPEN':
+        return <AlertCircle className="text-red-500" {...options} />;
+      case 'IN_PROGRESS':
+        return <Clock className="text-orange-500" {...options} />;
+      case 'RESOLVED':
+        return <Check className="text-green-500" {...options} />;
+      case 'DISMISSED':
+        return <Slash className="text-gray-500" {...options} />;
+      default:
+        return <Info className="text-gray-500" {...options} />;
+    }
+  };
+
+  const getSeverityFilterClass = (severity: keyof typeof severityFilters) => {
+    const classes = {
+      'CRITICAL': 'bg-red-100 text-red-800',
+      'HIGH': 'bg-orange-100 text-orange-800',
+      'MEDIUM': 'bg-yellow-100 text-yellow-800',
+      'LOW': 'bg-blue-100 text-blue-800',
+      'INFO': 'bg-gray-100 text-gray-800'
+    };
+    return classes[severity as keyof typeof classes] || 'bg-gray-100 text-gray-800';
+  };
+
+  const getStatusFilterClass = (status: keyof typeof statusFilters) => {
+    return statusFilters[status] 
+      ? 'bg-green-100 text-green-800 border-green-300' 
+      : 'bg-gray-100 text-gray-500 border-gray-300';
+  };
+
+  const toggleSeverityFilter = (severity: keyof typeof severityFilters) => {
+    setSeverityFilters(prev => ({
+      ...prev,
+      [severity]: !prev[severity]
+    }));
+  };
+
+  const toggleStatusFilter = (status: keyof typeof statusFilters) => {
+    setStatusFilters(prev => ({
+      ...prev,
+      [status]: !prev[status]
+    }));
+  };
+
+  const resetFilters = () => {
+    setActiveCategory('all');
+    setTimeRange(7);
+    setSeverityFilters({
+      'CRITICAL': true,
+      'HIGH': true,
+      'MEDIUM': true,
+      'LOW': true,
+      'INFO': true
+    });
+    setStatusFilters({
+      'OPEN': true,
+      'IN_PROGRESS': true,
+      'RESOLVED': true,
+      'DISMISSED': false
+    });
+    setSearchTerm('');
+    setShowFilters(false);
+  };
+  
+  const getResourceTypeIcon = (resourceType: string) => {
+    switch (resourceType) {
+      case 'IAMUser':
+        return <User className="w-5 h-5" />;
+      case 'IAMAccessKey':
+        return <Key className="w-5 h-5" />;
+      case 'IAMPolicy':
+        return <FileText className="w-5 h-5" />;
+      case 'SecretManagerSecret':
+        return <Lock className="w-5 h-5" />;
+      case 'EC2Instance':
+        return <Server className="w-5 h-5" />;
+      case 'SecurityGroup':
+        return <Shield className="w-5 h-5" />;
+      case 'Volume':
+        return <HardDrive className="w-5 h-5" />;
+      case 'S3Bucket':
+        return <Cloud className="w-5 h-5" />;
+      case 'RDSInstance':
+        return <Database className="w-5 h-5" />;
+      case 'IAMRole':
+        return <Users className="w-5 h-5" />;
+      default:
+        return <Info className="w-5 h-5" />;
+    }
+  };
+  
+  // Estatísticas
+  const activeCount = filteredAlerts.filter(a => a.status === 'active').length;
+  const criticalCount = filteredAlerts.filter(a => a.severity === 'CRITICAL' && a.status === 'active').length;
+  const highCount = filteredAlerts.filter(a => a.severity === 'HIGH' && a.status === 'active').length;
+  const mediumCount = filteredAlerts.filter(a => a.severity === 'MEDIUM' && a.status === 'active').length;
+  const lowCount = filteredAlerts.filter(a => a.severity === 'LOW' && a.status === 'active').length;
+  
+  // Estatísticas por tipo
+  const iamAlertCount = alerts.filter(a => 
+    getAlertCategory(a.resourceType) === 'iam' && 
+    a.status === 'active'
+  ).length;
+  
+  const ec2AlertCount = alerts.filter(a => 
+    getAlertCategory(a.resourceType) === 'ec2' && 
+    a.status === 'active'
+  ).length;
+  
+  const s3AlertCount = alerts.filter(a => 
+    getAlertCategory(a.resourceType) === 's3' && 
+    a.status === 'active'
+  ).length;
+  
+  const rdsAlertCount = alerts.filter(a => 
+    getAlertCategory(a.resourceType) === 'rds' && 
+    a.status === 'active'
+  ).length;
+
+  // Data for charts
+  const severityData = [
+    { name: 'Crítico', value: criticalCount, color: '#EF4444' },
+    { name: 'Alto', value: highCount, color: '#F97316' },
+    { name: 'Médio', value: mediumCount, color: '#EAB308' },
+    { name: 'Baixo', value: lowCount, color: '#3B82F6' },
+  ];
+
+  const serviceData = [
+    { name: 'IAM', value: iamAlertCount, color: '#F97316' },
+    { name: 'EC2', value: ec2AlertCount, color: '#3B82F6' },
+    { name: 'S3', value: s3AlertCount, color: '#EAB308' },
+    { name: 'RDS', value: rdsAlertCount, color: '#10B981' },
+  ];
+
+  // Group alerts by date for trend chart
+  const getAlertsByDate = () => {
+    const dates = new Map();
+    const now = new Date();
+    const days = timeRange === 7 ? 7 : timeRange === 30 ? 30 : 90;
+    
+    // Initialize all dates in the range with zero counts
+    for (let i = 0; i < days; i++) {
+      const date = new Date(now);
+      date.setDate(date.getDate() - i);
+      const dateStr = date.toISOString().split('T')[0];
+      dates.set(dateStr, { date: dateStr, critical: 0, high: 0, medium: 0, low: 0, total: 0 });
+    }
+    
+    // Count alerts by date and severity
+    alerts.forEach(alert => {
+      const date = new Date(alert.createdAt).toISOString().split('T')[0];
+      if (dates.has(date)) {
+        const entry = dates.get(date);
+        entry.total++;
+        
+        if (alert.severity === 'CRITICAL') entry.critical++;
+        else if (alert.severity === 'HIGH') entry.high++;
+        else if (alert.severity === 'MEDIUM') entry.medium++;
+        else if (alert.severity === 'LOW') entry.low++;
+      }
+    });
+    
+    // Convert to array and sort by date
+    return Array.from(dates.values())
+      .sort((a, b) => a.date.localeCompare(b.date));
+  };
+
+  // Get alerts by resource type
+  const getAlertsByResourceType = () => {
+    const counts = new Map();
+    
+    alerts.filter(a => a.status === 'active').forEach(alert => {
+      const type = getResourceTypeText(alert.resourceType);
+      counts.set(type, (counts.get(type) || 0) + 1);
+    });
+    
+    return Array.from(counts.entries())
+      .map(([name, value]) => ({ name, value }))
+      .sort((a, b) => b.value - a.value);
+  };
+
+  const trendData = getAlertsByDate();
+  const resourceTypeData = getAlertsByResourceType();
+
+  interface SectionHeaderProps {
+    title: string;
+    count: number;
+    icon: React.ReactNode;
+    isExpanded: boolean;
+    onClick: () => void;
+  }
+  
+  function SectionHeader({ title, count, icon, isExpanded, onClick }: SectionHeaderProps) {
+    return (
+      <button
+        className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+        onClick={onClick}
+      >
+        <div className="flex items-center">
+          {icon}
+          <h2 className="ml-2 text-base font-medium text-gray-900">{title}</h2>
+          {count > 0 && (
+            <span className="ml-2 px-2 py-0.5 bg-red-100 text-red-800 text-xs rounded-full">
+              {count}
+            </span>
+          )}
+        </div>
+        <svg
+          className={`h-5 w-5 text-gray-500 transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+        </svg>
+      </button>
+    );
+  }
+
+  const getSeverityColor = (severity: string) => {
+    const colors: Record<string, string> = {
+      'CRITICAL': 'text-red-600',
+      'HIGH': 'text-orange-500',
+      'MEDIUM': 'text-yellow-500',
+      'LOW': 'text-blue-500',
+      'INFO': 'text-gray-500'
+    };
+    return colors[severity] || 'text-gray-500';
+  };
+
+  const getSeverityBorderColor = (severity: string): string => {
+    const colors: Record<string, string> = {
+      'CRITICAL': 'border-red-600',
+      'HIGH': 'border-orange-500',
+      'MEDIUM': 'border-yellow-500',
+      'LOW': 'border-blue-500',
+      'INFO': 'border-gray-500'
+    };
+    return colors[severity] || 'border-gray-500';
+  };
+
+  const getSeverityText = (severity: string): string => {
+    return getSeverityLabel(severity as SeverityType);
+  };
+
+  // Função para limpar todos os alertas
+  const handleCleanupAllAlerts = async () => {
+    const confirmCleanup = window.confirm("Esta ação removerá todos os alertas da plataforma. Deseja continuar?");
+    
+    if (!confirmCleanup) return;
+    
+    setAllAlertsCleanupLoading(true);
+    
+    try {
+      const response = await fetch("/api/alerts/cleanup-all", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      
+      if (response.ok) {
+        setCleanupMessage("Todos os alertas foram removidos com sucesso.");
+        setShowCleanupMessage(true);
+        handleRefresh();
+      } else {
+        const errorData = await response.json();
+        setCleanupMessage(`Erro ao limpar alertas: ${errorData.message || "Erro desconhecido"}`);
+        setShowCleanupMessage(true);
+      }
+    } catch (error: any) {
+      console.error("Erro ao limpar alertas:", error);
+      setCleanupMessage("Erro ao limpar alertas: " + (error.message || "Erro desconhecido"));
+      setShowCleanupMessage(true);
+    } finally {
+      setAllAlertsCleanupLoading(false);
+    }
+  };
+
+  // Declaração do estado de carregamento para limpeza de todos os alertas
+  const [allAlertsCleanupLoading, setAllAlertsCleanupLoading] = useState(false);
+
+  // Basic minimal UI for now
+  return (
+    <>
+      <div className="container mx-auto py-6">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <h1 className="text-3xl font-bold flex items-center gap-2 text-gray-900">
+              <Shield className="h-8 w-8 text-indigo-600" /> 
+              Segurança
+            </h1>
+            <p className="text-gray-600 mt-1">
+              Gerencie e resolva problemas de segurança na sua infraestrutura AWS
+            </p>
+          </motion.div>
+          
+          <div className="flex flex-col w-full lg:w-auto">
+            <CredentialSelector />
+            
+            <div className="flex flex-wrap gap-2 mt-4 justify-end">
+              <button
+                onClick={handleRefresh}
+                className="px-4 py-2 flex items-center gap-2 bg-white text-indigo-700 border border-indigo-300 rounded-lg shadow-sm hover:bg-indigo-50 transition-colors"
+                disabled={loading}
+              >
+                <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+                Atualizar
+              </button>
+              
+              <button 
+                onClick={() => setShowFilters(!showFilters)}
+                className={`px-4 py-2 flex items-center gap-2 rounded-lg shadow-sm border transition-colors ${
+                  showFilters 
+                    ? 'bg-blue-50 text-blue-700 border-blue-300' 
+                    : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                }`}
+              >
+                <Filter className="h-4 w-4" />
+                Filtros
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Tab Navigation */}
+        <div className="border-b border-gray-200 mb-6">
+          <nav className="flex -mb-px space-x-8 overflow-x-auto scrollbar-hide">
+            <button
+              onClick={() => setActiveCategory("all")}
+              className={`whitespace-nowrap px-1 py-4 text-sm font-medium border-b-2 ${
+                activeCategory === "all" 
+                  ? "border-indigo-500 text-indigo-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              <span className="flex items-center">
+                <Shield className="mr-2 h-5 w-5" />
+                Todos os Serviços
+              </span>
+            </button>
+            <button
+              onClick={() => setActiveCategory("iam")}
+              className={`whitespace-nowrap px-1 py-4 text-sm font-medium border-b-2 ${
+                activeCategory === "iam" 
+                  ? "border-orange-500 text-orange-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              <span className="flex items-center">
+                <User className="mr-2 h-5 w-5" />
+                IAM & Secrets
+                {iamScanLoading && <RefreshCw className="ml-2 h-4 w-4 animate-spin" />}
+              </span>
+            </button>
+            <button
+              onClick={() => setActiveCategory("ec2")}
+              className={`whitespace-nowrap px-1 py-4 text-sm font-medium border-b-2 ${
+                activeCategory === "ec2" 
+                  ? "border-blue-500 text-blue-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              <span className="flex items-center">
+                <Server className="mr-2 h-5 w-5" />
+                EC2 & Rede
+              </span>
+            </button>
+            <button
+              onClick={() => setActiveCategory("s3")}
+              className={`whitespace-nowrap px-1 py-4 text-sm font-medium border-b-2 ${
+                activeCategory === "s3" 
+                  ? "border-yellow-500 text-yellow-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              <span className="flex items-center">
+                <Database className="mr-2 h-5 w-5" />
+                S3 Storage
+              </span>
+            </button>
+            <button
+              onClick={() => setActiveCategory("rds")}
+              className={`whitespace-nowrap px-1 py-4 text-sm font-medium border-b-2 ${
+                activeCategory === "rds" 
+                  ? "border-green-500 text-green-600"
+                  : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              <span className="flex items-center">
+                <Database className="mr-2 h-5 w-5" />
+                RDS
+              </span>
+            </button>
+          </nav>
+        </div>
+
+        {/* Status messages */}
+        {showCleanupMessage && cleanupMessage && (
+          <div className="mb-4 p-3 bg-green-50 text-green-800 rounded-lg border border-green-200 shadow-sm flex items-center justify-between">
+            <div className="flex items-center">
+              <CheckCircle className="h-5 w-5 mr-2 text-green-500" />
+              {cleanupMessage}
+            </div>
+            <button 
+              onClick={() => setShowCleanupMessage(false)} 
+              className="p-1 rounded-full hover:bg-green-100"
+              aria-label="Fechar notificação"
+            >
+              <X className="h-4 w-4 text-green-700" />
+            </button>
+          </div>
+        )}
+        
+        {showIamScanMessage && iamScanMessage && (
+          <div className="mb-4 p-3 bg-blue-50 text-blue-800 rounded-lg border border-blue-200 shadow-sm flex items-center justify-between">
+            <div className="flex items-center">
+              <Info className="h-5 w-5 mr-2 text-blue-500" />
+              {iamScanMessage}
+            </div>
+            <button 
+              onClick={() => setShowIamScanMessage(false)} 
+              className="p-1 rounded-full hover:bg-blue-100"
+              aria-label="Fechar notificação"
+            >
+              <X className="h-4 w-4 text-blue-700" />
+            </button>
+          </div>
+        )}
+
+        {/* IAM scan button */}
+        {activeCategory === "iam" && (
+          <div className="mb-4">
+            <button
+              onClick={handleScanIAMThreats}
+              className="px-4 py-2 flex items-center gap-2 w-full bg-orange-100 text-orange-700 border border-orange-300 rounded-lg shadow-sm hover:bg-orange-200 transition-colors"
+              disabled={iamScanLoading}
+            >
+              {iamScanLoading ? (
+                <>
+                  <RefreshCw className="h-5 w-5 animate-spin" />
+                  <span>Verificando Problemas no IAM...</span>
+                </>
+              ) : (
+                <>
+                  <User className="h-5 w-5" />
+                  <span>Verificar Segurança de IAM e Segredos</span>
+                </>
+              )}
+            </button>
+          </div>
+        )}
+
+        {/* EC2 cleanup button */}
+        {activeCategory === "ec2" && (
+          <div className="mb-4">
+            <button
+              onClick={handleCleanupEC2Alerts}
+              className="px-4 py-2 flex items-center gap-2 w-full bg-blue-100 text-blue-700 border border-blue-300 rounded-lg shadow-sm hover:bg-blue-200 transition-colors"
+              disabled={ec2CleanupLoading}
+            >
+              {ec2CleanupLoading ? (
+                <>
+                  <RefreshCw className="h-5 w-5 animate-spin" />
+                  <span>Removendo Alertas de EC2...</span>
+                </>
+              ) : (
+                <>
+                  <Eraser className="h-5 w-5" />
+                  <span>Limpar Alertas de EC2</span>
+                </>
+              )}
+            </button>
+          </div>
+        )}
+
+        {/* Main content */}
+        <div className="bg-white p-6 rounded-lg shadow">
+          {loading ? (
+            <div className="flex justify-center items-center py-12">
+              <RefreshCw className="h-8 w-8 text-indigo-500 animate-spin" />
+              <span className="ml-2 text-gray-700">Carregando alertas de segurança...</span>
+            </div>
+          ) : error ? (
+            <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-md mb-6">
+              <p className="flex items-center">
+                <AlertCircle className="h-5 w-5 text-red-500 mr-2" />
+                {error}
+              </p>
+            </div>
+          ) : alerts.length === 0 ? (
+            <div className="bg-white rounded-lg p-8 text-center">
+              <Shield className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 mb-2">Nenhum alerta encontrado</h3>
+              <p className="text-gray-500 mb-4">
+                {activeCategory === "all" 
+                  ? "Não há alertas de segurança para exibir no momento." 
+                  : `Não há alertas de segurança para ${
+                      activeCategory === 'iam' 
+                        ? 'IAM & Secrets' 
+                        : activeCategory === 'ec2' 
+                          ? 'EC2 & Rede' 
+                          : activeCategory === 's3' 
+                            ? 'S3 Storage' 
+                          : 'RDS'
+                  } no momento.`}
+              </p>
+            </div>
+          ) : (
+            <div>
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                  <Shield className="h-5 w-5 text-indigo-600" />
+                  Visão Geral de Segurança
+                </h2>
+                <div className="flex items-center">
+                  <div className="relative mr-2">
+                    <input 
+                      type="text" 
+                      placeholder="Buscar alertas..." 
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="px-3 py-1 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    />
+                    <Search className="absolute right-2 top-1.5 h-4 w-4 text-gray-400" />
+                  </div>
+                  <button
+                    onClick={handleCleanupDuplicates}
+                    className="px-4 py-2 flex items-center gap-2 bg-white text-gray-700 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 transition-colors"
+                    disabled={cleanupLoading}
+                  >
+                    {cleanupLoading ? (
+                      <>
+                        <RefreshCw className="h-4 w-4 animate-spin" />
+                        Limpando...
+                      </>
+                    ) : (
+                      <>
+                        <Eraser className="h-4 w-4" />
+                        Limpar Duplicados
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+              
+              {/* Dashboard Overview Section */}
+              <div className="mb-8">
+                {/* Alert Charts */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  {/* Severity Distribution Chart */}
+                  <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-4">
+                    <h3 className="text-lg font-medium text-gray-900 mb-4">Alertas por Severidade</h3>
+                    <div className="h-64">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                          data={[
+                            { name: 'Crítico', value: alerts.filter(a => a.severity === 'CRITICAL' && (a.status === 'active' || a.status === 'OPEN')).length, color: '#EF4444' },
+                            { name: 'Alto', value: alerts.filter(a => a.severity === 'HIGH' && (a.status === 'active' || a.status === 'OPEN')).length, color: '#F97316' },
+                            { name: 'Médio', value: alerts.filter(a => a.severity === 'MEDIUM' && (a.status === 'active' || a.status === 'OPEN')).length, color: '#EAB308' },
+                            { name: 'Baixo', value: alerts.filter(a => a.severity === 'LOW' && (a.status === 'active' || a.status === 'OPEN')).length, color: '#3B82F6' },
+                          ]}
+                          margin={{ top: 10, right: 10, left: 10, bottom: 20 }}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
+                          <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                          <YAxis tick={{ fontSize: 12 }} allowDecimals={false} />
+                          <Tooltip />
+                          <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+                            {[
+                              { name: 'Crítico', value: alerts.filter(a => a.severity === 'CRITICAL' && (a.status === 'active' || a.status === 'OPEN')).length, color: '#EF4444' },
+                              { name: 'Alto', value: alerts.filter(a => a.severity === 'HIGH' && (a.status === 'active' || a.status === 'OPEN')).length, color: '#F97316' },
+                              { name: 'Médio', value: alerts.filter(a => a.severity === 'MEDIUM' && (a.status === 'active' || a.status === 'OPEN')).length, color: '#EAB308' },
+                              { name: 'Baixo', value: alerts.filter(a => a.severity === 'LOW' && (a.status === 'active' || a.status === 'OPEN')).length, color: '#3B82F6' },
+                            ].map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.color} />
+                            ))}
+                          </Bar>
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+
+                  {/* Resource Type Distribution Chart */}
+                  <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-4">
+                    <h3 className="text-lg font-medium text-gray-900 mb-4">Alertas por Serviço</h3>
+                    <div className="h-64">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Tooltip />
+                          <Legend />
+                          <Pie
+                            data={[
+                              { name: 'IAM', value: alerts.filter(a => getAlertCategory(a.resourceType) === 'iam' && (a.status === 'active' || a.status === 'OPEN')).length, color: '#F97316' },
+                              { name: 'EC2', value: alerts.filter(a => getAlertCategory(a.resourceType) === 'ec2' && (a.status === 'active' || a.status === 'OPEN')).length, color: '#3B82F6' },
+                              { name: 'S3', value: alerts.filter(a => getAlertCategory(a.resourceType) === 's3' && (a.status === 'active' || a.status === 'OPEN')).length, color: '#EAB308' },
+                              { name: 'RDS', value: alerts.filter(a => getAlertCategory(a.resourceType) === 'rds' && (a.status === 'active' || a.status === 'OPEN')).length, color: '#22C55E' },
+                              { name: 'Outros', value: alerts.filter(a => !['iam', 'ec2', 's3', 'rds'].includes(getAlertCategory(a.resourceType)) && (a.status === 'active' || a.status === 'OPEN')).length, color: '#A1A1AA' },
+                            ]}
+                            dataKey="value"
+                            nameKey="name"
+                            cx="50%"
+                            cy="50%"
+                            outerRadius={80}
+                            label
+                          >
+                            {[
+                              { name: 'IAM', value: alerts.filter(a => getAlertCategory(a.resourceType) === 'iam' && (a.status === 'active' || a.status === 'OPEN')).length, color: '#F97316' },
+                              { name: 'EC2', value: alerts.filter(a => getAlertCategory(a.resourceType) === 'ec2' && (a.status === 'active' || a.status === 'OPEN')).length, color: '#3B82F6' },
+                              { name: 'S3', value: alerts.filter(a => getAlertCategory(a.resourceType) === 's3' && (a.status === 'active' || a.status === 'OPEN')).length, color: '#EAB308' },
+                              { name: 'RDS', value: alerts.filter(a => getAlertCategory(a.resourceType) === 'rds' && (a.status === 'active' || a.status === 'OPEN')).length, color: '#22C55E' },
+                              { name: 'Outros', value: alerts.filter(a => !['iam', 'ec2', 's3', 'rds'].includes(getAlertCategory(a.resourceType)) && (a.status === 'active' || a.status === 'OPEN')).length, color: '#A1A1AA' },
+                            ].map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.color} />
+                            ))}
+                          </Pie>
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Alert Summary Boxes */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                  <div className="bg-red-50 rounded-lg p-4 border border-red-200">
+                    <div className="flex items-center">
+                      <AlertCircle className="h-8 w-8 text-red-500 mr-3" />
+                      <div>
+                        <p className="text-sm text-red-800">Críticos</p>
+                        <p className="text-3xl font-bold text-red-900">{alerts.filter(a => a.severity === 'CRITICAL' && (a.status === 'active' || a.status === 'OPEN')).length}</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-orange-50 rounded-lg p-4 border border-orange-200">
+                    <div className="flex items-center">
+                      <AlertTriangle className="h-8 w-8 text-orange-500 mr-3" />
+                      <div>
+                        <p className="text-sm text-orange-800">Altos</p>
+                        <p className="text-3xl font-bold text-orange-900">{alerts.filter(a => a.severity === 'HIGH' && (a.status === 'active' || a.status === 'OPEN')).length}</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-yellow-50 rounded-lg p-4 border border-yellow-200">
+                    <div className="flex items-center">
+                      <AlertTriangle className="h-8 w-8 text-yellow-500 mr-3" />
+                      <div>
+                        <p className="text-sm text-yellow-800">Médios</p>
+                        <p className="text-3xl font-bold text-yellow-900">{alerts.filter(a => a.severity === 'MEDIUM' && (a.status === 'active' || a.status === 'OPEN')).length}</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                    <div className="flex items-center">
+                      <Info className="h-8 w-8 text-blue-500 mr-3" />
+                      <div>
+                        <p className="text-sm text-blue-800">Baixos</p>
+                        <p className="text-3xl font-bold text-blue-900">{alerts.filter(a => a.severity === 'LOW' && (a.status === 'active' || a.status === 'OPEN')).length}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Alert List Section */}
+              <div className="mt-6">
+                <h2 className="text-xl font-semibold mb-4 flex items-center gap-2 text-gray-900">
+                  <Bell className="h-5 w-5 text-indigo-600" />
+                  Lista de Alertas
+                </h2>
+                
+                {/* Alerts by Service */}
+                <div className="space-y-4">
+                  {Object.entries(
+                    filteredAlerts.reduce((acc, alert) => {
+                      let service = getAlertCategory(alert.resourceType);
+                      
+                      if (!acc[service]) acc[service] = [];
+                      acc[service].push(alert);
+                      return acc;
+                    }, {} as Record<string, any[]>)
+                  ).map(([service, serviceAlerts]) => (
+                    <motion.div 
+                      key={service}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200"
+                    >
+                      <div 
+                        className="px-4 py-3 flex items-center justify-between cursor-pointer"
+                        onClick={() => {
+                          const newExpandedSections = expandedSections || [];
+                          if (newExpandedSections.includes(service)) {
+                            setExpandedSections(newExpandedSections.filter(s => s !== service));
+                          } else {
+                            setExpandedSections([...newExpandedSections, service]);
+                          }
+                        }}
+                      >
+                        <div className="flex items-center">
+                          {service === "iam" ? <User className="h-5 w-5 text-orange-500" /> : 
+                           service === "ec2" ? <Server className="h-5 w-5 text-blue-500" /> : 
+                           service === "s3" ? <Database className="h-5 w-5 text-yellow-500" /> : 
+                           service === "rds" ? <Database className="h-5 w-5 text-green-500" /> : 
+                           service === "dynamodb" ? <Database className="h-5 w-5 text-purple-500" /> : 
+                           service === "lambda" ? <Key className="h-5 w-5 text-pink-500" /> : 
+                           <Shield className="h-5 w-5 text-gray-500" />}
+                          <h3 className="text-lg font-medium ml-2 text-gray-900">
+                            {service === "iam" ? "IAM & Secrets" : 
+                             service === "ec2" ? "EC2 & Rede" : 
+                             service === "s3" ? "S3 Storage" : 
+                             service === "rds" ? "RDS Database" : 
+                             service === "dynamodb" ? "DynamoDB" : 
+                             service === "lambda" ? "Lambda" : 
+                             "Outros"} 
+                            <span className="ml-2 text-sm font-normal text-gray-500">
+                              {serviceAlerts.length} {serviceAlerts.length === 1 ? "alerta" : "alertas"}
+                            </span>
+                          </h3>
+                        </div>
+                        {expandedSections && expandedSections.includes(service) ? (
+                          <ChevronDown className="h-5 w-5 text-gray-500" />
+                        ) : (
+                          <ChevronRight className="h-5 w-5 text-gray-500" />
+                        )}
+                      </div>
+                      
+                      {expandedSections && expandedSections.includes(service) && (
+                        <div className="border-t border-gray-200">
+                          <ul className="divide-y divide-gray-200">
+                            {serviceAlerts.map(alert => (
+                              <li key={alert.id} className="px-4 py-3">
+                                <div className="flex items-start">
+                                  <div className="flex-shrink-0 mt-1">
+                                    {getSeverityIcon(alert.severity as SeverityType)}
+                                  </div>
+                                  <div className="ml-3 flex-1">
+                                    <div className="flex flex-wrap justify-between items-start gap-2">
+                                      <h4 
+                                        className="text-sm font-medium text-gray-900 cursor-pointer hover:text-indigo-600"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          openAlertDetails(alert);
+                                        }}
+                                      >
+                                        {alert.title}
+                                      </h4>
+                                      <div className="flex flex-wrap gap-2">
+                                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${getSeverityColor(alert.severity)}`}>
+                                          {getSeverityLabel(alert.severity as SeverityType)}
+                                        </span>
+                                        <span className="px-2 py-0.5 bg-gray-100 text-gray-800 rounded-full text-xs">
+                                          {alert.status === "active" || alert.status === "OPEN" ? "Ativo" : alert.status === "resolved" || alert.status === "RESOLVED" ? "Resolvido" : "Arquivado"}
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <p className="mt-1 text-sm text-gray-600">{alert.description}</p>
+                                    <div className="mt-2 flex flex-wrap items-center text-xs text-gray-500">
+                                      <span className="mr-2">Recurso: {formatResourceType(alert.resourceType)}</span>
+                                      <span className="mr-2">ID: {alert.resourceId}</span>
+                                      {alert.credential?.name && (
+                                        <span className="mr-2 bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded">
+                                          Conta: {alert.credential.name}
+                                        </span>
+                                      )}
+                                      <span>Detectado: {new Date(alert.createdAt).toLocaleString()}</span>
+                                    </div>
+                                    
+                                    {(alert.status === "active" || alert.status === "OPEN") && (
+                                      <div className="mt-3 flex gap-2">
+                                        <button
+                                          onClick={() => handleResolve(alert.id)}
+                                          disabled={actionLoading === alert.id}
+                                          className="px-2 py-1 bg-green-100 text-green-800 rounded-md text-xs flex items-center hover:bg-green-200"
+                                        >
+                                          <CheckCircle className="h-3 w-3 mr-1" />
+                                          {actionLoading === alert.id ? "..." : "Resolver"}
+                                        </button>
+                                        <button
+                                          onClick={() => handleDismiss(alert.id)}
+                                          disabled={actionLoading === alert.id}
+                                          className="px-2 py-1 bg-gray-100 text-gray-800 rounded-md text-xs flex items-center hover:bg-gray-200"
+                                        >
+                                          <Archive className="h-3 w-3 mr-1" />
+                                          {actionLoading === alert.id ? "..." : "Arquivar"}
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </motion.div>
+                  ))}
+                </div>
+                
+                {/* Empty state for filtered results */}
+                {filteredAlerts.length === 0 && (
+                  <div className="bg-white rounded-lg p-8 text-center border border-gray-200 mt-4">
+                    <Shield className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">Nenhum alerta encontrado</h3>
+                    <p className="text-gray-500">Tente ajustar seus filtros para ver mais resultados.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Alert Details Modal */}
+      {showModal && selectedAlert && (
+        <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <motion.div 
+            className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.2 }}
+          >
+            {/* Modal Header */}
+            <div className={`px-6 py-4 border-b flex items-center justify-between ${
+              selectedAlert.severity === 'CRITICAL' ? 'bg-red-50 border-red-200' :
+              selectedAlert.severity === 'HIGH' ? 'bg-orange-50 border-orange-200' :
+              selectedAlert.severity === 'MEDIUM' ? 'bg-yellow-50 border-yellow-200' :
+              'bg-blue-50 border-blue-200'
+            }`}>
+              <div className="flex items-center">
+                {getSeverityIcon(selectedAlert.severity as SeverityType, { className: 'h-5 w-5 mr-2' })}
+                <h3 className="text-lg font-medium text-gray-900">Detalhes do Alerta</h3>
+              </div>
+              <button 
+                onClick={closeModal}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            
+            {/* Modal Content */}
+            <div className="p-6 overflow-auto flex-1">
+              <div className="flex flex-col md:flex-row gap-6">
+                {/* Left Column - Alert Info */}
+                <div className="flex-1">
+                  <div className="mb-4">
+                    <h4 className="text-sm text-gray-500 mb-1">Título</h4>
+                    <p className="text-lg font-medium text-gray-900">{selectedAlert.title}</p>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <h4 className="text-sm text-gray-500 mb-1">Descrição</h4>
+                    <p className="text-base text-gray-700">{selectedAlert.description}</p>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <h4 className="text-sm text-gray-500 mb-1">Severidade</h4>
+                    <div className="flex items-center">
+                      {getSeverityIcon(selectedAlert.severity as SeverityType, { className: 'h-4 w-4 mr-1' })}
+                      <span className={`${getSeverityColor(selectedAlert.severity)} text-sm font-medium`}>
+                        {getSeverityLabel(selectedAlert.severity as SeverityType)}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <h4 className="text-sm text-gray-500 mb-1">Status</h4>
+                    <div className="flex items-center">
+                      {getStatusIcon(selectedAlert.status as StatusType, { className: 'h-4 w-4 mr-1' })}
+                      <span className="text-sm font-medium">
+                        {getStatusLabel(selectedAlert.status as StatusType)}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <h4 className="text-sm text-gray-500 mb-1">Recurso Afetado</h4>
+                    <div className="flex flex-col">
+                      <span className="text-sm font-medium text-gray-700">
+                        {formatResourceType(selectedAlert.resourceType)}
+                      </span>
+                      <span className="text-sm text-gray-500 mt-1">
+                        ID: {selectedAlert.resourceId}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <h4 className="text-sm text-gray-500 mb-1">Data de Detecção</h4>
+                    <span className="text-sm text-gray-700">
+                      {new Date(selectedAlert.createdAt).toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+                
+                {/* Right Column - Mitigation Info */}
+                <div className="flex-1 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                  <h4 className="text-md font-medium text-gray-900 mb-3">Recomendações de Mitigação</h4>
+                  
+                  <div className="mb-4">
+                    <p className="text-sm text-gray-700 mb-3">
+                      {selectedAlert.severity === 'CRITICAL' || selectedAlert.severity === 'HIGH' ? 
+                        'Esta vulnerabilidade representa um alto risco e deve ser corrigida com prioridade.' : 
+                        'Recomendamos que esta vulnerabilidade seja corrigida em seu próximo ciclo de manutenção.'}
+                    </p>
+                    
+                    <h5 className="text-sm font-medium text-gray-900 mb-2">Passos Recomendados:</h5>
+                    <ul className="list-disc pl-5 space-y-2 text-sm text-gray-700">
+                      {selectedAlert.resourceType.includes('IAM') && (
+                        <>
+                          <li>Revise as permissões do usuário ou role IAM</li>
+                          <li>Implemente o princípio de privilégio mínimo</li>
+                          <li>Ative a autenticação multifator (MFA)</li>
+                          <li>Configure políticas de senha robustas</li>
+                        </>
+                      )}
+                      
+                      {selectedAlert.resourceType.includes('EC2') && (
+                        <>
+                          <li>Atualize o sistema operacional e aplicações</li>
+                          <li>Revise as regras do grupo de segurança</li>
+                          <li>Limite o acesso à instância a endereços IP confiáveis</li>
+                          <li>Verifique os logs de sistema em busca de atividades suspeitas</li>
+                        </>
+                      )}
+                      
+                      {selectedAlert.resourceType.includes('S3') && (
+                        <>
+                          <li>Revise as políticas de acesso ao bucket</li>
+                          <li>Desative o acesso público se não for necessário</li>
+                          <li>Ative a criptografia de dados em repouso</li>
+                          <li>Configure o registro de acesso ao bucket</li>
+                        </>
+                      )}
+                      
+                      {selectedAlert.resourceType.includes('RDS') && (
+                        <>
+                          <li>Aplique patches de segurança pendentes</li>
+                          <li>Revise os grupos de segurança da instância</li>
+                          <li>Ative a criptografia para dados sensíveis</li>
+                          <li>Configure backups automáticos</li>
+                        </>
+                      )}
+                      
+                      {!selectedAlert.resourceType.includes('IAM') && 
+                       !selectedAlert.resourceType.includes('EC2') && 
+                       !selectedAlert.resourceType.includes('S3') && 
+                       !selectedAlert.resourceType.includes('RDS') && (
+                        <>
+                          <li>Revise as configurações de segurança do recurso</li>
+                          <li>Aplique as melhores práticas recomendadas pela AWS</li>
+                          <li>Atualize para a versão mais recente do serviço</li>
+                          <li>Configure monitoramento e logs adequados</li>
+                        </>
+                      )}
+                    </ul>
+                  </div>
+                  
+                  <div className="mb-4">
+                    <h5 className="text-sm font-medium text-gray-900 mb-2">Recursos Adicionais:</h5>
+                    <div className="space-y-2">
+                      <a 
+                        href="https://docs.aws.amazon.com/security" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-sm text-indigo-600 hover:text-indigo-800 flex items-center"
+                      >
+                        <ExternalLink className="h-3 w-3 mr-1" />
+                        Documentação de Segurança da AWS
+                      </a>
+                      <a 
+                        href="https://aws.amazon.com/security/security-learning" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-sm text-indigo-600 hover:text-indigo-800 flex items-center"
+                      >
+                        <ExternalLink className="h-3 w-3 mr-1" />
+                        Centro de Aprendizado de Segurança da AWS
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Modal Footer */}
+            <div className="px-6 py-4 border-t border-gray-200 flex justify-end gap-2">
+              {selectedAlert.status === 'active' || selectedAlert.status === 'OPEN' ? (
+                <>
+                  <button
+                    onClick={() => {
+                      handleResolve(selectedAlert.id);
+                      closeModal();
+                    }}
+                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                  >
+                    Marcar como Resolvido
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleDismiss(selectedAlert.id);
+                      closeModal();
+                    }}
+                    className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300"
+                  >
+                    Arquivar Alerta
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={closeModal}
+                  className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+                >
+                  Fechar
+                </button>
+              )}
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </>
+  );
+} 
+
+
+
+
+

@@ -1,0 +1,3 @@
+{
+  "/api/alerts/ec2/cleanup/route": "app/api/alerts/ec2/cleanup/route.js"
+}

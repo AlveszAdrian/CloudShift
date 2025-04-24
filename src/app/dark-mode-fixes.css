@@ -1,0 +1,281 @@
+/* Correções específicas para o tema escuro cybersecurity */
+
+/* Elementos comuns */
+.dark [class*="bg-white"] {
+  background-color: #131517 !important;
+}
+
+.dark [class*="bg-gray-50"],
+.dark [class*="bg-gray-100"] {
+  background-color: #1e2023 !important;
+}
+
+.dark [class*="text-gray-900"],
+.dark [class*="text-gray-800"],
+.dark [class*="text-gray-700"] {
+  color: #e2e8f0 !important;
+}
+
+.dark [class*="text-indigo-"] {
+  color: #38bdf8 !important;
+  filter: brightness(1.1);
+}
+
+.dark [class*="border-gray-200"],
+.dark [class*="border-gray-300"] {
+  border-color: #252830 !important;
+}
+
+/* Correções para cards */
+.dark .card,
+.dark .bg-white,
+.dark div[class^="bg-white"],
+.dark div[class*=" bg-white"] {
+  background-color: #131517 !important;
+  border: 1px solid #252830 !important;
+}
+
+/* Efeito de borda para elementos importantes */
+.dark .card.important,
+.dark .security-card {
+  border: 1px solid #38bdf8 !important;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.1) !important;
+}
+
+/* Correções para sombras */
+.dark .shadow,
+.dark .shadow-sm,
+.dark .shadow-md,
+.dark .shadow-lg,
+.dark .shadow-xl {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.6), 0 2px 4px -1px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Correções para gráficos */
+.dark .recharts-wrapper {
+  filter: brightness(0.9);
+}
+
+.dark .recharts-tooltip-wrapper {
+  filter: brightness(1.1) !important;
+}
+
+.dark .recharts-default-tooltip {
+  background-color: #0a0b0c !important;
+  border-color: #252830 !important;
+  color: #e2e8f0 !important;
+}
+
+/* Efeito de linha para gráficos */
+.dark .recharts-cartesian-grid-horizontal line,
+.dark .recharts-cartesian-grid-vertical line {
+  stroke: rgba(37, 40, 48, 0.8) !important;
+  stroke-width: 1px !important;
+  stroke-dasharray: 3 3 !important;
+}
+
+/* Correções para botões e controles interativos */
+.dark button:not([class*="bg-"]):not([class*="hover:bg-"]):hover {
+  background-color: #1e2023 !important;
+  box-shadow: 0 0 5px rgba(56, 189, 248, 0.2) !important;
+}
+
+.dark .hover\:bg-gray-50:hover,
+.dark .hover\:bg-gray-100:hover {
+  background-color: #1e2023 !important;
+}
+
+/* Correções para alertas e notificações */
+.dark div[class*="bg-green-50"] {
+  background-color: rgba(34, 197, 94, 0.1) !important;
+  color: #22c55e !important;
+  border-color: rgba(34, 197, 94, 0.2) !important;
+}
+
+.dark div[class*="bg-red-50"] {
+  background-color: rgba(239, 68, 68, 0.1) !important;
+  color: #f87171 !important;
+  border-color: rgba(239, 68, 68, 0.2) !important;
+}
+
+.dark div[class*="bg-blue-50"] {
+  background-color: rgba(56, 189, 248, 0.1) !important;
+  color: #38bdf8 !important;
+  border-color: rgba(56, 189, 248, 0.2) !important;
+}
+
+.dark div[class*="bg-orange-50"],
+.dark div[class*="bg-amber-50"],
+.dark div[class*="bg-yellow-50"] {
+  background-color: rgba(249, 115, 22, 0.1) !important;
+  color: #fb923c !important;
+  border-color: rgba(249, 115, 22, 0.2) !important;
+}
+
+/* Correções para tabelas */
+.dark table {
+  color: #e2e8f0 !important;
+  border-color: #252830 !important;
+}
+
+.dark thead {
+  background-color: #1e2023 !important;
+}
+
+.dark tbody tr:hover {
+  background-color: #1e2023 !important;
+  box-shadow: 0 0 5px rgba(56, 189, 248, 0.1) inset !important;
+}
+
+/* Efeito subtil para linhas alternadas em tabelas */
+.dark tbody tr:nth-child(even) {
+  background-color: rgba(30, 32, 35, 0.3) !important;
+}
+
+/* Correções para formulários */
+.dark input,
+.dark select,
+.dark textarea {
+  background-color: #131517 !important;
+  color: #e2e8f0 !important;
+  border-color: #252830 !important;
+}
+
+.dark input::placeholder,
+.dark select::placeholder,
+.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+.dark input:focus,
+.dark select:focus, 
+.dark textarea:focus {
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.2) !important;
+}
+
+/* Correção para links */
+.dark a {
+  color: #38bdf8;
+}
+
+.dark a:hover {
+  color: #7dd3fc;
+  text-shadow: 0 0 5px rgba(56, 189, 248, 0.3);
+}
+
+/* Correção para elementos dropdown e menus */
+.dark [class*="dropdown-content"],
+.dark [class*="menu-content"] {
+  background-color: #131517 !important;
+  border-color: #252830 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.6), 0 2px 4px -1px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Correção para modais */
+.dark [class*="modal-"],
+.dark [role="dialog"] {
+  background-color: #131517 !important;
+  color: #e2e8f0 !important;
+  border: 1px solid #252830 !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9) !important;
+}
+
+/* Correções para ícones */
+.dark svg:not([class*="text-"]) {
+  color: #e2e8f0;
+}
+
+/* Status icons */
+.dark svg.status-icon {
+  filter: drop-shadow(0 0 3px rgba(56, 189, 248, 0.3));
+}
+
+/* Correções específicas para o modal de alertas */
+.dark .modal-alert-details {
+  background-color: #0a0b0c !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
+  border: 1px solid #252830 !important;
+}
+
+.dark .modal-alert-details h2 {
+  color: #e2e8f0 !important;
+  border-bottom: 1px solid #252830 !important;
+}
+
+.dark .modal-alert-details p,
+.dark .modal-alert-details div {
+  color: #e2e8f0 !important;
+}
+
+.dark .modal-alert-details .mitigation-title {
+  color: #38bdf8 !important;
+  border-left: 2px solid #38bdf8 !important;
+  padding-left: 0.5rem !important;
+}
+
+.dark .alert-title:hover {
+  color: #7dd3fc !important;
+  text-shadow: 0 0 5px rgba(56, 189, 248, 0.3);
+}
+
+/* Melhoria de visibilidade para títulos em cards */
+.dark h3.text-lg.font-medium {
+  color: #e2e8f0 !important;
+}
+
+.dark .service-category-header h3 {
+  color: #e2e8f0 !important;
+  border-left: 2px solid #38bdf8 !important;
+  padding-left: 0.5rem !important;
+}
+
+/* Melhorias para contraste de texto em cards */
+.dark .card-title {
+  color: #e2e8f0 !important;
+  letter-spacing: 0.02em !important;
+}
+
+.dark .card-content {
+  color: #e2e8f0 !important;
+}
+
+/* Correção para separadores e divisores */
+.dark hr {
+  border-color: #252830 !important;
+  opacity: 0.7;
+}
+
+/* Estilos para barra lateral */
+.dark .bg-slate-900 {
+  background-color: #0a0b0c !important;
+  border-right: 1px solid #252830 !important;
+}
+
+.dark .bg-slate-700,
+.dark .bg-slate-800 {
+  background-color: #131517 !important;
+}
+
+/* Estilo para barra lateral ativa */
+.dark .bg-indigo-800 {
+  background-color: #0c4a6e !important;
+  border-left: 2px solid #38bdf8 !important;
+}
+
+/* Estilo para botões primários */
+.dark button[class*="bg-indigo"] {
+  background-color: #0c4a6e !important;
+  border: 1px solid #38bdf8 !important;
+}
+
+.dark button[class*="bg-indigo"]:hover {
+  background-color: #0e7490 !important;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2) !important;
+}
+
+/* Estilo para o dashboard principal */
+.dark .dashboard-grid {
+  border: 1px solid #252830 !important;
+  background-color: #131517 !important;
+} 

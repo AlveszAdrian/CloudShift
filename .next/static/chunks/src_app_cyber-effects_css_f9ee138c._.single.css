@@ -1,0 +1,236 @@
+/* [project]/src/app/cyber-effects.css [app-client] (css) */
+.dark:before {
+  content: "";
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  background: linear-gradient(#0000 50%, #00000005 50%) 0 0 / 100% 4px;
+  width: 100%;
+  height: 100%;
+  animation: 2s steps(50, end) infinite scanlines;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+@keyframes scanlines {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 0 100%;
+  }
+}
+
+.dark .security-card, .dark .alert-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.dark .security-card:after, .dark .alert-card:after, .dark .security-score-card:after {
+  content: "";
+  background: linear-gradient(90deg, #0000, #38bdf84d, #0000);
+  width: 200%;
+  height: 1px;
+  animation: 2s linear infinite cyber-scan;
+  position: absolute;
+  top: 0;
+  left: -50%;
+}
+
+@keyframes cyber-scan {
+  0% {
+    top: 0;
+  }
+
+  100% {
+    top: 100%;
+  }
+}
+
+.dark .critical-alert {
+  position: relative;
+  overflow: hidden;
+}
+
+.dark .critical-alert:before {
+  content: "";
+  border-radius: inherit;
+  pointer-events: none;
+  border: 1px solid #ef444480;
+  animation: 2s ease-in-out infinite critical-pulse;
+  position: absolute;
+  inset: 0;
+}
+
+@keyframes critical-pulse {
+  0% {
+    box-shadow: 0 0 #ef444433;
+  }
+
+  70% {
+    box-shadow: 0 0 0 6px #ef444400;
+  }
+
+  100% {
+    box-shadow: 0 0 #ef444400;
+  }
+}
+
+.dark .cyber-button {
+  z-index: 1;
+  transition: all .4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.dark .cyber-button:before {
+  content: "";
+  z-index: -1;
+  background: linear-gradient(90deg, #0000, #38bdf81a, #0000);
+  width: 100%;
+  height: 100%;
+  transition: all .3s;
+  position: absolute;
+  top: 0;
+  left: -100%;
+}
+
+.dark .cyber-button:hover:before {
+  transition: all .5s;
+  left: 100%;
+}
+
+.dark .security-icon {
+  filter: drop-shadow(0 0 4px #38bdf880);
+  transition: all .3s;
+}
+
+.dark .security-icon:hover {
+  filter: drop-shadow(0 0 6px #38bdf8b3);
+  transform: scale(1.05);
+}
+
+.dark .cyber-title {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #e2e8f0;
+  font-family: monospace;
+  display: inline-block;
+  position: relative;
+}
+
+.dark .cyber-title:before {
+  content: "";
+  background-color: #38bdf8;
+  width: 30%;
+  height: 2px;
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+}
+
+.dark .cyber-title:after {
+  content: "";
+  background-color: #38bdf8;
+  width: 5%;
+  height: 2px;
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+}
+
+.dark .recharts-wrapper {
+  position: relative;
+}
+
+.dark .recharts-wrapper:after {
+  content: "";
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.dark .cyber-loader {
+  border: 2px solid #131517;
+  border-top-color: #38bdf8;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: 1s linear infinite loader-spin;
+  position: relative;
+}
+
+.dark .cyber-loader:before {
+  content: "";
+  border: 1px solid #38bdf81a;
+  border-radius: 50%;
+  animation: 1s linear infinite loader-pulse;
+  position: absolute;
+  inset: -4px;
+}
+
+@keyframes loader-spin {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader-pulse {
+  0% {
+    opacity: .6;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: .3;
+    transform: scale(1.1);
+  }
+
+  100% {
+    opacity: .6;
+    transform: scale(1);
+  }
+}
+
+.dark pre, .dark code {
+  border-radius: 4px;
+  font-family: monospace;
+  position: relative;
+  color: #e2e8f0 !important;
+  background-color: #0a0b0c !important;
+  border: 1px solid #252830 !important;
+}
+
+.dark pre:before {
+  content: "> ";
+  color: #38bdf8;
+  position: absolute;
+  top: 4px;
+  left: 8px;
+}
+
+.dark .cyber-gauge .high-value {
+  text-shadow: 0 0 5px #ef444480;
+  color: #ef4444 !important;
+}
+
+.dark .cyber-gauge .medium-value {
+  text-shadow: 0 0 5px #eab30880;
+  color: #eab308 !important;
+}
+
+.dark .cyber-gauge .low-value {
+  text-shadow: 0 0 5px #38bdf880;
+  color: #38bdf8 !important;
+}
+
+/*# sourceMappingURL=src_app_cyber-effects_css_f9ee138c._.single.css.map*/

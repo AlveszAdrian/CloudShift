@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file://E%3A/Teste%20AWS/aws-monitoring-platform/src/app/dashboard/iam/page.tsx"],"sourcesContent":["\"use client\";\n\nimport { useEffect } from 'react';\nimport { useRouter } from 'next/navigation';\n\nexport default function IAMRedirectPage() {\n  const router = useRouter();\n  \n  useEffect(() => {\n    router.push('/dashboard/iam/advanced/users');\n  }, [router]);\n  \n  return (\n    <div className=\"min-h-[300px] flex items-center justify-center\">\n      <p className=\"text-gray-500\">Redirecionando para o gerenciamento de usuários IAM...</p>\n    </div>\n  );\n} "],"names":[],"mappings":";;;;AAEA;AACA;AAHA;;;;AAKe,SAAS;IACtB,MAAM,SAAS,CAAA,GAAA,kIAAA,CAAA,YAAS,AAAD;IAEvB,CAAA,GAAA,qMAAA,CAAA,YAAS,AAAD,EAAE;QACR,OAAO,IAAI,CAAC;IACd,GAAG;QAAC;KAAO;IAEX,qBACE,8OAAC;QAAI,WAAU;kBACb,cAAA,8OAAC;YAAE,WAAU;sBAAgB;;;;;;;;;;;AAGnC","debugId":null}}]
+}
