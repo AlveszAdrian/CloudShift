@@ -1,7 +1,5 @@
 {
-  "/api/aws/siem/rules/[id]/route": "app/api/aws/siem/rules/[id]/route.js",
-  "/api/aws/credentials/route": "app/api/aws/credentials/route.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/dashboard/cloud-siem/page": "app/dashboard/cloud-siem/page.js",
-  "/dashboard/page": "app/dashboard/page.js"
+  "/page": "app/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/cloud-siem/page": "app/dashboard/cloud-siem/page.js"
 }
