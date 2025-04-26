@@ -147,6 +147,39 @@ exports.Prisma.AlertScalarFieldEnum = {
   credentialId: 'credentialId'
 };
 
+exports.Prisma.SiemRuleScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  type: 'type',
+  query: 'query',
+  severity: 'severity',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  triggers: 'triggers',
+  lastTriggered: 'lastTriggered',
+  credentialId: 'credentialId'
+};
+
+exports.Prisma.SiemEventScalarFieldEnum = {
+  id: 'id',
+  timestamp: 'timestamp',
+  source: 'source',
+  eventType: 'eventType',
+  severity: 'severity',
+  status: 'status',
+  message: 'message',
+  rawData: 'rawData',
+  accountId: 'accountId',
+  region: 'region',
+  resource: 'resource',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  credentialId: 'credentialId',
+  ruleId: 'ruleId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -161,7 +194,9 @@ exports.Prisma.NullsOrder = {
 exports.Prisma.ModelName = {
   User: 'User',
   AwsCredential: 'AwsCredential',
-  Alert: 'Alert'
+  Alert: 'Alert',
+  SiemRule: 'SiemRule',
+  SiemEvent: 'SiemEvent'
 };
 
 /**

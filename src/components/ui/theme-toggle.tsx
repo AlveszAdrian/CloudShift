@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "@/lib/theme-provider";
 import { Moon, Sun } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface ThemeToggleProps {
   className?: string;
@@ -17,45 +18,9 @@ export function ThemeToggle({ className = "" }: ThemeToggleProps) {
     setMounted(true);
   }, []);
 
-  // Adiciona um log para depuração do tema atual
-  useEffect(() => {
-    if (mounted) {
-      console.log("Tema atual:", theme);
-    }
-  }, [theme, mounted]);
-
+  // Efeito simplificado para alternar o tema
   const handleToggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    console.log("Alternando de tema:", theme, "para", newTheme);
-    
-    // Aplicar o tema diretamente aos elementos HTML para evitar atrasos
-    const root = document.documentElement;
-    const body = document.body;
-    
-    // Remover ambas as classes e adicionar a atual
-    root.classList.remove("light", "dark");
-    root.classList.add(newTheme);
-    
-    // Aplicar também ao body
-    body.classList.remove("light", "dark");
-    body.classList.add(newTheme);
-    
-    // Aplicar estilos inline para garantir a mudança visual imediata
-    if (newTheme === 'dark') {
-      document.body.style.backgroundColor = '#0f172a';
-      document.body.style.color = '#f8fafc';
-      document.documentElement.style.backgroundColor = '#0f172a';
-    } else {
-      document.body.style.backgroundColor = '#ffffff';
-      document.body.style.color = '#171717';
-      document.documentElement.style.backgroundColor = '#ffffff';
-    }
-    
-    // Salvar a preferência diretamente no localStorage
-    localStorage.setItem("cloudshift-theme", newTheme);
-    
-    // Atualizar o estado do tema no contexto
-    setTheme(newTheme);
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   if (!mounted) {
@@ -70,21 +35,33 @@ export function ThemeToggle({ className = "" }: ThemeToggleProps) {
   }
 
   return (
-    <button
+    <motion.button
       onClick={handleToggleTheme}
-      className={`p-2 rounded-md transition-colors hover:bg-accent ${
-        theme === "dark" 
-          ? "text-yellow-300 hover:text-yellow-400" 
-          : "text-slate-800 hover:text-slate-900"
-      } ${className}`}
+      className={`p-2 rounded-md 
+        ${theme === "dark" 
+          ? "text-gray-400 hover:text-gray-100 hover:bg-blue-900/20" 
+          : "text-gray-600 hover:text-gray-900 hover:bg-blue-100/50"
+        }
+        ${className}`
+      }
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
       aria-label="Alternar tema"
       title={theme === "dark" ? "Mudar para tema claro" : "Mudar para tema escuro"}
     >
-      {theme === "dark" ? (
-        <Sun className="w-5 h-5" />
-      ) : (
-        <Moon className="w-5 h-5" />
-      )}
-    </button>
+      <motion.div
+        initial={{ opacity: 0, rotate: -30 }}
+        animate={{ opacity: 1, rotate: 0 }}
+        exit={{ opacity: 0, rotate: 30 }}
+        key={theme}
+        transition={{ duration: 0.3, type: "spring" }}
+      >
+        {theme === "dark" ? (
+          <Sun className="w-5 h-5" />
+        ) : (
+          <Moon className="w-5 h-5" />
+        )}
+      </motion.div>
+    </motion.button>
   );
 } 

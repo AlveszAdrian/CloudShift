@@ -18,6 +18,8 @@ import RuleCard from "@/components/aws/siem/RuleCard";
 import RuleEditor from "@/components/aws/siem/RuleEditor";
 import { SIEMRule, RuleType, RuleSeverity, RuleStatus } from "@/components/aws/siem/RuleEditor";
 import { useSIEMRules } from "@/hooks/useSIEMRules";
+import { AutoConfigButton } from "@/components/siem/AutoConfigButton";
+import { Toaster } from "sonner";
 
 export default function CloudSIEMPage() {
   const { selectedCredential } = useAwsCredentials();
@@ -81,7 +83,21 @@ export default function CloudSIEMPage() {
   // Ordenar regras por data de criação (mais recentes primeiro)
   const sortedRules = [...filteredRules].sort((a, b) => {
     if (!a.createdAt || !b.createdAt) return 0;
-    return b.createdAt.getTime() - a.createdAt.getTime();
+    
+    // Função auxiliar para obter o timestamp
+    const getTimestamp = (dateValue: any): number => {
+      if (dateValue instanceof Date) {
+        return dateValue.getTime();
+      }
+      
+      try {
+        return new Date(dateValue).getTime();
+      } catch (e) {
+        return 0;
+      }
+    };
+    
+    return getTimestamp(b.createdAt) - getTimestamp(a.createdAt);
   });
   
   // Gerenciar filtros
@@ -125,6 +141,7 @@ export default function CloudSIEMPage() {
   
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <Toaster position="top-right" />
       <Breadcrumb 
         items={[
           { label: "Dashboard", href: "/dashboard" },
@@ -153,6 +170,8 @@ export default function CloudSIEMPage() {
               Atualizar
             </button>
             
+            <AutoConfigButton />
+            
             <button
               onClick={handleNewRule}
               className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
@@ -176,7 +195,9 @@ export default function CloudSIEMPage() {
           <div>
             <p className="font-medium">Alerta: CloudWatch não está conectado</p>
             <p className="text-sm">Para utilizar o Cloud SIEM é necessário ter o CloudWatch ativo e configurado corretamente na sua conta AWS. As regras de SIEM dependem dos logs do CloudWatch para funcionarem.</p>
-            <div className="mt-2">
+            <div className="mt-3 flex gap-3">
+              <AutoConfigButton />
+              
               <a 
                 href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html" 
                 target="_blank" 
@@ -257,10 +278,10 @@ export default function CloudSIEMPage() {
               disabled={loading}
             >
               <option value="all">Todas as severidades</option>
-              <option value="CRITICAL">Crítico</option>
-              <option value="HIGH">Alto</option>
-              <option value="MEDIUM">Médio</option>
-              <option value="LOW">Baixo</option>
+              <option value="critical">Crítica</option>
+              <option value="high">Alta</option>
+              <option value="medium">Média</option>
+              <option value="low">Baixa</option>
             </select>
           </div>
         </div>
@@ -310,41 +331,25 @@ export default function CloudSIEMPage() {
           </div>
         )}
         
-        {!loading && cloudWatchConnected !== false && sortedRules.length === 0 && (
-          <div className="bg-white shadow rounded-lg p-8 text-center">
-            <Bell className="mx-auto h-12 w-12 text-gray-300" />
-            <h3 className="mt-2 text-lg font-medium text-gray-900">Nenhuma regra encontrada</h3>
-            <p className="mt-1 text-gray-500">
-              {searchQuery || filters.status !== 'all' || filters.type !== 'all' || filters.severity !== 'all'
-                ? "Tente ajustar os filtros para encontrar regras"
-                : "Crie sua primeira regra de detecção personalizada"}
+        {/* Lista de regras vazia com destaque para o botão AutoConfig */}
+        {!loading && sortedRules.length === 0 && (
+          <div className="mt-8 text-center p-8 border border-dashed border-gray-300 rounded-lg bg-gray-50">
+            <CloudOff className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">Nenhuma regra SIEM encontrada</h3>
+            <p className="text-gray-500 mb-6 max-w-lg mx-auto">
+              Para começar a utilizar o Cloud SIEM, você precisa configurar o ambiente AWS CloudWatch e criar regras de detecção para seus logs.
             </p>
-            {searchQuery || filters.status !== 'all' || filters.type !== 'all' || filters.severity !== 'all' ? (
-              <button
-                onClick={() => {
-                  setSearchQuery("");
-                  setFilters({
-                    status: 'all',
-                    type: 'all',
-                    severity: 'all',
-                    search: '',
-                    credentialId: selectedCredential?.id
-                  });
-                }}
-                className="mt-4 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                <Filter className="h-4 w-4 mr-2" />
-                Limpar filtros
-              </button>
-            ) : (
+            <div className="flex justify-center gap-4">
+              <AutoConfigButton />
               <button
                 onClick={handleNewRule}
-                className="mt-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                disabled={cloudWatchConnected === false}
               >
                 <Plus className="h-4 w-4 mr-2" />
-                Criar regra
+                Criar Regra Manualmente
               </button>
-            )}
+            </div>
           </div>
         )}
       </div>

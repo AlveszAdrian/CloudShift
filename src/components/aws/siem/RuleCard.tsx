@@ -70,6 +70,23 @@ export default function RuleCard({ rule, onEdit, onDelete, onToggleStatus }: Rul
     }
   };
   
+  // Função auxiliar para formatar a data
+  const formatDate = (dateValue: any) => {
+    if (!dateValue) return "";
+    
+    // Se já for um objeto Date, usar toLocaleDateString
+    if (dateValue instanceof Date) {
+      return dateValue.toLocaleDateString();
+    }
+    
+    // Se for uma string, tentar converter para Date
+    try {
+      return new Date(dateValue).toLocaleDateString();
+    } catch (e) {
+      return typeof dateValue === 'string' ? dateValue : "";
+    }
+  };
+  
   return (
     <div className="p-4 border border-gray-200 rounded-lg bg-white hover:bg-gray-50 transition-colors">
       <div className="flex flex-col md:flex-row justify-between">
@@ -102,7 +119,7 @@ export default function RuleCard({ rule, onEdit, onDelete, onToggleStatus }: Rul
             {rule.createdAt && (
               <span className="flex items-center">
                 <Clock className="h-3 w-3 mr-1" />
-                Criado em {rule.createdAt.toLocaleDateString()}
+                Criado em {formatDate(rule.createdAt)}
               </span>
             )}
             {rule.triggers !== undefined && (
@@ -114,7 +131,7 @@ export default function RuleCard({ rule, onEdit, onDelete, onToggleStatus }: Rul
             {rule.lastTriggered && (
               <span className="flex items-center">
                 <AlertTriangle className="h-3 w-3 mr-1" />
-                Último: {rule.lastTriggered.toLocaleDateString()}
+                Último: {formatDate(rule.lastTriggered)}
               </span>
             )}
           </div>

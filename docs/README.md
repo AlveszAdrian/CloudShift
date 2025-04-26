@@ -1,45 +1,48 @@
-# AWS Monitor Platform Documentation
+# Documentação da Plataforma AWS Monitor
 
-This documentation provides details about the AWS Monitor platform, its architecture, components, and how each part of the system works, with special focus on the alert system.
+Esta documentação fornece detalhes sobre a plataforma AWS Monitor, sua arquitetura, componentes e como cada parte do sistema funciona, com foco especial no sistema de alertas e SIEM.
 
-## Table of Contents
+## Índice
 
-1. [Platform Overview](#platform-overview)
-2. [Alert System](./alert-system.md)
-3. [Dashboard Components](./dashboard-components.md)
-4. [IAM Security Management](./iam-security.md)
-5. [Credential Rotation](./credential-rotation.md)
-6. [Security Scanning](./security-scanning.md)
+1. [Visão Geral da Plataforma](#visão-geral-da-plataforma)
+2. [Sistema de Alertas](./alert-system.md)
+3. [Cloud SIEM](./cloud-siem.md)
+4. [Componentes do Dashboard](./dashboard-components.md)
+5. [Gerenciamento de Segurança IAM](./iam-security.md)
+6. [Rotação de Credenciais](./credential-rotation.md)
+7. [Análise de Segurança](./security-scanning.md)
 
-## Platform Overview
+## Visão Geral da Plataforma
 
-AWS Monitor is a comprehensive platform for monitoring and securing AWS resources. It provides:
+AWS Monitor é uma plataforma abrangente para monitoramento e proteção de recursos AWS. Ela oferece:
 
-- Real-time security alerts and vulnerability detection
-- IAM access and credential management
-- Security compliance scanning
-- Dashboard for monitoring AWS resources
-- Automated security scanning and reporting
+- Alertas de segurança em tempo real e detecção de vulnerabilidades
+- Gerenciamento de acesso IAM e credenciais
+- Verificação de conformidade de segurança
+- Dashboard para monitoramento de recursos AWS
+- Análise de segurança automatizada e relatórios
+- Sistema integrado de SIEM para análise de logs de segurança
 
-The platform is built with Next.js and uses a Prisma database to store alerts, user data, and AWS credentials.
+A plataforma é construída com Next.js e utiliza um banco de dados Prisma para armazenar alertas, dados do usuário e credenciais AWS.
 
-## Documentation Structure
+## Estrutura da Documentação
 
-Our documentation is organized into the following sections:
+Nossa documentação está organizada nas seguintes seções:
 
-- [**Alert System**](./alert-system.md): Details about how alerts are created, managed, and displayed
-- [**Dashboard Components**](./dashboard-components.md): Information about the main dashboard components
-- [**IAM Security Management**](./iam-security.md): Documentation about IAM security monitoring and management
-- [**Credential Rotation**](./credential-rotation.md): Guide to the credential rotation system
-- [**Security Scanning**](./security-scanning.md): Information about the vulnerability scanning system
+- [**Sistema de Alertas**](./alert-system.md): Detalhes sobre como os alertas são criados, gerenciados e exibidos
+- [**Cloud SIEM**](./cloud-siem.md): Documentação sobre o Sistema de Gerenciamento de Eventos e Informações de Segurança na nuvem
+- [**Componentes do Dashboard**](./dashboard-components.md): Informações sobre os principais componentes do dashboard
+- [**Gerenciamento de Segurança IAM**](./iam-security.md): Documentação sobre monitoramento e gerenciamento de segurança IAM
+- [**Rotação de Credenciais**](./credential-rotation.md): Guia para o sistema de rotação de credenciais
+- [**Análise de Segurança**](./security-scanning.md): Informações sobre o sistema de análise de vulnerabilidades
 
-## Technical Architecture
+## Arquitetura Técnica
 
-The AWS Monitor platform is built on the following key technologies:
+A plataforma AWS Monitor é construída com as seguintes tecnologias-chave:
 
 - **Frontend**: Next.js, React, TailwindCSS
 - **Backend**: Next.js API routes, Node.js
-- **Database**: SQLite with Prisma ORM
-- **AWS Integration**: AWS SDK for JavaScript
+- **Banco de Dados**: SQLite com Prisma ORM
+- **Integração AWS**: AWS SDK para JavaScript
 
-The platform uses a modular architecture with specialized services for different AWS resource types, allowing for extensibility and focused security scanning. 
+A plataforma utiliza uma arquitetura modular com serviços especializados para diferentes tipos de recursos AWS, permitindo extensibilidade e análise de segurança focada. 

@@ -1,75 +1,75 @@
-# Dashboard Components
+# Componentes do Dashboard
 
-The AWS Monitor platform provides a comprehensive dashboard with multiple components for monitoring and managing AWS resources. This document details the main dashboard components and their functionality.
+A plataforma AWS Monitor fornece um dashboard abrangente com múltiplos componentes para monitoramento e gerenciamento de recursos AWS. Este documento detalha os principais componentes do dashboard e suas funcionalidades.
 
-## Main Dashboard
+## Dashboard Principal
 
-The main dashboard provides an overview of the AWS environment with key metrics and status indicators:
+O dashboard principal fornece uma visão geral do ambiente AWS com métricas chave e indicadores de status:
 
-- **Security Score**: Overall security rating of the AWS environment
-- **Alert Summary**: Count of active alerts by severity
-- **Resource Utilization**: Overview of AWS resource usage
-- **Recent Activity**: Timeline of recent security events
+- **Pontuação de Segurança**: Classificação geral de segurança do ambiente AWS
+- **Resumo de Alertas**: Contagem de alertas ativos por severidade
+- **Utilização de Recursos**: Visão geral do uso de recursos AWS
+- **Atividade Recente**: Linha do tempo de eventos recentes de segurança
 
-## Security Dashboard
+## Dashboard de Segurança
 
-The Security dashboard is the central hub for monitoring and managing security alerts:
+O dashboard de Segurança é o hub central para monitoramento e gerenciamento de alertas de segurança:
 
-- **Alert Categories**: Filter alerts by category (IAM, EC2, S3, etc.)
-- **Alert Filters**: Filter alerts by severity, status, and resource type
-- **Alert List**: Interactive list of security alerts with sorting and filtering
-- **Alert Details**: Modal with detailed information about selected alerts
-- **Security Scan Controls**: Buttons to initiate security scans of AWS resources
+- **Categorias de Alertas**: Filtra alertas por categoria (IAM, EC2, S3, etc.)
+- **Filtros de Alertas**: Filtra alertas por severidade, status e tipo de recurso
+- **Lista de Alertas**: Lista interativa de alertas de segurança com ordenação e filtragem
+- **Detalhes do Alerta**: Modal com informações detalhadas sobre alertas selecionados
+- **Controles de Verificação de Segurança**: Botões para iniciar verificações de segurança de recursos AWS
 
-### Alert Visualization
+### Visualização de Alertas
 
-The Security dashboard includes several components for visualizing alerts:
+O dashboard de Segurança inclui vários componentes para visualização de alertas:
 
-- **Alert Severity Distribution**: Chart showing the distribution of alerts by severity
-- **Alert Timeline**: Timeline showing alert creation over time
-- **Resource Type Distribution**: Chart showing alerts by AWS resource type
+- **Distribuição de Severidade de Alertas**: Gráfico mostrando a distribuição de alertas por severidade
+- **Linha do Tempo de Alertas**: Linha do tempo mostrando a criação de alertas ao longo do tempo
+- **Distribuição por Tipo de Recurso**: Gráfico mostrando alertas por tipo de recurso AWS
 
-## IAM Dashboard
+## Dashboard IAM
 
-The IAM dashboard provides tools for managing AWS Identity and Access Management:
+O dashboard IAM fornece ferramentas para gerenciamento de Identidade e Acesso da AWS:
 
-- **User Management**: View and manage IAM users
-- **Access Key Management**: Monitor and rotate access keys
-- **Credential Rotation**: Schedule and manage credential rotation
-- **IAM Security Scans**: Scan IAM configurations for security issues
+- **Gerenciamento de Usuários**: Visualiza e gerencia usuários IAM
+- **Gerenciamento de Chaves de Acesso**: Monitora e rotaciona chaves de acesso
+- **Rotação de Credenciais**: Agenda e gerencia rotação de credenciais
+- **Verificações de Segurança IAM**: Verifica configurações IAM para questões de segurança
 
-### Credential Rotation Manager
+### Gerenciador de Rotação de Credenciais
 
-The Credential Rotation Manager component provides:
+O componente Gerenciador de Rotação de Credenciais fornece:
 
-- **Key Age Monitoring**: Track the age of AWS access keys
-- **Rotation Scheduling**: Schedule key rotations for IAM users
-- **Rotation History**: View history of past key rotations
-- **Rotation Alerts**: Alerts for keys approaching expiry
+- **Monitoramento da Idade das Chaves**: Rastreia a idade das chaves de acesso AWS
+- **Agendamento de Rotação**: Agenda rotações de chaves para usuários IAM
+- **Histórico de Rotação**: Visualiza histórico de rotações de chaves anteriores
+- **Alertas de Rotação**: Alertas para chaves se aproximando da expiração
 
-## EC2 Dashboard
+## Dashboard EC2
 
-The EC2 dashboard provides monitoring and management of EC2 instances:
+O dashboard EC2 fornece monitoramento e gerenciamento de instâncias EC2:
 
-- **Instance List**: View all EC2 instances with status and security information
-- **Security Group Analysis**: Identify security group vulnerabilities
-- **EC2 Security Scans**: Scan EC2 configurations for security issues
-- **Volume Management**: Manage EBS volumes and check for encryption
+- **Lista de Instâncias**: Visualiza todas as instâncias EC2 com informações de status e segurança
+- **Análise de Grupos de Segurança**: Identifica vulnerabilidades em grupos de segurança
+- **Verificações de Segurança EC2**: Verifica configurações EC2 para questões de segurança
+- **Gerenciamento de Volumes**: Gerencia volumes EBS e verifica criptografia
 
-## S3 Dashboard
+## Dashboard S3
 
-The S3 dashboard focuses on monitoring S3 bucket security:
+O dashboard S3 foca no monitoramento de segurança de buckets S3:
 
-- **Bucket List**: View all S3 buckets with security configuration
-- **Public Access Checks**: Identify buckets with public access
-- **Encryption Status**: Check bucket encryption settings
-- **S3 Security Scans**: Scan S3 configurations for security issues
+- **Lista de Buckets**: Visualiza todos os buckets S3 com configuração de segurança
+- **Verificações de Acesso Público**: Identifica buckets com acesso público
+- **Status de Criptografia**: Verifica configurações de criptografia de buckets
+- **Verificações de Segurança S3**: Verifica configurações S3 para questões de segurança
 
-## Compliance Dashboard
+## Dashboard de Conformidade
 
-The Compliance dashboard provides compliance monitoring:
+O dashboard de Conformidade fornece monitoramento de conformidade:
 
-- **Compliance Frameworks**: View compliance status for major frameworks
-- **Compliance Reports**: Generate compliance reports
-- **Remediation Tasks**: Track remediation of compliance issues
-- **Compliance Scans**: Scan AWS resources for compliance issues 
+- **Frameworks de Conformidade**: Visualiza status de conformidade para principais frameworks
+- **Relatórios de Conformidade**: Gera relatórios de conformidade
+- **Tarefas de Remediação**: Rastreia remediação de questões de conformidade
+- **Verificações de Conformidade**: Verifica recursos AWS para questões de conformidade 

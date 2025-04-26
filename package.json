@@ -9,14 +9,20 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-cloudtrail": "^3.797.0",
+    "@aws-sdk/client-cloudwatch": "^3.797.0",
     "@aws-sdk/client-cloudwatch-logs": "^3.797.0",
     "@aws-sdk/client-eventbridge": "^3.797.0",
     "@aws-sdk/client-iam": "^3.787.0",
     "@aws-sdk/client-secrets-manager": "^3.787.0",
+    "@aws-sdk/client-sts": "^3.797.0",
     "@heroicons/react": "^2.2.0",
     "@prisma/client": "^6.0.0",
+    "@radix-ui/react-dialog": "^1.1.11",
     "aws-sdk": "^2.1692.0",
     "bcryptjs": "^3.0.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "framer-motion": "^10.16.4",
@@ -26,7 +32,9 @@
     "prisma": "^6.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "recharts": "^2.10.3"
+    "recharts": "^2.10.3",
+    "sonner": "^2.0.3",
+    "tailwind-merge": "^3.2.0"
   },
   "devDependencies": {
     "@types/node": "^20",

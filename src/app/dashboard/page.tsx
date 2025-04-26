@@ -137,11 +137,11 @@ const AnimatedCard = ({
 };
 
 export default function DashboardPage() {
-  const { credentials, selectedCredential, isLoading: credentialsLoading } = useAwsCredentials();
+  const { credentials, selectedCredential, isLoading: credentialsLoading, error: credentialsError } = useAwsCredentials();
   const { alerts, loading: alertsLoading, error: alertsError, fetchAlerts } = useAlerts();
   const router = useRouter();
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [backgroundLoading, setBackgroundLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);

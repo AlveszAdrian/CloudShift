@@ -35,6 +35,8 @@ model AwsCredential {
   userId        String
   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   alerts        Alert[]
+  siemRules     SiemRule[]
+  siemEvents    SiemEvent[]
   
   @@index([userId])
 }
@@ -53,4 +55,46 @@ model Alert {
   credential    AwsCredential? @relation(fields: [credentialId], references: [id], onDelete: SetNull)
   
   @@index([credentialId])
+}
+
+model SiemRule {
+  id            String     @id @default(cuid())
+  name          String
+  description   String
+  type          String
+  query         String
+  severity      String
+  status        String     @default("active")
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  triggers      Int        @default(0)
+  lastTriggered DateTime?
+  credentialId  String
+  credential    AwsCredential @relation(fields: [credentialId], references: [id], onDelete: Cascade)
+  events        SiemEvent[]
+
+  @@index([credentialId])
+}
+
+model SiemEvent {
+  id            String     @id @default(cuid())
+  timestamp     DateTime
+  source        String
+  eventType     String
+  severity      String
+  status        String     @default("NEW")
+  message       String
+  rawData       String
+  accountId     String?
+  region        String?
+  resource      String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  credentialId  String
+  credential    AwsCredential @relation(fields: [credentialId], references: [id], onDelete: Cascade)
+  ruleId        String?
+  rule          SiemRule?  @relation(fields: [ruleId], references: [id], onDelete: SetNull)
+  
+  @@index([credentialId])
+  @@index([ruleId])
 }

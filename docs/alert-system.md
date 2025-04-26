@@ -1,66 +1,66 @@
-# Alert System
+# Sistema de Alertas
 
-The alert system is a core component of the AWS Monitor platform that detects, tracks, and manages security issues across AWS resources. This document explains how alerts are created, managed, and displayed in the platform.
+O sistema de alertas é um componente central da plataforma AWS Monitor que detecta, rastreia e gerencia problemas de segurança em recursos AWS. Este documento explica como os alertas são criados, gerenciados e exibidos na plataforma.
 
-## Alert Data Model
+## Modelo de Dados de Alertas
 
-Alerts are stored in a database with the following structure:
+Os alertas são armazenados em um banco de dados com a seguinte estrutura:
 
-- `id`: Unique identifier for the alert
-- `title`: Alert title describing the issue
-- `description`: Detailed description of the security issue
-- `resourceId`: AWS resource identifier affected by the issue
-- `resourceType`: Type of AWS resource (e.g., EC2Instance, IAMUser, SecurityGroup)
-- `severity`: Severity level (CRITICAL, HIGH, MEDIUM, LOW)
-- `status`: Current status (active, dismissed, resolved)
-- `createdAt`: Timestamp when the alert was created
-- `updatedAt`: Timestamp when the alert was last updated
-- `credentialId`: Reference to the AWS credential used to discover the alert
+- `id`: Identificador único para o alerta
+- `title`: Título do alerta descrevendo o problema
+- `description`: Descrição detalhada do problema de segurança
+- `resourceId`: Identificador do recurso AWS afetado pelo problema
+- `resourceType`: Tipo de recurso AWS (ex: EC2Instance, IAMUser, SecurityGroup)
+- `severity`: Nível de severidade (CRITICAL, HIGH, MEDIUM, LOW)
+- `status`: Status atual (active, dismissed, resolved)
+- `createdAt`: Timestamp de quando o alerta foi criado
+- `updatedAt`: Timestamp de quando o alerta foi atualizado pela última vez
+- `credentialId`: Referência à credencial AWS usada para descobrir o alerta
 
-## Alert Generation Process
+## Processo de Geração de Alertas
 
-Alerts are generated through several processes:
+Os alertas são gerados através de vários processos:
 
-1. **Scheduled Scans**: Automated security scans run periodically to check AWS resources
-2. **Manual Scans**: User-initiated scans from the Security dashboard
-3. **Real-time Monitoring**: Continuous monitoring of AWS events through AWS APIs
+1. **Verificações Agendadas**: Verificações de segurança automatizadas executadas periodicamente
+2. **Verificações Manuais**: Verificações iniciadas pelo usuário no painel de Segurança
+3. **Monitoramento em Tempo Real**: Monitoramento contínuo de eventos AWS através das APIs AWS
 
-### Scanning Process Flow
+### Fluxo do Processo de Verificação
 
-1. User selects an AWS credential profile for scanning
-2. The platform connects to the AWS API using the selected credentials
-3. Security services scan specific resource types for vulnerabilities:
-   - `IAMSecurityService`: Scans IAM users, roles, and policies
-   - `EC2SecurityService`: Scans EC2 instances, security groups, and volumes
-   - `VulnerabilityService`: Comprehensive scanning across multiple AWS services
-4. Security issues are identified based on best practices and compliance requirements
-5. Each security issue is converted to an alert via the `createAlertFromSecurityIssue` function
-6. Alerts are stored in the database and displayed in the dashboard
+1. O usuário seleciona um perfil de credencial AWS para verificação
+2. A plataforma se conecta à API AWS usando as credenciais selecionadas
+3. Serviços de segurança verificam tipos específicos de recursos em busca de vulnerabilidades:
+   - `IAMSecurityService`: Verifica usuários IAM, funções e políticas
+   - `EC2SecurityService`: Verifica instâncias EC2, grupos de segurança e volumes
+   - `VulnerabilityService`: Verificação abrangente em múltiplos serviços AWS
+4. Problemas de segurança são identificados com base em melhores práticas e requisitos de conformidade
+5. Cada problema de segurança é convertido em um alerta através da função `createAlertFromSecurityIssue`
+6. Alertas são armazenados no banco de dados e exibidos no dashboard
 
-## Alert Management
+## Gerenciamento de Alertas
 
-The platform provides several ways to manage alerts:
+A plataforma oferece várias maneiras de gerenciar alertas:
 
-- **Filtering**: Filter alerts by severity, status, resource type, and AWS credential
-- **Dismissing**: Mark alerts as dismissed to acknowledge them without resolving
-- **Resolving**: Mark alerts as resolved after addressing the security issue
-- **Detailed View**: View detailed information about an alert by clicking on it
+- **Filtragem**: Filtrar alertas por severidade, status, tipo de recurso e credencial AWS
+- **Descartar**: Marcar alertas como descartados para reconhecê-los sem resolver
+- **Resolver**: Marcar alertas como resolvidos após resolver o problema de segurança
+- **Visão Detalhada**: Ver informações detalhadas sobre um alerta clicando nele
 
-## Alert API Endpoints
+## Endpoints da API de Alertas
 
-The platform includes several API endpoints for alert management:
+A plataforma inclui diversos endpoints de API para gerenciamento de alertas:
 
-- `GET /api/alerts`: Retrieve alerts with optional filtering
-- `PATCH /api/alerts`: Update alert status (dismiss or resolve)
-- `POST /api/alerts/iam`: Trigger IAM security scan
-- `POST /api/alerts/scan`: Trigger comprehensive security scan
-- `GET /api/alerts/ec2`: Retrieve EC2-specific alerts
+- `GET /api/alerts`: Recuperar alertas com filtragem opcional
+- `PATCH /api/alerts`: Atualizar status de alerta (descartar ou resolver)
+- `POST /api/alerts/iam`: Iniciar verificação de segurança IAM
+- `POST /api/alerts/scan`: Iniciar verificação de segurança abrangente
+- `GET /api/alerts/ec2`: Recuperar alertas específicos de EC2
 
-## Alert Display Components
+## Componentes de Exibição de Alertas
 
-Alerts are displayed in the Security dashboard with the following components:
+Os alertas são exibidos no painel de Segurança com os seguintes componentes:
 
-- **Alert Summary Cards**: Display counts of alerts by severity
-- **Alert List**: Filterable, sortable list of all alerts
-- **Alert Detail Modal**: Detailed view of a specific alert
-- **Alert Status Badges**: Visual indicators of alert severity and status 
+- **Cards de Resumo de Alertas**: Exibem contagens de alertas por severidade
+- **Lista de Alertas**: Lista filtrável e ordenável de todos os alertas
+- **Modal de Detalhes do Alerta**: Visão detalhada de um alerta específico
+- **Badges de Status de Alerta**: Indicadores visuais de severidade e status do alerta 
