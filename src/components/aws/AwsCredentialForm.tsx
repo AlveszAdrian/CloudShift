@@ -30,7 +30,7 @@ const AWS_REGIONS = [
 ];
 
 export default function AwsCredentialForm() {
-  const { addCredential, deleteCredential, credentials, loading, error } = useAwsCredentials();
+  const { addCredential, deleteCredential, credentials, isLoading, error } = useAwsCredentials();
   const [name, setName] = useState("");
   const [accessKeyId, setAccessKeyId] = useState("");
   const [secretKey, setSecretKey] = useState("");
@@ -153,23 +153,23 @@ export default function AwsCredentialForm() {
   return (
     <>
       <motion.div 
-        className="bg-white rounded-lg shadow-md p-6 mb-6"
+        className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
           Credenciais Cadastradas
         </h2>
         
         {deleteMessage && (
-          <div className="p-3 mb-4 text-sm text-green-700 bg-green-100 rounded-md border border-green-200">
+          <div className="p-3 mb-4 text-sm text-green-700 bg-green-100 dark:bg-green-900/30 dark:text-green-300 rounded-md border border-green-200 dark:border-green-800">
             {deleteMessage}
           </div>
         )}
         
         {credentials.length === 0 ? (
-          <div className="p-4 bg-gray-50 rounded-md text-gray-600 text-center">
+          <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-md text-gray-600 dark:text-gray-300 text-center">
             Nenhuma credencial cadastrada. Adicione uma nova credencial utilizando o formulário.
           </div>
         ) : (
@@ -177,16 +177,16 @@ export default function AwsCredentialForm() {
             {credentials.map((credential) => (
               <div 
                 key={credential.id} 
-                className="border border-gray-300 rounded-lg p-3 flex justify-between items-center bg-gray-50 hover:bg-gray-100"
+                className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 flex justify-between items-center bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
               >
                 <div>
-                  <div className="font-medium text-gray-900">{credential.name}</div>
-                  <div className="text-sm text-gray-600">Região: {credential.region}</div>
+                  <div className="font-medium text-gray-900 dark:text-gray-100">{credential.name}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-300">Região: {credential.region}</div>
                 </div>
                 <button
                   type="button"
                   onClick={() => handleDeleteClick(credential)}
-                  className="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-md transition-colors"
+                  className="p-2 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
                   title="Excluir credencial"
                 >
                   <TrashIcon className="h-5 w-5" />
@@ -198,37 +198,37 @@ export default function AwsCredentialForm() {
       </motion.div>
       
       <motion.div 
-        className="bg-white rounded-lg shadow-md p-6"
+        className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
-        <h2 className="text-xl font-semibold text-gray-800 mb-6">
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-6">
           Adicionar Credencial AWS
         </h2>
         
         {error && (
-          <div className="p-3 mb-4 text-sm text-red-700 bg-red-100 rounded-md">
+          <div className="p-3 mb-4 text-sm text-red-700 dark:text-red-400 bg-red-100 dark:bg-red-900/30 rounded-md">
             {error}
           </div>
         )}
         
         {validationError && (
-          <div className="p-3 mb-4 text-sm text-orange-700 bg-orange-100 rounded-md">
+          <div className="p-3 mb-4 text-sm text-orange-700 dark:text-orange-400 bg-orange-100 dark:bg-orange-900/30 rounded-md">
             <div className="font-medium">Erro de validação:</div>
             {validationError}
           </div>
         )}
         
         {success && (
-          <div className="p-3 mb-4 text-sm text-green-700 bg-green-100 rounded-md">
+          <div className="p-3 mb-4 text-sm text-green-700 dark:text-green-300 bg-green-100 dark:bg-green-900/30 rounded-md">
             Credencial adicionada com sucesso!
           </div>
         )}
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="name" className="block text-sm font-bold text-gray-800 mb-1">
+            <label htmlFor="name" className="block text-sm font-bold text-gray-800 dark:text-gray-200 mb-1">
               Nome da Credencial
             </label>
             <input
@@ -237,13 +237,13 @@ export default function AwsCredentialForm() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="block w-full rounded-md border border-gray-400 bg-white text-gray-800 p-2 shadow-sm focus:border-indigo-600 focus:ring-indigo-600 sm:text-sm"
+              className="block w-full rounded-md border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 p-2 shadow-sm focus:border-blue-600 focus:ring-blue-600 sm:text-sm"
               placeholder="Minha Conta AWS"
             />
           </div>
           
           <div>
-            <label htmlFor="accessKeyId" className="block text-sm font-bold text-gray-800 mb-1">
+            <label htmlFor="accessKeyId" className="block text-sm font-bold text-gray-800 dark:text-gray-200 mb-1">
               Access Key ID
             </label>
             <input
@@ -252,13 +252,13 @@ export default function AwsCredentialForm() {
               value={accessKeyId}
               onChange={(e) => setAccessKeyId(e.target.value)}
               required
-              className="block w-full rounded-md border border-gray-400 bg-white text-gray-800 p-2 shadow-sm focus:border-indigo-600 focus:ring-indigo-600 sm:text-sm"
+              className="block w-full rounded-md border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 p-2 shadow-sm focus:border-blue-600 focus:ring-blue-600 sm:text-sm"
               placeholder="AKIAIOSFODNN7EXAMPLE"
             />
           </div>
           
           <div>
-            <label htmlFor="secretKey" className="block text-sm font-bold text-gray-800 mb-1">
+            <label htmlFor="secretKey" className="block text-sm font-bold text-gray-800 dark:text-gray-200 mb-1">
               Secret Access Key
             </label>
             <input
@@ -267,13 +267,13 @@ export default function AwsCredentialForm() {
               value={secretKey}
               onChange={(e) => setSecretKey(e.target.value)}
               required
-              className="block w-full rounded-md border border-gray-400 bg-white text-gray-800 p-2 shadow-sm focus:border-indigo-600 focus:ring-indigo-600 sm:text-sm"
+              className="block w-full rounded-md border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 p-2 shadow-sm focus:border-blue-600 focus:ring-blue-600 sm:text-sm"
               placeholder="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
             />
           </div>
           
           <div>
-            <label htmlFor="region" className="block text-sm font-bold text-gray-800 mb-1">
+            <label htmlFor="region" className="block text-sm font-bold text-gray-800 dark:text-gray-200 mb-1">
               Região
             </label>
             <select
@@ -281,10 +281,10 @@ export default function AwsCredentialForm() {
               value={region}
               onChange={(e) => setRegion(e.target.value)}
               required
-              className="block w-full rounded-md border border-gray-400 bg-white text-gray-800 p-2 shadow-sm focus:border-indigo-600 focus:ring-indigo-600 sm:text-sm"
+              className="block w-full rounded-md border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 p-2 shadow-sm focus:border-blue-600 focus:ring-blue-600 sm:text-sm"
             >
               {AWS_REGIONS.map((option) => (
-                <option key={option.value} value={option.value} className="text-gray-800 bg-white">
+                <option key={option.value} value={option.value} className="text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-700">
                   {option.label}
                 </option>
               ))}
@@ -294,17 +294,17 @@ export default function AwsCredentialForm() {
           <div className="pt-4">
             <button
               type="submit"
-              disabled={loading || validating}
-              className="w-full flex justify-center py-3 px-4 border border-indigo-700 rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-70 disabled:bg-indigo-400 disabled:cursor-not-allowed"
+              disabled={isLoading || validating}
+              className="w-full flex justify-center py-3 px-4 border border-blue-700 dark:border-blue-600 rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-70 disabled:bg-blue-400 disabled:cursor-not-allowed"
             >
-              {loading ? "Adicionando..." : validating ? "Validando..." : "Adicionar Credencial"}
+              {isLoading ? "Adicionando..." : validating ? "Validando..." : "Adicionar Credencial"}
             </button>
           </div>
         </form>
         
-        <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-md">
-          <h3 className="text-sm font-medium text-yellow-800">Dica de segurança</h3>
-          <p className="mt-1 text-sm text-yellow-700">
+        <div className="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-md">
+          <h3 className="text-sm font-medium text-yellow-800 dark:text-yellow-300">Dica de segurança</h3>
+          <p className="mt-1 text-sm text-yellow-700 dark:text-yellow-400">
             Por segurança, recomendamos criar credenciais IAM específicas para esta aplicação
             com permissões limitadas às funcionalidades necessárias (EC2, S3, CloudWatch, etc).
           </p>
@@ -314,25 +314,27 @@ export default function AwsCredentialForm() {
       {/* Modal de confirmação de exclusão */}
       {showDeleteModal && credentialToDelete && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg border border-gray-300 p-6 max-w-md w-full">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">
+          
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-300 dark:border-gray-700 p-6 max-w-md w-full">
+            
+            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
               Confirmar exclusão
             </h3>
-            <p className="text-sm text-gray-700 mb-4">
-              Tem certeza que deseja excluir a credencial <span className="font-bold">{credentialToDelete.name}</span>? 
+            <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
+              Tem certeza que deseja excluir a credencial <span className="font-bold">{credentialToDelete.name}</span>?
               Esta ação não pode ser desfeita e todos os recursos associados perderão acesso.
             </p>
             <div className="flex justify-end space-x-3">
               <button
                 type="button"
-                className="px-4 py-2 text-sm font-medium text-gray-800 bg-white border border-gray-400 rounded-md hover:bg-gray-100"
+                className="px-4 py-2 text-sm font-medium text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-400 dark:border-gray-600 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600"
                 onClick={() => setShowDeleteModal(false)}
               >
                 Cancelar
               </button>
               <button
                 type="button"
-                className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-red-700 rounded-md hover:bg-red-700"
+                className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-red-700 dark:bg-red-700 dark:border-red-600 rounded-md hover:bg-red-700 dark:hover:bg-red-600"
                 onClick={handleConfirmDelete}
               >
                 Excluir

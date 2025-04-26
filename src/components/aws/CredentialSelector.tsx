@@ -4,10 +4,10 @@ import { useAwsCredentials } from "@/hooks/useAwsCredentials";
 import { useRouter } from "next/navigation";
 
 export default function CredentialSelector() {
-  const { credentials, selectedCredential, selectCredential, loading } = useAwsCredentials();
+  const { credentials, selectedCredential, selectCredential, isLoading } = useAwsCredentials();
   const router = useRouter();
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="bg-white rounded-lg shadow-sm p-4 mb-6 flex items-center space-x-2">
         <span className="text-gray-700">Carregando credenciais...</span>

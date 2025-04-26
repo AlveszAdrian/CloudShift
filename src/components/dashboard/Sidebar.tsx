@@ -15,7 +15,11 @@ interface NavItem {
   children?: NavItem[];
 }
 
-export default function Sidebar() {
+interface SidebarProps {
+  onToggleCollapse?: (collapsed: boolean) => void;
+}
+
+export default function Sidebar({ onToggleCollapse }: SidebarProps) {
   const { user, logout } = useAuth();
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
@@ -25,6 +29,13 @@ export default function Sidebar() {
     "admin": true
   });
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Notifica o componente pai quando o estado de colapso muda
+  useEffect(() => {
+    if (onToggleCollapse) {
+      onToggleCollapse(collapsed);
+    }
+  }, [collapsed, onToggleCollapse]);
 
   // Reset expanded state on mobile toggle
   useEffect(() => {
@@ -52,7 +63,8 @@ export default function Sidebar() {
     }));
   };
 
-  const isActive = (href: string) => {
+  const isActive = (href: string | undefined) => {
+    if (!href) return false;
     if (href === '/dashboard' && pathname === '/dashboard') {
       return true;
     }
@@ -235,6 +247,15 @@ export default function Sidebar() {
       ]
     },
     {
+      name: "Cloud SIEM",
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+        </svg>
+      ),
+      href: "/dashboard/cloud-siem"
+    },
+    {
       name: "Administração",
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -275,14 +296,30 @@ export default function Sidebar() {
 
   // Animation variants
   const sidebarVariants = {
-    expanded: { width: "16rem", transition: { duration: 0.3, ease: "easeInOut" } },
-    collapsed: { width: "5rem", transition: { duration: 0.3, ease: "easeInOut" } }
+    expanded: { 
+      width: "16rem", 
+      transition: { 
+        duration: 0.25, 
+        type: "spring", 
+        stiffness: 400, 
+        damping: 40 
+      } 
+    },
+    collapsed: { 
+      width: "5rem", 
+      transition: { 
+        duration: 0.25, 
+        type: "spring", 
+        stiffness: 400, 
+        damping: 40 
+      } 
+    }
   };
   
   const itemVariants = {
     hover: { 
       scale: 1.02, 
-      backgroundColor: "rgba(99, 102, 241, 0.1)", 
+      backgroundColor: "rgba(59, 130, 246, 0.1)", 
       transition: { duration: 0.2 } 
     },
     tap: { scale: 0.98 }
@@ -294,99 +331,157 @@ export default function Sidebar() {
   };
 
   const renderNavItems = (items: NavItem[], level = 0) => {
-    return items.map((item, index) => {
-      const isItemActive = item.href ? isActive(item.href) : false;
+    return items.map((item) => {
+      const isItemActive = item.href ? isActive(item.href) : item.children && item.children.some(child => child.href && isActive(child.href));
       const hasChildren = item.children && item.children.length > 0;
-      const groupKey = item.name.toLowerCase().replace(/\s+/g, '-');
-      const isExpanded = hasChildren ? expandedGroups[groupKey] : false;
+      const isGroupExpanded = hasChildren && expandedGroups[item.name.toLowerCase()];
+      const paddingLeft = level * 8 + (level === 0 ? 0 : 8); // Calculando o padding correto para subitens
 
-      return (
-        <div key={`${item.name}-${index}-${level}`} className={level > 0 ? "ml-3" : ""}>
+      // Item principal
+      const navItem = (
+        <div className={`relative ${hasChildren ? 'group' : ''}`} key={item.name}>
           {item.href ? (
             <motion.div
-              whileHover={itemVariants.hover}
-              whileTap={itemVariants.tap}
-              initial={false}
+              whileHover="hover"
+              whileTap="tap"
+              variants={itemVariants}
             >
               <Link
                 href={item.href}
-                className={`flex items-center text-xs py-2 px-3 rounded-md transition-all duration-200 ${
-                  isItemActive
-                    ? "bg-indigo-600 text-white shadow-md shadow-indigo-200 dark:shadow-indigo-900/30"
-                    : "text-gray-700 dark:text-gray-300 hover:text-indigo-700 dark:hover:text-indigo-400"
-                } ${level > 0 ? "mt-1" : "mt-0.5"} ${collapsed && level === 0 ? "justify-center" : ""}`}
-                onClick={() => setMobileOpen(false)}
+                className={`
+                  flex items-center rounded-md px-3 py-2 text-sm font-medium w-full transition-all duration-200
+                  ${isItemActive 
+                    ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' 
+                    : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
+                  }
+                `}
+                style={{ paddingLeft: `${paddingLeft + 12}px` }}
               >
-                <motion.span 
-                  className={`${collapsed && level === 0 ? "mr-0" : "mr-2"} ${
-                    isItemActive ? "text-white" : "text-indigo-600 dark:text-indigo-400"
-                  }`}
-                  animate={isItemActive ? { scale: [1, 1.2, 1], transition: { duration: 0.3 } } : {}}
-                >
-                  {item.icon}
-                </motion.span>
-                {(!collapsed || level > 0) && (
-                  <span className={`truncate ${isItemActive ? "font-medium" : "font-normal"}`}>
-                    {item.name}
-                  </span>
-                )}
+                <span className="flex items-center">
+                  <motion.span 
+                    className="mr-3"
+                    animate={isItemActive ? { scale: 1.1 } : { scale: 1 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  >
+                    {item.icon}
+                  </motion.span>
+                  {(!collapsed || level > 0) && (
+                    <motion.span
+                      initial={collapsed && level === 0 ? { opacity: 0 } : { opacity: 1 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {item.name}
+                    </motion.span>
+                  )}
+                </span>
               </Link>
             </motion.div>
           ) : (
-            <motion.button
-              onClick={() => toggleGroup(groupKey)}
-              className={`w-full flex items-center justify-between text-xs py-2 px-3 rounded-md transition-all duration-200 ${
-                hasChildren && expandedGroups[groupKey]
-                  ? "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300"
-                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-              } ${level > 0 ? "mt-1" : "mt-0.5"} ${collapsed && level === 0 ? "justify-center" : ""}`}
-              whileHover={itemVariants.hover}
-              whileTap={itemVariants.tap}
+            <motion.div
+              whileHover="hover"
+              whileTap="tap"
+              variants={itemVariants}
             >
-              <div className="flex items-center">
-                <span className={`${collapsed && level === 0 ? "mr-0" : "mr-2"} text-indigo-600 dark:text-indigo-400`}>
-                  {item.icon}
+              <button
+                onClick={() => toggleGroup(item.name.toLowerCase())}
+                className={`
+                  flex items-center justify-between rounded-md px-3 py-2 text-sm font-medium w-full transition-all duration-200
+                  ${isItemActive 
+                    ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' 
+                    : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
+                  }
+                `}
+                style={{ paddingLeft: `${paddingLeft + 12}px` }}
+              >
+                <span className="flex items-center">
+                  <motion.span 
+                    className="mr-3"
+                    animate={isItemActive ? { scale: 1.1 } : { scale: 1 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  >
+                    {item.icon}
+                  </motion.span>
+                  {(!collapsed || level > 0) && (
+                    <motion.span
+                      initial={collapsed && level === 0 ? { opacity: 0 } : { opacity: 1 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {item.name}
+                    </motion.span>
+                  )}
                 </span>
-                {(!collapsed || level > 0) && (
-                  <span className="truncate font-medium text-gray-800 dark:text-gray-200">{item.name}</span>
+                
+                {hasChildren && !collapsed && (
+                  <motion.span
+                    animate={{ rotate: isGroupExpanded ? 90 : 0 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </motion.span>
                 )}
-              </div>
-              {hasChildren && (!collapsed || level > 0) && (
-                <motion.div
-                  variants={iconVariants}
-                  initial="initial"
-                  animate={isExpanded ? "expanded" : "initial"}
-                >
-                  <ChevronRight className="h-3 w-3 text-gray-500 dark:text-gray-400" />
-                </motion.div>
-              )}
-            </motion.button>
+              </button>
+            </motion.div>
           )}
 
-          {hasChildren && (!collapsed || level > 0) && (
-            <AnimatePresence>
-              {isExpanded && (
+          {/* Exibir subitens no hover quando collapsed */}
+          {hasChildren && collapsed && level === 0 && item.children && (
+            <motion.div 
+              className="hidden group-hover:block absolute left-full top-0 ml-1 bg-white dark:bg-gray-900 shadow-lg rounded-md py-1 min-w-[180px] z-50 border border-gray-200 dark:border-gray-700"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            >
+              {item.children.map((child) => (
                 <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ 
-                    height: "auto", 
-                    opacity: 1,
-                    transition: { 
-                      height: { duration: 0.3, ease: "easeOut" },
-                      opacity: { duration: 0.2, delay: 0.1 }
-                    }
-                  }}
-                  exit={{ 
-                    height: 0, 
-                    opacity: 0,
-                    transition: { 
-                      height: { duration: 0.3, ease: "easeIn" },
-                      opacity: { duration: 0.1 }
-                    }
-                  }}
-                  className="overflow-hidden pl-1 border-l border-indigo-100 dark:border-indigo-900/30 ml-2 mt-1"
+                  key={child.name}
+                  whileHover="hover"
+                  whileTap="tap"
+                  variants={itemVariants}
                 >
-                  {renderNavItems(item.children || [], level + 1)}
+                  <Link
+                    href={child.href || '#'}
+                    className={`
+                      flex items-center px-4 py-2 text-sm font-medium transition-all duration-200
+                      ${child.href && isActive(child.href) 
+                        ? 'text-blue-700 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/30' 
+                        : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
+                      }
+                    `}
+                  >
+                    <motion.span 
+                      className="mr-3"
+                      animate={child.href && isActive(child.href) ? { scale: 1.1 } : { scale: 1 }}
+                    >
+                      {child.icon}
+                    </motion.span>
+                    <span>{child.name}</span>
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+        </div>
+      );
+
+      // Retornar o item e seus filhos expandidos
+      return (
+        <div key={item.name} className="relative">
+          {navItem}
+          
+          {/* Subitens expandidos (quando não está collapsed) */}
+          {hasChildren && !collapsed && (
+            <AnimatePresence>
+              {isGroupExpanded && item.children && (
+                <motion.div 
+                  className="mt-1 space-y-1 overflow-hidden"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                >
+                  {renderNavItems(item.children, level + 1)}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -398,141 +493,165 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile toggle */}
-      <div className="lg:hidden fixed top-4 left-4 z-50">
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="p-2 rounded-md bg-indigo-50 dark:bg-slate-800 shadow-md text-gray-700 dark:text-gray-200 border border-indigo-100 dark:border-slate-700"
-          aria-label="Toggle menu"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </motion.button>
-      </div>
+      {/* Botão de toggle para mobile */}
+      <motion.button
+        type="button"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-800"
+        onClick={() => setMobileOpen(!mobileOpen)}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <span className="sr-only">Abrir menu</span>
+        <AnimatePresence mode="wait" initial={false}>
+          {mobileOpen ? (
+            <motion.svg 
+              key="close" 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-6 w-6" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+              initial={{ rotate: -90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: 90, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </motion.svg>
+          ) : (
+            <motion.svg 
+              key="menu" 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-6 w-6" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </motion.svg>
+          )}
+        </AnimatePresence>
+      </motion.button>
 
-      {/* Mobile backdrop */}
+      {/* Overlay para mobile */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.5 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black z-40 lg:hidden backdrop-blur-sm"
+          <motion.div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
             onClick={() => setMobileOpen(false)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
           />
         )}
       </AnimatePresence>
-      
+
       {/* Sidebar */}
-      <motion.div
-        initial={false}
+      <motion.aside
+        className="fixed lg:relative z-50 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 overflow-hidden"
         variants={sidebarVariants}
         animate={collapsed ? "collapsed" : "expanded"}
-        className={`fixed top-0 left-0 bottom-0 z-50 ${
-          mobileOpen ? "block" : "hidden lg:block"
-        } overflow-y-auto bg-white dark:bg-slate-900 border-r border-indigo-200 dark:border-slate-700 shadow-xl shadow-indigo-200/10 dark:shadow-slate-900/30`}
+        initial={false}
+        style={{
+          width: mobileOpen ? "16rem" : (collapsed ? "5rem" : "16rem"),
+          boxShadow: mobileOpen ? "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" : "none",
+          display: mobileOpen || mobileOpen === false ? "block" : "none" /* Mantem visivel em desktop */
+        }}
       >
         <div className="flex flex-col h-full">
-          {/* Logo and collapse button */}
-          <div className="flex items-center justify-between p-4 border-b border-indigo-100 dark:border-slate-800 bg-indigo-50 dark:bg-slate-800/50">
-            <Link href="/dashboard" className="flex items-center space-x-2 w-full group">
+          {/* Header/Logo */}
+          <div className="p-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-800">
+            <Link href="/dashboard" className="flex items-center space-x-3">
+              <motion.div 
+                animate={{ rotate: [0, 360] }}
+                transition={{ 
+                  duration: 0.5, 
+                  ease: "easeInOut",
+                  repeat: 0,
+                  repeatDelay: 7,
+                  repeatType: "reverse"
+                }}
+              >
+                <Shield size={collapsed ? 24 : 20} className="text-blue-600 dark:text-blue-400" />
+              </motion.div>
               {!collapsed && (
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
+                <motion.span 
+                  className="font-semibold text-lg text-gray-800 dark:text-gray-200"
+                  initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
-                  className="flex items-center"
+                  exit={{ opacity: 0, x: -10 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  <motion.div
-                    whileHover={{ rotate: [0, -10, 10, -5, 5, 0], transition: { duration: 0.5 } }}
-                  >
-                    <Shield className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
-                  </motion.div>
-                  <span className="ml-2 text-xl font-semibold bg-gradient-to-r from-indigo-700 to-purple-600 bg-clip-text text-transparent group-hover:from-indigo-600 group-hover:to-purple-500 transition-all duration-300">CloudShift</span>
-                </motion.div>
-              )}
-              {collapsed && (
-                <motion.div
-                  whileHover={{ rotate: [0, -10, 10, -5, 5, 0], transition: { duration: 0.5 } }}
-                  className="mx-auto"
-                >
-                  <Shield className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
-                </motion.div>
+                  CloudShift
+                </motion.span>
               )}
             </Link>
             
             <motion.button
-              whileHover={{ scale: 1.1, backgroundColor: "rgba(99, 102, 241, 0.1)" }}
-              whileTap={{ scale: 0.9 }}
               onClick={() => setCollapsed(!collapsed)}
-              className="lg:flex hidden items-center justify-center p-1.5 rounded-md text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 hover:dark:bg-indigo-900/30 transition-colors"
-              aria-label="Collapse sidebar"
+              className="p-1 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-800 hidden lg:block"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 transform transition-transform duration-300 ${collapsed ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
-              </svg>
+              <motion.div
+                animate={{ rotate: collapsed ? 180 : 0 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              >
+                <ChevronRight className="h-5 w-5" />
+              </motion.div>
             </motion.button>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 p-4 bg-indigo-50/50 dark:bg-transparent">
-            <ul className="space-y-2">
+          <nav className="flex-1 overflow-y-auto py-4">
+            <div className="px-3 space-y-1">
               {renderNavItems(navItems)}
-            </ul>
+            </div>
           </nav>
 
-          {/* Footer with user info and theme toggle */}
-          <div className="p-4 border-t border-indigo-100 dark:border-slate-800 bg-white dark:bg-slate-800/50">
+          {/* User Menu */}
+          <div className="p-4 border-t border-gray-200 dark:border-gray-800">
             <div className="flex items-center justify-between">
               {!collapsed && (
                 <motion.div 
-                  className="flex items-center space-x-2 group"
-                  whileHover={{ x: 3 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  className="flex-1 min-w-0"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.2, delay: 0.1 }}
                 >
-                  <motion.div 
-                    className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white shadow-md"
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    {user?.name && user.name[0].toUpperCase()}
-                  </motion.div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 dark:text-white truncate group-hover:text-indigo-700 dark:group-hover:text-indigo-400 transition-colors">
-                      {user?.name}
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                      {user?.email}
-                    </p>
+                  <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
+                    {user?.name || user?.email}
+                  </div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                    {user?.email}
                   </div>
                 </motion.div>
               )}
+
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <ThemeToggle />
+              </motion.div>
               
-              <div className="flex items-center space-x-2">
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                  <ThemeToggle className="text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/30 p-2 rounded-lg border border-indigo-200 dark:border-slate-700 transition-colors" />
-                </motion.div>
-                
-                <motion.button
-                  whileHover={{ scale: 1.1, backgroundColor: "rgba(239, 68, 68, 0.1)" }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={logout}
-                  className="p-2 text-red-500 dark:text-red-400 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-                  aria-label="Logout"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                  </svg>
-                </motion.button>
-              </div>
+              <motion.button
+                onClick={() => logout()}
+                className="ml-2 p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-800 rounded-md"
+                title="Logout"
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(239, 68, 68, 0.1)", color: "#ef4444" }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+              </motion.button>
             </div>
           </div>
         </div>
-      </motion.div>
+      </motion.aside>
     </>
   );
 } 

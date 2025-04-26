@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file://E%3A/Github%20Projects/AWS-Monitor/src/app/dashboard/security/layout.tsx"],"sourcesContent":["export default function SecurityLayout({\r\n  children,\r\n}: {\r\n  children: React.ReactNode;\r\n}) {\r\n  return (\r\n    <div className=\"container mx-auto py-6\">\r\n      {children}\r\n    </div>\r\n  );\r\n} "],"names":[],"mappings":";;;;;AAAe,SAAS,eAAe,EACrC,QAAQ,EAGT;IACC,qBACE,8OAAC;QAAI,WAAU;kBACZ;;;;;;AAGP","debugId":null}}]
-}

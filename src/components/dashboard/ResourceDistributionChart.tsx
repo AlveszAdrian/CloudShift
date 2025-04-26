@@ -7,6 +7,8 @@ import {
   Legend,
   ResponsiveContainer
 } from 'recharts';
+import { motion } from 'framer-motion';
+import { Server, Cloud, Database, Code, Activity } from 'lucide-react';
 
 interface ResourcesDistributionProps {
   resources: {
@@ -19,101 +21,150 @@ interface ResourcesDistributionProps {
 }
 
 const ResourceDistributionChart: React.FC<ResourcesDistributionProps> = ({ resources }) => {
-  // Transformar os dados em formato compatível com o gráfico
+  // Preparar os dados para o gráfico
   const data = [
-    {
-      name: 'EC2',
-      value: resources.ec2,
-      color: '#3B82F6' // blue
-    },
-    {
-      name: 'S3',
-      value: resources.s3,
-      color: '#10B981' // green
-    },
-    {
-      name: 'RDS',
-      value: resources.rds,
-      color: '#8B5CF6' // purple
-    },
-    {
-      name: 'Lambda',
-      value: resources.lambda,
-      color: '#F59E0B' // yellow
-    },
-    {
-      name: 'CloudFront',
-      value: resources.cloudfront,
-      color: '#6366F1' // indigo
-    }
-  ];
-
-  const COLORS = data.map(item => item.color);
+    { name: 'EC2', value: resources.ec2, color: '#3B82F6', icon: <Server size={14} /> },
+    { name: 'S3', value: resources.s3, color: '#F59E0B', icon: <Cloud size={14} /> },
+    { name: 'RDS', value: resources.rds, color: '#8B5CF6', icon: <Database size={14} /> },
+    { name: 'Lambda', value: resources.lambda, color: '#10B981', icon: <Code size={14} /> },
+    { name: 'CloudFront', value: resources.cloudfront, color: '#EC4899', icon: <Activity size={14} /> }
+  ].filter(item => item.value > 0); // Filtrar itens com valor zero
   
-  // Customizando o tooltip
+  // Se não houver dados, mostrar mensagem
+  if (data.length === 0 || data.every(item => item.value === 0)) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <p className="text-gray-500 text-sm">Nenhum recurso encontrado</p>
+      </div>
+    );
+  }
+  
+  // Tooltip personalizado
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
-      const entry = payload[0];
-      const total = data.reduce((sum, item) => sum + item.value, 0);
-      const percentage = ((entry.value / total) * 100).toFixed(1);
-      
+      const item = payload[0];
       return (
-        <div className="bg-white p-3 shadow-md rounded border border-gray-200">
-          <p className="font-semibold" style={{ color: entry.color }}>{entry.name}</p>
-          <p className="text-sm">Quantidade: {entry.value}</p>
-          <p className="text-sm">Percentual: {percentage}%</p>
-        </div>
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white p-3 shadow-lg rounded-lg border border-gray-100"
+        >
+          <div className="flex items-center">
+            <div 
+              className="w-3 h-3 rounded-full mr-2"
+              style={{ backgroundColor: item.payload.color }}
+            ></div>
+            <span className="font-medium">{item.name}</span>
+          </div>
+          <p className="text-gray-700 mt-1">
+            <span className="font-semibold">{item.value}</span> recursos
+            {item.payload.percentage && (
+              <span className="ml-1 text-sm text-gray-500">
+                ({item.payload.percentage}%)
+              </span>
+            )}
+          </p>
+        </motion.div>
       );
     }
     return null;
   };
   
-  // Customizando a legenda
-  const renderCustomizedLegend = (props: any) => {
-    const { payload } = props;
-    
-    return (
-      <div className="flex flex-wrap justify-center gap-3 mt-4">
-        {payload.map((entry: any, index: number) => (
-          <div key={`item-${index}`} className="flex items-center">
-            <div
-              className="w-3 h-3 mr-2 rounded-sm"
-              style={{ backgroundColor: entry.color }}
-            />
-            <span className="text-xs">{entry.value}</span>
+  // Calcular total e porcentagens
+  const total = data.reduce((sum, item) => sum + item.value, 0);
+  const dataWithPercentage = data.map(item => ({
+    ...item,
+    percentage: Math.round((item.value / total) * 100)
+  }));
+  
+  // Renderizar legenda personalizada
+  const CustomLegend = () => (
+    <div className="grid grid-cols-2 gap-x-4 gap-y-2 mt-4">
+      {dataWithPercentage.map((entry, index) => (
+        <motion.div 
+          key={`legend-${index}`}
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: index * 0.1 }}
+          className="flex items-center"
+        >
+          <div 
+            className="w-3 h-3 rounded-full mr-2"
+            style={{ backgroundColor: entry.color }}
+          ></div>
+          <div className="flex items-center text-xs text-gray-600">
+            {entry.icon}
+            <span className="ml-1">{entry.name}</span>
+            <span className="ml-1 text-gray-500">({entry.percentage}%)</span>
           </div>
-        ))}
-      </div>
-    );
-  };
+        </motion.div>
+      ))}
+    </div>
+  );
 
   return (
-    <div className="w-full">
-      <ResponsiveContainer width="100%" height={250}>
-        <PieChart>
-          <Pie
-            data={data}
-            cx="50%"
-            cy="50%"
-            labelLine={false}
-            outerRadius={80}
-            fill="#8884d8"
-            dataKey="value"
-            animationDuration={1000}
-            animationBegin={0}
-          >
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Pie>
-          <Tooltip content={<CustomTooltip />} />
-          <Legend 
-            content={renderCustomizedLegend}
-            verticalAlign="bottom"
-            height={36}
-          />
-        </PieChart>
-      </ResponsiveContainer>
+    <div className="h-full flex flex-col">
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="flex-grow"
+      >
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            {/* Definição de gradientes */}
+            <defs>
+              {dataWithPercentage.map((entry, index) => (
+                <linearGradient 
+                  key={`gradient-${index}`} 
+                  id={`gradient-${entry.name}`} 
+                  x1="0" 
+                  y1="0" 
+                  x2="0" 
+                  y2="1"
+                >
+                  <stop 
+                    offset="0%" 
+                    stopColor={entry.color} 
+                    stopOpacity={0.8}
+                  />
+                  <stop 
+                    offset="100%" 
+                    stopColor={entry.color} 
+                    stopOpacity={1}
+                  />
+                </linearGradient>
+              ))}
+            </defs>
+            
+            <Pie
+              data={dataWithPercentage}
+              cx="50%"
+              cy="50%"
+              innerRadius={60}
+              outerRadius={80}
+              paddingAngle={3}
+              dataKey="value"
+              animationDuration={1500}
+              animationBegin={300}
+              labelLine={false}
+              strokeWidth={0}
+            >
+              {dataWithPercentage.map((entry, index) => (
+                <Cell 
+                  key={`cell-${index}`} 
+                  fill={`url(#gradient-${entry.name})`}
+                  stroke={entry.color}
+                  strokeWidth={1}
+                />
+              ))}
+            </Pie>
+            <Tooltip content={<CustomTooltip />} />
+          </PieChart>
+        </ResponsiveContainer>
+      </motion.div>
+      
+      <CustomLegend />
     </div>
   );
 };

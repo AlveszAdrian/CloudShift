@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file://E%3A/Teste%20AWS/aws-monitoring-platform/src/app/dashboard/alerts/page.tsx"],"sourcesContent":["\"use client\";\r\n\r\nimport { useEffect } from \"react\";\r\nimport { useRouter } from \"next/navigation\";\r\n\r\nexport default function AlertsRedirectPage() {\r\n  const router = useRouter();\r\n  \r\n  useEffect(() => {\r\n    router.replace(\"/dashboard/security\");\r\n  }, [router]);\r\n  \r\n  return (\r\n    <div className=\"flex items-center justify-center min-h-[300px]\">\r\n      <div className=\"text-center\">\r\n        <h2 className=\"text-xl font-semibold mb-2\">Redirecionando...</h2>\r\n        <p className=\"text-gray-600\">A página de alertas foi movida para a seção de segurança.</p>\r\n      </div>\r\n    </div>\r\n  );\r\n} "],"names":[],"mappings":";;;;AAEA;AACA;;;AAHA;;;AAKe,SAAS;;IACtB,MAAM,SAAS,CAAA,GAAA,qIAAA,CAAA,YAAS,AAAD;IAEvB,CAAA,GAAA,6JAAA,CAAA,YAAS,AAAD;wCAAE;YACR,OAAO,OAAO,CAAC;QACjB;uCAAG;QAAC;KAAO;IAEX,qBACE,6LAAC;QAAI,WAAU;kBACb,cAAA,6LAAC;YAAI,WAAU;;8BACb,6LAAC;oBAAG,WAAU;8BAA6B;;;;;;8BAC3C,6LAAC;oBAAE,WAAU;8BAAgB;;;;;;;;;;;;;;;;;AAIrC;GAfwB;;QACP,qIAAA,CAAA,YAAS;;;KADF","debugId":null}}]
-}

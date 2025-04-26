@@ -4,9 +4,10 @@ import { useAwsCredentials } from "@/hooks/useAwsCredentials";
 import AwsCredentialForm from "@/components/aws/AwsCredentialForm";
 import AwsConnectionStatus from "@/components/dashboard/AwsConnectionStatus";
 import { motion } from "framer-motion";
+import { useState, useEffect, useCallback } from "react";
 
 export default function CredentialsPage() {
-  const { credentials, loading, error } = useAwsCredentials();
+  const { credentials, isLoading, error } = useAwsCredentials();
 
   return (
     <div>
@@ -48,9 +49,9 @@ export default function CredentialsPage() {
               </div>
             )}
             
-            {loading ? (
+            {isLoading ? (
               <div className="flex justify-center py-8">
-                <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-indigo-500"></div>
+                <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-blue-500"></div>
               </div>
             ) : credentials.length === 0 ? (
               <div className="py-8 text-center text-gray-500">

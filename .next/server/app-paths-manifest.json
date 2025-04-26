@@ -1,17 +1,14 @@
 {
-  "/api/alerts/route": "app/api/alerts/route.js",
-  "/api/alerts/scan/route": "app/api/alerts/scan/route.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/api/aws/credentials/[id]/route": "app/api/aws/credentials/[id]/route.js",
+  "/api/alerts/route": "app/api/alerts/route.js",
+  "/login/page": "app/login/page.js",
   "/api/aws/credentials/route": "app/api/aws/credentials/route.js",
-  "/api/aws/credentials/validate/route": "app/api/aws/credentials/validate/route.js",
-  "/api/aws/dashboard/route": "app/api/aws/dashboard/route.js",
-  "/api/aws/debug/route": "app/api/aws/debug/route.js",
-  "/api/aws/iam/users/route": "app/api/aws/iam/users/route.js",
-  "/dashboard/credentials/page": "app/dashboard/credentials/page.js",
-  "/dashboard/iam/advanced/users/page": "app/dashboard/iam/advanced/users/page.js",
+  "/api/aws/resources/route": "app/api/aws/resources/route.js",
+  "/api/aws/ec2/security/route": "app/api/aws/ec2/security/route.js",
+  "/api/alerts/scan/route": "app/api/alerts/scan/route.js",
   "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/cloud-siem/page": "app/dashboard/cloud-siem/page.js",
+  "/dashboard/ec2/page": "app/dashboard/ec2/page.js",
   "/dashboard/security/page": "app/dashboard/security/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/login/page": "app/login/page.js"
+  "/dashboard/iam/advanced/users/page": "app/dashboard/iam/advanced/users/page.js"
 }

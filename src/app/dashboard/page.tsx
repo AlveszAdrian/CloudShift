@@ -22,8 +22,19 @@ import {
   Database, 
   Cloud, 
   HardDrive,
-  Code
+  Code,
+  BarChart3,
+  LineChart,
+  Cpu,
+  Activity,
+  Users,
+  Clock,
+  Zap,
+  ArrowUpRight,
+  ChevronRight,
+  PieChart
 } from "lucide-react";
+import Link from "next/link";
 
 // Interface para os dados do dashboard
 interface DashboardData {
@@ -54,8 +65,79 @@ interface DashboardData {
   };
 }
 
+// Componente de card animado
+const AnimatedCard = ({ 
+  title, 
+  icon, 
+  children, 
+  color = "blue", 
+  linkTo = "", 
+  delay = 0,
+  className = ""
+}: { 
+  title: string; 
+  icon: React.ReactNode; 
+  children: React.ReactNode; 
+  color?: "blue" | "amber" | "green" | "red" | "purple" | "teal"; 
+  linkTo?: string; 
+  delay?: number;
+  className?: string;
+}) => {
+  const colorStyles = {
+    blue: "bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/50 dark:to-blue-900/50 border-blue-200 dark:border-blue-800 shadow-blue-100/50 dark:shadow-blue-900/20",
+    amber: "bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-950/50 dark:to-amber-900/50 border-amber-200 dark:border-amber-800 shadow-amber-100/50 dark:shadow-amber-900/20",
+    green: "bg-gradient-to-br from-emerald-50 to-emerald-100 dark:from-emerald-950/50 dark:to-emerald-900/50 border-emerald-200 dark:border-emerald-800 shadow-emerald-100/50 dark:shadow-emerald-900/20",
+    red: "bg-gradient-to-br from-rose-50 to-rose-100 dark:from-rose-950/50 dark:to-rose-900/50 border-rose-200 dark:border-rose-800 shadow-rose-100/50 dark:shadow-rose-900/20",
+    purple: "bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950/50 dark:to-purple-900/50 border-purple-200 dark:border-purple-800 shadow-purple-100/50 dark:shadow-purple-900/20",
+    teal: "bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-950/50 dark:to-teal-900/50 border-teal-200 dark:border-teal-800 shadow-teal-100/50 dark:shadow-teal-900/20"
+  };
+  
+  const iconColors = {
+    blue: "text-blue-500 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/50",
+    amber: "text-amber-500 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/50",
+    green: "text-emerald-500 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/50",
+    red: "text-rose-500 dark:text-rose-400 bg-rose-100 dark:bg-rose-900/50",
+    purple: "text-purple-500 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/50",
+    teal: "text-teal-500 dark:text-teal-400 bg-teal-100 dark:bg-teal-900/50"
+  };
+  
+  const cardContent = (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: delay * 0.1 }}
+      className={`rounded-xl border p-5 h-full ${colorStyles[color]} ${className}`}
+    >
+      <div className="flex justify-between items-start mb-4">
+        <div className={`p-2 rounded-lg ${iconColors[color]}`}>
+          {icon}
+        </div>
+        {linkTo && (
+          <span className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300">
+            <ChevronRight size={18} />
+          </span>
+        )}
+      </div>
+      <h3 className="font-medium text-gray-700 dark:text-gray-200 mb-2">{title}</h3>
+      <div className="mt-2">
+        {children}
+      </div>
+    </motion.div>
+  );
+  
+  if (linkTo) {
+    return (
+      <Link href={linkTo} className="block h-full">
+        {cardContent}
+      </Link>
+    );
+  }
+  
+  return cardContent;
+};
+
 export default function DashboardPage() {
-  const { credentials, selectedCredential, loading: credentialsLoading } = useAwsCredentials();
+  const { credentials, selectedCredential, isLoading: credentialsLoading } = useAwsCredentials();
   const { alerts, loading: alertsLoading, error: alertsError, fetchAlerts } = useAlerts();
   const router = useRouter();
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
@@ -245,308 +327,315 @@ export default function DashboardPage() {
   const securityScore = calculateSecurityScore();
   const resourceAlertCounts = getResourceAlertCounts();
 
+  // Obter string da última atualização
+  const getLastUpdatedString = () => {
+    if (!lastUpdated) return "Nunca atualizado";
+    
+    // Formatação mais amigável da data/hora
+    return new Intl.DateTimeFormat('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    }).format(lastUpdated);
+  };
+
+  // Obter status de alerta
+  const getAlertStatus = () => {
+    if (criticalAlerts.length > 0) return "critical";
+    if (highAlerts.length > 0) return "high";
+    if (mediumAlerts.length > 0) return "medium";
+    return "normal";
+  };
+
   return (
-    <div>
-      <motion.div
-        className="mb-6"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-            <p className="mt-2 text-gray-600">
-              Visão geral dos seus recursos AWS e segurança.
-            </p>
-          </div>
-          {selectedCredential && (
-            <div className="bg-white shadow rounded-lg px-4 py-2 flex items-center">
-              <div className="h-8 w-8 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-800 font-bold mr-3">
-                {selectedCredential.name.charAt(0).toUpperCase()}
-              </div>
-              <div>
-                <p className="text-sm font-medium text-gray-900">{selectedCredential.name}</p>
-                <p className="text-xs text-gray-500">{selectedCredential.region}</p>
-              </div>
-            </div>
-          )}
+    <div className="p-6 bg-gradient-to-b from-gray-50 to-white dark:from-gray-950 dark:to-gray-900 min-h-screen">
+      {/* Cabeçalho */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100">Dashboard de Monitoramento AWS</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">
+            Visão geral da sua infraestrutura e segurança na nuvem
+          </p>
         </div>
-      </motion.div>
-
-      {/* Header com botão de atualização e última atualização */}
-      <div className="flex justify-between items-center mb-4">
-        <div className="text-sm text-gray-500">
-          {lastUpdated && (
-            <span>Última atualização: {lastUpdated.toLocaleTimeString()}</span>
-          )}
-          {backgroundLoading && (
-            <span className="ml-3 inline-flex items-center">
-              <div className="animate-spin h-3 w-3 border-t-2 border-b-2 border-indigo-500 mr-1"></div>
-              Atualizando...
+        
+        <div className="flex items-center space-x-4">
+          <div className="text-sm text-gray-500 dark:text-gray-400">
+            <span className="flex items-center">
+              <Clock size={14} className="mr-1" />
+              Atualizado: {getLastUpdatedString()}
             </span>
-          )}
-        </div>
-        <button
-          onClick={handleRefresh}
-          disabled={loading || alertsLoading}
-          className="flex items-center px-3 py-2 bg-gray-100 text-gray-600 rounded-md hover:bg-gray-200 disabled:opacity-50"
-        >
-          <RefreshCw className={`h-4 w-4 mr-1 ${(loading || alertsLoading) ? 'animate-spin' : ''}`} />
-          Atualizar
-        </button>
-      </div>
-
-      {credentialsLoading || loading ? (
-        <div className="flex justify-center py-12 bg-white rounded-lg shadow">
-          <RefreshCw className="h-12 w-12 text-indigo-500 animate-spin" />
-        </div>
-      ) : error ? (
-        <motion.div
-          className="bg-white rounded-lg shadow-md p-6"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="p-4 bg-red-50 rounded-md mb-4">
-            <p className="text-red-700 flex items-center">
-              <AlertCircle className="h-5 w-5 mr-2 text-red-500" />
-              {error}
-            </p>
           </div>
+          
           <button
             onClick={handleRefresh}
-            className="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 disabled:opacity-50"
+            disabled={loading}
+            className="flex items-center px-4 py-2 rounded-lg bg-blue-50 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-800/50 transition-colors border border-blue-200 dark:border-blue-800"
           >
-            Tentar novamente
+            <RefreshCw size={16} className={`mr-2 ${loading || backgroundLoading ? 'animate-spin' : ''}`} />
+            Atualizar
           </button>
-        </motion.div>
-      ) : credentials.length === 0 ? (
-        <motion.div
-          className="bg-white rounded-lg shadow-md p-6 text-center"
-          initial={{ opacity: 0, y: 20 }}
+        </div>
+      </div>
+      
+      {/* Alerta de erro */}
+      {error && (
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
+          className="mb-6 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 p-4 rounded-lg flex items-center"
         >
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">Bem-vindo ao AWS Monitoring</h2>
-          <p className="text-gray-600 mb-6">
-            Para começar a monitorar seus recursos AWS, adicione sua primeira credencial.
-          </p>
-          <button
-            onClick={() => router.push("/dashboard/credentials")}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Adicionar Credencial AWS
-          </button>
+          <AlertCircle className="mr-2 h-5 w-5 text-red-500 dark:text-red-400" />
+          <span>{error}</span>
         </motion.div>
-      ) : (
-        <div className="space-y-6">
-          {/* Resumo de alertas */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-white rounded-lg shadow p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-medium text-gray-900">Alertas Críticos</h2>
-                <div className="h-10 w-10 bg-red-100 rounded-full flex items-center justify-center">
-                  <AlertCircle className="h-6 w-6 text-red-500" />
-                </div>
+      )}
+      
+      {/* Loading Skeleton */}
+      {loading && !dashboardData && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 h-60 animate-pulse">
+              <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-1/3 mb-4"></div>
+              <div className="h-24 bg-gray-100 dark:bg-gray-700/50 rounded mb-4"></div>
+              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+            </div>
+          ))}
+        </div>
+      )}
+      
+      {/* Grid de Cards - Nova visualização com cards modernos */}
+      {!loading && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {/* Score de Segurança */}
+          <AnimatedCard 
+            title="Score de Segurança" 
+            icon={<Shield size={20} />} 
+            color={securityScore >= 80 ? "green" : securityScore >= 60 ? "amber" : "red"}
+            linkTo="/dashboard/security"
+            delay={0}
+          >
+            <div className="flex justify-center items-center h-32">
+              <SecurityScoreChart score={securityScore} />
+            </div>
+            <p className="text-sm text-gray-500 mt-2 text-center">
+              {securityScore >= 80 ? "Boa segurança" : securityScore >= 60 ? "Necessita atenção" : "Riscos críticos detectados"}
+            </p>
+          </AnimatedCard>
+          
+          {/* Alertas Ativos */}
+          <AnimatedCard 
+            title="Alertas Ativos" 
+            icon={<AlertTriangle size={20} />} 
+            color={getAlertStatus() === "critical" ? "red" : getAlertStatus() === "high" ? "amber" : "blue"}
+            linkTo="/dashboard/security"
+            delay={1}
+            className="flex flex-col"
+          >
+            <div className="flex-1 grid grid-cols-2 gap-3 mt-4">
+              <div className="bg-rose-50 dark:bg-rose-900/30 rounded-lg p-3 text-center">
+                <p className="text-rose-600 dark:text-rose-400 text-xl font-bold">{criticalAlerts.length}</p>
+                <p className="text-xs font-medium text-rose-800 dark:text-rose-300 mt-1">Críticos</p>
               </div>
-              <div className="text-3xl font-bold text-gray-900">{criticalAlerts.length}</div>
-              <div className="mt-2 text-sm text-gray-500">
-                {criticalAlerts.length === 0 ? 'Nenhum alerta crítico' : 'Requer atenção imediata'}
+              <div className="bg-amber-50 dark:bg-amber-900/30 rounded-lg p-3 text-center">
+                <p className="text-amber-600 dark:text-amber-400 text-xl font-bold">{highAlerts.length}</p>
+                <p className="text-xs font-medium text-amber-800 dark:text-amber-300 mt-1">Altos</p>
+              </div>
+              <div className="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-3 text-center">
+                <p className="text-blue-600 dark:text-blue-400 text-xl font-bold">{mediumAlerts.length}</p>
+                <p className="text-xs font-medium text-blue-800 dark:text-blue-300 mt-1">Médios</p>
+              </div>
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 text-center">
+                <p className="text-gray-600 dark:text-gray-400 text-xl font-bold">{lowAlerts.length}</p>
+                <p className="text-xs font-medium text-gray-800 dark:text-gray-300 mt-1">Baixos</p>
               </div>
             </div>
-            
-            <div className="bg-white rounded-lg shadow p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-medium text-gray-900">Alertas Altos</h2>
-                <div className="h-10 w-10 bg-orange-100 rounded-full flex items-center justify-center">
-                  <AlertTriangle className="h-6 w-6 text-orange-500" />
-                </div>
-              </div>
-              <div className="text-3xl font-bold text-gray-900">{highAlerts.length}</div>
-              <div className="mt-2 text-sm text-gray-500">
-                {highAlerts.length === 0 ? 'Nenhum alerta alto' : 'Risco significativo'}
-              </div>
+          </AnimatedCard>
+          
+          {/* Recursos */}
+          <AnimatedCard 
+            title="Recursos AWS" 
+            icon={<Server size={20} />} 
+            color="blue"
+            linkTo="/dashboard/resources"
+            delay={2}
+          >
+            <div className="flex items-center justify-between text-sm mb-2">
+              <span className="flex items-center text-gray-600 dark:text-gray-300"><Server size={14} className="mr-1" /> EC2</span>
+              <span className="font-semibold">{dashboardData?.resources.ec2 || 0}</span>
             </div>
-            
-            <div className="bg-white rounded-lg shadow p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-medium text-gray-900">Total de Alertas</h2>
-                <div className="h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center">
-                  <Shield className="h-6 w-6 text-indigo-500" />
-                </div>
-              </div>
-              <div className="text-3xl font-bold text-gray-900">{activeAlerts.length}</div>
-              <div className="mt-2 text-sm text-gray-500">
-                {activeAlerts.length === 0 ? 'Ambiente seguro' : 'Alertas ativos'}
-              </div>
+            <div className="flex items-center justify-between text-sm mb-2">
+              <span className="flex items-center text-gray-600 dark:text-gray-300"><Cloud size={14} className="mr-1" /> S3</span>
+              <span className="font-semibold">{dashboardData?.resources.s3 || 0}</span>
             </div>
-            
-            <div className="bg-white rounded-lg shadow p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-medium text-gray-900">Score de Segurança</h2>
-                <div className="h-10 w-10 bg-green-100 rounded-full flex items-center justify-center">
-                  <Shield className="h-6 w-6 text-green-500" />
-                </div>
-              </div>
-              <div className="text-3xl font-bold text-gray-900">{securityScore}%</div>
-              <div className="mt-2 text-sm text-gray-500">
-                {securityScore > 80 ? 'Boa postura de segurança' : 'Requer melhorias'}
-              </div>
+            <div className="flex items-center justify-between text-sm mb-2">
+              <span className="flex items-center text-gray-600 dark:text-gray-300"><Database size={14} className="mr-1" /> RDS</span>
+              <span className="font-semibold">{dashboardData?.resources.rds || 0}</span>
             </div>
-          </div>
-
-          {/* Gráficos principais */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Alertas por severidade */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-lg font-medium text-gray-900 mb-4">Distribuição de Alertas</h2>
-              <div className="h-64">
-                <DashboardContainer>
-                  <SecurityIssuesChart 
-                    issues={{
-                      critical: criticalAlerts.length,
-                      high: highAlerts.length,
-                      medium: mediumAlerts.length,
-                      low: lowAlerts.length
-                    }} 
-                  />
-                </DashboardContainer>
-              </div>
+            <div className="flex items-center justify-between text-sm">
+              <span className="flex items-center text-gray-600 dark:text-gray-300"><Code size={14} className="mr-1" /> Lambda</span>
+              <span className="font-semibold">{dashboardData?.resources.lambda || 0}</span>
             </div>
-            
-            {/* Alertas por tipo de recurso */}
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-lg font-medium text-gray-900 mb-4">Alertas por Serviço</h2>
-              <div className="h-64">
-                <DashboardContainer>
-                  <ResourceDistributionChart resources={resourceAlertCounts} />
-                </DashboardContainer>
+          </AnimatedCard>
+          
+          {/* Compliance */}
+          <AnimatedCard 
+            title="Compliance" 
+            icon={<Shield size={20} />} 
+            color="purple"
+            linkTo="/dashboard/security/compliance"
+            delay={3}
+          >
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-600 dark:text-gray-300">PCI DSS</span>
+                <span className="text-sm font-medium">{dashboardData?.compliance.pci || 0}%</span>
               </div>
-            </div>
-          </div>
-
-          {/* Alertas recentes */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-medium text-gray-900">Alertas Recentes</h2>
-              <button 
-                onClick={() => router.push('/dashboard/security')}
-                className="text-sm text-indigo-600 hover:text-indigo-800"
-              >
-                Ver todos
-              </button>
-            </div>
-            
-            {alertsLoading ? (
-              <div className="flex justify-center py-8">
-                <RefreshCw className="h-8 w-8 text-indigo-500 animate-spin" />
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                <div className="bg-purple-500 h-1.5 rounded-full" style={{ width: `${dashboardData?.compliance.pci || 0}%` }}></div>
               </div>
-            ) : alertsError ? (
-              <div className="py-4 px-4 bg-red-50 text-red-700 rounded-md">
-                {alertsError}
-              </div>
-            ) : activeAlerts.length === 0 ? (
-              <div className="py-8 text-center text-gray-500">
-                <Shield className="h-12 w-12 text-gray-300 mx-auto mb-2" />
-                <p>Nenhum alerta de segurança ativo.</p>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                {activeAlerts.slice(0, 5).map((alert) => (
-                  <motion.div
-                    key={alert.id}
-                    className="flex items-center p-3 border rounded-lg hover:bg-gray-50 transition-colors"
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <div className={`w-3 h-3 rounded-full ${getSeverityColor(alert.severity)} mr-3`}></div>
-                    <div className="flex-1">
-                      <h3 className="text-sm font-medium text-gray-800">{alert.title}</h3>
-                      <p className="text-xs text-gray-500 truncate">
-                        {alert.resourceType}: {alert.resourceId}
-                      </p>
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      {new Date(alert.createdAt).toLocaleDateString()}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Recursos AWS */}
-          {dashboardData && (
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-lg font-medium text-gray-900 mb-4">Recursos AWS</h2>
               
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-                <div className="bg-blue-50 p-4 rounded-lg flex items-center">
-                  <Server className="h-6 w-6 text-blue-500 mr-3" />
-                  <div>
-                    <p className="text-sm font-medium text-blue-800">EC2</p>
-                    <p className="text-xl font-bold text-blue-700">{dashboardData.resources.ec2}</p>
+              <div className="flex items-center justify-between mt-1">
+                <span className="text-sm text-gray-600 dark:text-gray-300">HIPAA</span>
+                <span className="text-sm font-medium">{dashboardData?.compliance.hipaa || 0}%</span>
+              </div>
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${dashboardData?.compliance.hipaa || 0}%` }}></div>
+              </div>
+              
+              <div className="flex items-center justify-between mt-1">
+                <span className="text-sm text-gray-600 dark:text-gray-300">GDPR</span>
+                <span className="text-sm font-medium">{dashboardData?.compliance.gdpr || 0}%</span>
+              </div>
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                <div className="bg-teal-500 h-1.5 rounded-full" style={{ width: `${dashboardData?.compliance.gdpr || 0}%` }}></div>
+              </div>
+            </div>
+          </AnimatedCard>
+          
+          {/* Distribuição de Recursos */}
+          <AnimatedCard 
+            title="Distribuição de Recursos" 
+            icon={<PieChart size={20} />} 
+            color="teal"
+            delay={4}
+            className="col-span-1 md:col-span-2"
+          >
+            <div className="h-48">
+              <ResourceDistributionChart resources={dashboardData?.resources || {ec2: 0, s3: 0, rds: 0, lambda: 0, cloudfront: 0}} />
+            </div>
+          </AnimatedCard>
+          
+          {/* IAM - Usuários em Risco */}
+          <AnimatedCard 
+            title="Usuários IAM por Risco" 
+            icon={<Users size={20} />} 
+            color="amber"
+            linkTo="/dashboard/iam"
+            delay={5}
+          >
+            <div className="flex items-center justify-center h-40">
+              <div className="grid grid-cols-3 gap-2 w-full">
+                <div className="flex flex-col items-center justify-center">
+                  <div className="w-16 h-16 rounded-full bg-rose-100 flex items-center justify-center text-rose-600 text-xl font-bold mb-2">
+                    {dashboardData?.security.highRiskUsers || 0}
                   </div>
+                  <span className="text-xs text-gray-600">Alto Risco</span>
                 </div>
-                <div className="bg-amber-50 p-4 rounded-lg flex items-center">
-                  <Cloud className="h-6 w-6 text-amber-500 mr-3" />
-                  <div>
-                    <p className="text-sm font-medium text-amber-800">S3</p>
-                    <p className="text-xl font-bold text-amber-700">{dashboardData.resources.s3}</p>
+                <div className="flex flex-col items-center justify-center">
+                  <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center text-amber-600 text-xl font-bold mb-2">
+                    {dashboardData?.security.mediumRiskUsers || 0}
                   </div>
+                  <span className="text-xs text-gray-600">Médio Risco</span>
                 </div>
-                <div className="bg-purple-50 p-4 rounded-lg flex items-center">
-                  <Database className="h-6 w-6 text-purple-500 mr-3" />
-                  <div>
-                    <p className="text-sm font-medium text-purple-800">RDS</p>
-                    <p className="text-xl font-bold text-purple-700">{dashboardData.resources.rds}</p>
+                <div className="flex flex-col items-center justify-center">
+                  <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 text-xl font-bold mb-2">
+                    {dashboardData?.security.lowRiskUsers || 0}
                   </div>
-                </div>
-                <div className="bg-green-50 p-4 rounded-lg flex items-center">
-                  <Code className="h-6 w-6 text-green-500 mr-3" />
-                  <div>
-                    <p className="text-sm font-medium text-green-800">Lambda</p>
-                    <p className="text-xl font-bold text-green-700">{dashboardData.resources.lambda}</p>
-                  </div>
-                </div>
-                <div className="bg-indigo-50 p-4 rounded-lg flex items-center">
-                  <HardDrive className="h-6 w-6 text-indigo-500 mr-3" />
-                  <div>
-                    <p className="text-sm font-medium text-indigo-800">CloudFront</p>
-                    <p className="text-xl font-bold text-indigo-700">{dashboardData.resources.cloudfront}</p>
-                  </div>
+                  <span className="text-xs text-gray-600">Baixo Risco</span>
                 </div>
               </div>
             </div>
-          )}
+          </AnimatedCard>
+          
+          {/* Issues de Segurança */}
+          <AnimatedCard 
+            title="Problemas de Segurança" 
+            icon={<AlertTriangle size={20} />} 
+            color="red"
+            linkTo="/dashboard/security/issues"
+            delay={6}
+            className="col-span-1 md:col-span-2"
+          >
+            <div className="h-48">
+              <SecurityIssuesChart 
+                issues={dashboardData?.security.issues || {critical: 0, high: 0, medium: 0, low: 0}} 
+              />
+            </div>
+          </AnimatedCard>
+          
+          {/* Links Rápidos */}
+          <AnimatedCard 
+            title="Acessos Rápidos" 
+            icon={<Zap size={20} />} 
+            color="blue"
+            delay={7}
+          >
+            <div className="space-y-3 mt-2">
+              <Link href="/dashboard/security" className="flex items-center justify-between p-2 bg-blue-50 dark:bg-blue-900/40 rounded-lg text-sm text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-800/60 transition-colors">
+                <span className="flex items-center">
+                  <Shield size={16} className="mr-2" />
+                  Segurança
+                </span>
+                <ArrowUpRight size={16} />
+              </Link>
+              
+              <Link href="/dashboard/iam" className="flex items-center justify-between p-2 bg-amber-50 dark:bg-amber-900/40 rounded-lg text-sm text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-800/60 transition-colors">
+                <span className="flex items-center">
+                  <Users size={16} className="mr-2" />
+                  IAM
+                </span>
+                <ArrowUpRight size={16} />
+              </Link>
+              
+              <Link href="/dashboard/cloud-siem" className="flex items-center justify-between p-2 bg-purple-50 dark:bg-purple-900/40 rounded-lg text-sm text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-800/60 transition-colors">
+                <span className="flex items-center">
+                  <Activity size={16} className="mr-2" />
+                  Cloud SIEM
+                </span>
+                <ArrowUpRight size={16} />
+              </Link>
+              
+              <Link href="/dashboard/resources" className="flex items-center justify-between p-2 bg-emerald-50 dark:bg-emerald-900/40 rounded-lg text-sm text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-800/60 transition-colors">
+                <span className="flex items-center">
+                  <Cpu size={16} className="mr-2" />
+                  Recursos AWS
+                </span>
+                <ArrowUpRight size={16} />
+              </Link>
+            </div>
+          </AnimatedCard>
         </div>
       )}
     </div>
   );
 }
 
-// Função para obter a cor da severidade
 function getSeverityColor(severity: string): string {
-  switch (severity) {
+  switch (severity.toUpperCase()) {
     case 'CRITICAL':
-      return 'bg-red-500';
+      return 'bg-red-100 text-red-800 border-red-200';
     case 'HIGH':
-      return 'bg-orange-500';
+      return 'bg-orange-100 text-orange-800 border-orange-200';
     case 'MEDIUM':
-      return 'bg-yellow-500';
+      return 'bg-yellow-100 text-yellow-800 border-yellow-200';
     case 'LOW':
-      return 'bg-blue-500';
+      return 'bg-blue-100 text-blue-800 border-blue-200';
     default:
-      return 'bg-gray-500';
+      return 'bg-gray-100 text-gray-800 border-gray-200';
   }
 }
 
 function getTotalResources(data: DashboardData) {
-  return data.resources.ec2 + 
-    data.resources.s3 + 
-    data.resources.rds + 
-    data.resources.lambda + 
-    data.resources.cloudfront;
+  return data.resources.ec2 + data.resources.s3 + data.resources.rds + data.resources.lambda + data.resources.cloudfront;
 } 

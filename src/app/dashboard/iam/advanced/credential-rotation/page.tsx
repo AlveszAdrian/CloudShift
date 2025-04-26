@@ -6,8 +6,13 @@ import { motion } from "framer-motion";
 import CredentialRotationManager from "@/components/aws/iam/CredentialRotationManager";
 import Breadcrumb from "@/components/dashboard/Breadcrumb";
 
+interface AwsCredential {
+  id: string;
+  name: string;
+}
+
 export default function CredentialRotationPage() {
-  const [credentials, setCredentials] = useState<{ id: string; name: string }[]>([]);
+  const [credentials, setCredentials] = useState<AwsCredential[]>([]);
   const [selectedCredentialId, setSelectedCredentialId] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -27,7 +32,7 @@ export default function CredentialRotationPage() {
         setCredentials(data);
         
         if (data.length > 0) {
-          if (storedCredentialId && data.some(cred => cred.id === storedCredentialId)) {
+          if (storedCredentialId && data.some((cred: AwsCredential) => cred.id === storedCredentialId)) {
             setSelectedCredentialId(storedCredentialId);
           } else {
             setSelectedCredentialId(data[0].id);
