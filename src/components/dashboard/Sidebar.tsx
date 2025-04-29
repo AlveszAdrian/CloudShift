@@ -358,23 +358,23 @@ export default function Sidebar({ onToggleCollapse }: SidebarProps) {
                 style={{ paddingLeft: `${paddingLeft + 12}px` }}
               >
                 <span className="flex items-center">
-                  <motion.span 
+                <motion.span 
                     className="mr-3"
                     animate={isItemActive ? { scale: 1.1 } : { scale: 1 }}
                     transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                  >
-                    {item.icon}
-                  </motion.span>
-                  {(!collapsed || level > 0) && (
+                >
+                  {item.icon}
+                </motion.span>
+                {(!collapsed || level > 0) && (
                     <motion.span
                       initial={collapsed && level === 0 ? { opacity: 0 } : { opacity: 1 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.2 }}
                     >
-                      {item.name}
+                    {item.name}
                     </motion.span>
                   )}
-                </span>
+                  </span>
               </Link>
             </motion.div>
           ) : (
@@ -393,14 +393,14 @@ export default function Sidebar({ onToggleCollapse }: SidebarProps) {
                   }
                 `}
                 style={{ paddingLeft: `${paddingLeft + 12}px` }}
-              >
+            >
                 <span className="flex items-center">
                   <motion.span 
                     className="mr-3"
                     animate={isItemActive ? { scale: 1.1 } : { scale: 1 }}
                     transition={{ type: "spring", stiffness: 400, damping: 10 }}
                   >
-                    {item.icon}
+                  {item.icon}
                   </motion.span>
                   {(!collapsed || level > 0) && (
                     <motion.span
@@ -474,7 +474,7 @@ export default function Sidebar({ onToggleCollapse }: SidebarProps) {
           {hasChildren && !collapsed && (
             <AnimatePresence>
               {isGroupExpanded && item.children && (
-                <motion.div 
+                <motion.div
                   className="mt-1 space-y-1 overflow-hidden"
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
@@ -494,12 +494,12 @@ export default function Sidebar({ onToggleCollapse }: SidebarProps) {
   return (
     <>
       {/* Botão de toggle para mobile */}
-      <motion.button
+        <motion.button
         type="button"
         className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-800"
         onClick={() => setMobileOpen(!mobileOpen)}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
       >
         <span className="sr-only">Abrir menu</span>
         <AnimatePresence mode="wait" initial={false}>
@@ -531,16 +531,16 @@ export default function Sidebar({ onToggleCollapse }: SidebarProps) {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </motion.svg>
           )}
         </AnimatePresence>
-      </motion.button>
+        </motion.button>
 
       {/* Overlay para mobile */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div 
+          <motion.div
             className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
             onClick={() => setMobileOpen(false)}
             initial={{ opacity: 0 }}
@@ -550,7 +550,7 @@ export default function Sidebar({ onToggleCollapse }: SidebarProps) {
           />
         )}
       </AnimatePresence>
-
+      
       {/* Sidebar */}
       <motion.aside
         className="fixed lg:relative z-50 h-screen bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 overflow-hidden"
@@ -623,34 +623,34 @@ export default function Sidebar({ onToggleCollapse }: SidebarProps) {
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.2, delay: 0.1 }}
-                >
+                  >
                   <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
                     {user?.name || user?.email}
                   </div>
                   <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                    {user?.email}
+                      {user?.email}
                   </div>
                 </motion.div>
               )}
-
+              
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <ThemeToggle />
-              </motion.div>
-              
-              <motion.button
+                </motion.div>
+                
+                <motion.button
                 onClick={() => logout()}
                 className="ml-2 p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-800 rounded-md"
                 title="Logout"
                 whileHover={{ scale: 1.05, backgroundColor: "rgba(239, 68, 68, 0.1)", color: "#ef4444" }}
                 whileTap={{ scale: 0.95 }}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                </svg>
-              </motion.button>
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                </motion.button>
+              </div>
             </div>
           </div>
-        </div>
       </motion.aside>
     </>
   );

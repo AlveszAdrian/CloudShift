@@ -35,8 +35,7 @@ model AwsCredential {
   userId        String
   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   alerts        Alert[]
-  siemRules     SiemRule[]
-  siemEvents    SiemEvent[]
+  insightsRules InsightsRule[]
   
   @@index([userId])
 }
@@ -57,44 +56,41 @@ model Alert {
   @@index([credentialId])
 }
 
-model SiemRule {
-  id            String     @id @default(cuid())
+model InsightsRule {
+  id            String      @id @default(cuid())
   name          String
-  description   String
-  type          String
+  description   String?
   query         String
+  logGroup      String
   severity      String
-  status        String     @default("active")
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  triggers      Int        @default(0)
+  isActive      Boolean     @default(true)
+  triggers      Int         @default(0)
   lastTriggered DateTime?
+  lastExecuted  DateTime?
+  region        String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
   credentialId  String
   credential    AwsCredential @relation(fields: [credentialId], references: [id], onDelete: Cascade)
-  events        SiemEvent[]
+  detections    Detection[]
 
   @@index([credentialId])
 }
 
-model SiemEvent {
-  id            String     @id @default(cuid())
-  timestamp     DateTime
-  source        String
-  eventType     String
-  severity      String
-  status        String     @default("NEW")
-  message       String
-  rawData       String
-  accountId     String?
-  region        String?
-  resource      String?
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  credentialId  String
-  credential    AwsCredential @relation(fields: [credentialId], references: [id], onDelete: Cascade)
-  ruleId        String?
-  rule          SiemRule?  @relation(fields: [ruleId], references: [id], onDelete: SetNull)
-  
-  @@index([credentialId])
+model Detection {
+  id          String      @id @default(cuid())
+  ruleId      String
+  timestamp   DateTime
+  message     String
+  severity    String
+  fields      Json
+  acknowledged Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  rule        InsightsRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+
   @@index([ruleId])
+  @@index([timestamp])
+  @@index([severity])
+  @@index([acknowledged])
 }

@@ -64,6 +64,21 @@ export default function RuleEditor({ rule, onSave, onCancel, credentialId }: Rul
     }
   };
   
+  // Function to handle raw query input without escaping special characters
+  const handleQueryChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const rawValue = e.target.value;
+    setFormData(prev => ({ ...prev, query: rawValue }));
+    
+    // Clear error when editing query
+    if (errors.query) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors.query;
+        return newErrors;
+      });
+    }
+  };
+  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -87,33 +102,33 @@ export default function RuleEditor({ rule, onSave, onCancel, credentialId }: Rul
       return;
     }
     
-    // Enviar dados
+    // Enviar dados sem modificar a query
     onSave(formData);
   };
   
   const getQueryPlaceholder = () => {
     switch (formData.type) {
       case "log-pattern":
-        return 'userIdentity.type = "Root" AND userIdentity.invokedBy NOT EXISTS';
+        return 'filter userIdentity.type = "Root" | fields eventTime, eventName, awsRegion';
       case "threshold":
         return 'metric.ec2.instances > 10';
       case "event-based":
-        return 'eventName = "CreateUser" OR eventName = "DeleteUser"';
+        return 'filter eventName = "CreateUser" or eventName = "DeleteUser" | fields eventTime, userIdentity.arn';
       case "anomaly-detection":
-        return 'metric.network.bytes_out deviation > 3 sigma';
+        return 'filter @message like "error" | stats count(*) as errorCount by bin(1h)';
     }
   };
   
   const getQueryHelp = () => {
     switch (formData.type) {
       case "log-pattern":
-        return "Defina padrões para buscar em logs do CloudTrail, logs de aplicação ou outros.";
+        return "Use a sintaxe CloudWatch Logs Insights (filter, fields, sort, etc). Caracteres como | e \" são suportados.";
       case "threshold":
         return "Defina limites para métricas como uso de CPU, memória, requisições, etc.";
       case "event-based":
-        return "Defina eventos específicos que devem disparar alertas, como alterações de configuração.";
+        return "Use a sintaxe do CloudWatch Logs Insights para filtrar eventos específicos.";
       case "anomaly-detection":
-        return "Defina condições para detectar comportamentos anômalos com base em desvios estatísticos.";
+        return "Use funções estatísticas como stats, avg, max para detectar anomalias.";
     }
   };
   
@@ -195,21 +210,25 @@ export default function RuleEditor({ rule, onSave, onCancel, credentialId }: Rul
       
       <div>
         <label htmlFor="query" className="block text-sm font-medium text-gray-700">
-          Consulta / Condição
+          Consulta CloudWatch Logs Insights
         </label>
         <textarea
           id="query"
           name="query"
           value={formData.query}
-          onChange={handleChange}
+          onChange={handleQueryChange}
           rows={4}
+          spellCheck="false"
           className={`mt-1 block w-full border ${errors.query ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm font-mono`}
           placeholder={getQueryPlaceholder()}
         />
         {errors.query ? (
           <p className="mt-1 text-sm text-red-600">{errors.query}</p>
         ) : (
-          <p className="mt-1 text-xs text-gray-500">{getQueryHelp()}</p>
+          <div className="mt-1 text-xs text-gray-500">
+            <p>{getQueryHelp()}</p>
+            <p className="mt-1">Exemplo: <code className="bg-gray-100 px-1 py-0.5 rounded">{getQueryPlaceholder()}</code></p>
+          </div>
         )}
       </div>
       

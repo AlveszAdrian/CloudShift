@@ -39,10 +39,10 @@ export const useAwsCredentials = (): UseAwsCredentialsReturn => {
       if (!response.ok) {
         throw new Error(`Failed to fetch AWS credentials: ${response.statusText}`);
       }
-
+      
       const data = await response.json();
       setCredentials(data);
-
+      
       // Select first credential or previously selected one
       const storedCredentialId = localStorage.getItem('selectedCredentialId');
       

@@ -14,16 +14,44 @@ export interface AwsCredential {
 /**
  * Get a specific AWS credential by ID
  */
-export async function getAwsCredentials(id: string): Promise<AwsCredential | null> {
+export async function getAwsCredentials(credentialId: string) {
   try {
-    const credential = await prisma.awsCredential.findUnique({
-      where: { id }
-    });
+    console.log('Buscando credenciais para ID:', credentialId);
     
-    return credential;
+    if (!credentialId) {
+      console.log('CredentialId não fornecido');
+      throw new Error('CredentialId não fornecido');
+    }
+
+    const credential = await prisma.awsCredential.findUnique({
+      where: { id: credentialId }
+    });
+
+    if (!credential) {
+      console.log('Credenciais não encontradas para ID:', credentialId);
+      throw new Error('Credenciais não encontradas');
+    }
+
+    // Validar campos obrigatórios
+    if (!credential.accessKeyId || !credential.secretKey || !credential.region) {
+      console.log('Credenciais inválidas:', credential);
+      throw new Error('Credenciais inválidas');
+    }
+
+    console.log('Credenciais encontradas:', {
+      id: credential.id,
+      region: credential.region,
+      accessKeyId: credential.accessKeyId ? '***' : undefined
+    });
+
+    return {
+      accessKeyId: credential.accessKeyId,
+      secretKey: credential.secretKey,
+      region: credential.region
+    };
   } catch (error) {
-    console.error('Error fetching AWS credential:', error);
-    return null;
+    console.error('Erro ao obter credenciais:', error);
+    throw error;
   }
 }
 

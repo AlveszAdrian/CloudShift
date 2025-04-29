@@ -147,37 +147,33 @@ exports.Prisma.AlertScalarFieldEnum = {
   credentialId: 'credentialId'
 };
 
-exports.Prisma.SiemRuleScalarFieldEnum = {
+exports.Prisma.InsightsRuleScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
-  type: 'type',
   query: 'query',
+  logGroup: 'logGroup',
   severity: 'severity',
-  status: 'status',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
+  isActive: 'isActive',
   triggers: 'triggers',
   lastTriggered: 'lastTriggered',
+  lastExecuted: 'lastExecuted',
+  region: 'region',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   credentialId: 'credentialId'
 };
 
-exports.Prisma.SiemEventScalarFieldEnum = {
+exports.Prisma.DetectionScalarFieldEnum = {
   id: 'id',
+  ruleId: 'ruleId',
   timestamp: 'timestamp',
-  source: 'source',
-  eventType: 'eventType',
-  severity: 'severity',
-  status: 'status',
   message: 'message',
-  rawData: 'rawData',
-  accountId: 'accountId',
-  region: 'region',
-  resource: 'resource',
+  severity: 'severity',
+  fields: 'fields',
+  acknowledged: 'acknowledged',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  credentialId: 'credentialId',
-  ruleId: 'ruleId'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -185,9 +181,24 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
 };
 
 
@@ -195,8 +206,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   AwsCredential: 'AwsCredential',
   Alert: 'Alert',
-  SiemRule: 'SiemRule',
-  SiemEvent: 'SiemEvent'
+  InsightsRule: 'InsightsRule',
+  Detection: 'Detection'
 };
 
 /**

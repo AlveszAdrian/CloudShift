@@ -5,7 +5,10 @@ import {
   PutMetricFilterCommand,
   DescribeLogGroupsCommand,
   PutRetentionPolicyCommand,
-  PutSubscriptionFilterCommand
+  PutSubscriptionFilterCommand,
+  DescribeMetricFiltersCommand,
+  StartQueryCommand,
+  GetQueryResultsCommand
 } from '@aws-sdk/client-cloudwatch-logs';
 import { 
   CloudWatchClient, 
@@ -35,7 +38,9 @@ import {
   STSClient,
   GetCallerIdentityCommand
 } from '@aws-sdk/client-sts';
+import AWS from 'aws-sdk';
 import { getAwsCredentials } from '@/lib/aws/credentials';
+import { LogsInsightsQuery } from '@/lib/types';
 
 // Default log groups for SIEM monitoring
 const DEFAULT_LOG_GROUPS = [
@@ -46,139 +51,63 @@ const DEFAULT_LOG_GROUPS = [
   '/aws/cloudtrail/management-events' // Grupo específico para CloudTrail
 ];
 
-// Default metric filters for security monitoring
-const DEFAULT_METRIC_FILTERS = [
-  {
-    logGroupName: '/aws/siem/security-events',
-    filterName: 'SecurityFailedActions',
-    filterPattern: '{ $.eventType = "SecurityAlert" && $.status = "Failed" }',
-    metricName: 'FailedSecurityActions',
-    metricNamespace: 'SIEM/Security',
-    metricValue: '1'
-  },
-  {
-    logGroupName: '/aws/siem/authentication',
-    filterName: 'FailedAuthentication',
-    filterPattern: '{ $.eventType = "Authentication" && $.status = "Failed" }',
-    metricName: 'FailedAuthentication',
-    metricNamespace: 'SIEM/Auth',
-    metricValue: '1'
-  },
-  {
-    logGroupName: '/aws/siem/api-activity',
-    filterName: 'SuspiciousAPIActivity',
-    filterPattern: '{ $.eventType = "APICall" && $.severity = "High" }',
-    metricName: 'SuspiciousAPIActivity',
-    metricNamespace: 'SIEM/API',
-    metricValue: '1'
-  },
-  {
-    logGroupName: '/aws/cloudtrail/management-events',
-    filterName: 'S3BucketCreation',
-    filterPattern: '{ $.eventName = "CreateBucket" }',
-    metricName: 'S3BucketCreation',
-    metricNamespace: 'SIEM/S3',
-    metricValue: '1'
-  },
-  {
-    logGroupName: '/aws/cloudtrail/management-events',
-    filterName: 'S3BucketCreationExtended',
-    filterPattern: '{ ($.eventSource = "s3.amazonaws.com") && ($.eventName = "CreateBucket") }',
-    metricName: 'S3BucketCreationExtended',
-    metricNamespace: 'SIEM/S3',
-    metricValue: '1'
-  }
-];
-
-// Default alarm configurations
-const DEFAULT_ALARMS = [
-  {
-    alarmName: 'HighRateOfFailedAuthentication',
-    metricName: 'FailedAuthentication',
-    namespace: 'SIEM/Auth',
-    comparisonOperator: ComparisonOperator.GreaterThanThreshold,
-    evaluationPeriods: 1,
-    period: 300,
-    statistic: Statistic.Sum,
-    threshold: 5,
-    alarmDescription: 'Alert when there are more than 5 failed authentication attempts in 5 minutes',
-    alarmActions: []  // SNS topic ARNs would be added here in a real implementation
-  },
-  {
-    alarmName: 'CriticalSecurityFailures',
-    metricName: 'FailedSecurityActions',
-    namespace: 'SIEM/Security',
-    comparisonOperator: ComparisonOperator.GreaterThanThreshold,
-    evaluationPeriods: 1,
-    period: 60,
-    statistic: Statistic.Sum,
-    threshold: 1,
-    alarmDescription: 'Alert on any critical security action failure',
-    alarmActions: []
-  },
-  {
-    alarmName: 'S3BucketCreationAlert',
-    metricName: 'S3BucketCreation',
-    namespace: 'SIEM/S3',
-    comparisonOperator: ComparisonOperator.GreaterThanThreshold,
-    evaluationPeriods: 1,
-    period: 60,
-    statistic: Statistic.Sum,
-    threshold: 0,
-    alarmDescription: 'Alert when an S3 bucket is created',
-    alarmActions: []
-  }
-];
-
-// Default SIEM rules to create
-const DEFAULT_SIEM_RULES = [
-  {
-    name: 'Failed Login Attempts',
-    description: 'Detects multiple failed login attempts',
-    severity: 'Medium',
-    enabled: true,
-    source: 'CloudTrail',
-    pattern: '{ $.eventName = "ConsoleLogin" && $.errorMessage = "Failed authentication" }'
-  },
+// Consultas CloudWatch Logs Insights predefinidas
+const DEFAULT_INSIGHTS_QUERIES: LogsInsightsQuery[] = [
   {
     name: 'Root Account Usage',
-    description: 'Detects when the AWS root account is used',
-    severity: 'High',
-    enabled: true,
-    source: 'CloudTrail',
-    pattern: '{ $.userIdentity.type = "Root" }'
+    description: 'Detecta uso da conta root da AWS nas últimas 24 horas',
+    logGroups: ['/aws/cloudtrail/management-events'],
+    queryString: 'filter userIdentity.type = "Root" | fields eventTime, eventName, awsRegion, sourceIPAddress, userAgent',
+    timeRange: 24 * 60 * 60 * 1000 // 24 horas em milissegundos
   },
   {
-    name: 'IAM Policy Changes',
-    description: 'Detects changes to IAM policies',
-    severity: 'High',
-    enabled: true,
-    source: 'CloudTrail',
-    pattern: '{ $.eventName = "PutUserPolicy" || $.eventName = "PutGroupPolicy" || $.eventName = "PutRolePolicy" || $.eventName = "CreatePolicy" || $.eventName = "DeletePolicy" || $.eventName = "CreatePolicyVersion" || $.eventName = "DeletePolicyVersion" || $.eventName = "AttachRolePolicy" || $.eventName = "DetachRolePolicy" || $.eventName = "AttachUserPolicy" || $.eventName = "DetachUserPolicy" || $.eventName = "AttachGroupPolicy" || $.eventName = "DetachGroupPolicy" }'
+    name: 'Failed Login Attempts',
+    description: 'Detecta tentativas de login malsucedidas nas últimas 24 horas',
+    logGroups: ['/aws/cloudtrail/management-events'],
+    queryString: 'filter eventName = "ConsoleLogin" and errorMessage like "Failed authentication" | fields eventTime, sourceIPAddress, userAgent, errorMessage | sort eventTime desc',
+    timeRange: 24 * 60 * 60 * 1000
   },
   {
     name: 'Security Group Changes',
-    description: 'Detects changes to security groups',
-    severity: 'Medium',
-    enabled: true,
-    source: 'CloudTrail',
-    pattern: '{ $.eventName = "AuthorizeSecurityGroupIngress" || $.eventName = "AuthorizeSecurityGroupEgress" || $.eventName = "RevokeSecurityGroupIngress" || $.eventName = "RevokeSecurityGroupEgress" || $.eventName = "CreateSecurityGroup" || $.eventName = "DeleteSecurityGroup" }'
+    description: 'Mostra alterações em grupos de segurança',
+    logGroups: ['/aws/cloudtrail/management-events'],
+    queryString: 'filter eventName like "AuthorizeSecurityGroup" or eventName like "RevokeSecurityGroup" or eventName = "CreateSecurityGroup" or eventName = "DeleteSecurityGroup" | fields eventTime, eventName, userIdentity.arn, requestParameters.groupId || requestParameters.groupName, sourceIPAddress | sort eventTime desc',
+    timeRange: 7 * 24 * 60 * 60 * 1000 // 7 dias
   },
   {
-    name: 'Administrator Group Membership Changes',
-    description: 'Detecta quando um usuário é adicionado a um grupo de administradores',
-    severity: 'High',
-    enabled: true,
-    source: 'CloudTrail',
-    pattern: '{ $.eventName = "AddUserToGroup" && ($.requestParameters.groupName = "*Admin*" || $.requestParameters.groupName = "*Administrator*") }'
+    name: 'IAM Changes',
+    description: 'Detecta mudanças em políticas e usuários IAM',
+    logGroups: ['/aws/cloudtrail/management-events'],
+    queryString: 'filter eventName like "Create" or eventName like "Delete" or eventName like "Put" or eventName like "Attach" or eventName like "Detach" | filter userIdentity.type != "AssumedRole" | fields eventTime, eventName, userIdentity.arn, requestParameters | sort eventTime desc',
+    timeRange: 7 * 24 * 60 * 60 * 1000
   },
   {
-    name: 'S3 Bucket Creation',
-    description: 'Detecta quando um novo bucket S3 é criado',
-    severity: 'Medium',
-    enabled: true,
-    source: 'CloudTrail',
-    pattern: '{ $.eventName = "CreateBucket" || ($.eventSource = "s3.amazonaws.com" && $.eventName = "CreateBucket") }'
+    name: 'S3 Bucket Policy Changes',
+    description: 'Monitora alterações nas políticas de buckets S3',
+    logGroups: ['/aws/cloudtrail/management-events'],
+    queryString: 'filter eventSource = "s3.amazonaws.com" and (eventName = "PutBucketPolicy" or eventName = "DeleteBucketPolicy" or eventName = "PutBucketAcl") | fields eventTime, eventName, requestParameters.bucketName, userIdentity.arn, sourceIPAddress | sort eventTime desc',
+    timeRange: 7 * 24 * 60 * 60 * 1000
+  },
+  {
+    name: 'Unauthorized API Calls',
+    description: 'Detecta chamadas de API não autorizadas',
+    logGroups: ['/aws/cloudtrail/management-events'],
+    queryString: 'filter errorCode like "AccessDenied" or errorCode like "Unauthorized" | fields eventTime, eventName, userIdentity.arn, errorCode, errorMessage, sourceIPAddress | sort eventTime desc',
+    timeRange: 24 * 60 * 60 * 1000
+  },
+  {
+    name: 'Console Logins Without MFA',
+    description: 'Detecta logins no console sem autenticação MFA',
+    logGroups: ['/aws/cloudtrail/management-events'],
+    queryString: 'filter eventName = "ConsoleLogin" and additionalEventData.MFAUsed = "No" | fields eventTime, userIdentity.arn, sourceIPAddress, userAgent | sort eventTime desc',
+    timeRange: 7 * 24 * 60 * 60 * 1000
+  },
+  {
+    name: 'EC2 Instance Changes',
+    description: 'Monitora alterações nas instâncias EC2',
+    logGroups: ['/aws/cloudtrail/management-events'],
+    queryString: 'filter eventSource = "ec2.amazonaws.com" and (eventName = "StartInstances" or eventName = "StopInstances" or eventName = "RebootInstances" or eventName = "TerminateInstances" or eventName = "RunInstances") | fields eventTime, eventName, userIdentity.arn, responseElements.instancesSet.items.0.instanceId, sourceIPAddress | sort eventTime desc',
+    timeRange: 7 * 24 * 60 * 60 * 1000
   }
 ];
 
@@ -221,13 +150,16 @@ export async function POST(request: NextRequest) {
     message: 'SIEM environment configuration in progress',
     details: {
       logGroups: 0,
-      metricFilters: 0,
-      alarms: 0,
-      rules: 0,
       cloudTrail: 'Not configured',
-      diagnostics: []
+      diagnostics: [],
+      insightsQueries: 0,
+      insightsQueriesData: [],
+      insightsQueriesList: []
     }
   };
+  
+  // Array para rastrear os grupos de log criados durante esta execução
+  const createdLogGroups: string[] = [];
   
   try {
     const body = await request.json();
@@ -264,6 +196,20 @@ export async function POST(request: NextRequest) {
     const cloudTrailClient = new CloudTrailClient(config);
     const iamClient = new IAMClient(config);
     const stsClient = new STSClient(config);
+    
+    // Configurar cliente S3 tradicional
+    const s3Client = new AWS.S3({
+      region: credential.region,
+      accessKeyId: credential.accessKeyId,
+      secretAccessKey: credential.secretKey
+    });
+    
+    // Configurar cliente CloudWatch Logs tradicional para consultas Insights
+    const cwLogsClient = new AWS.CloudWatchLogs({
+      region: credential.region,
+      accessKeyId: credential.accessKeyId,
+      secretAccessKey: credential.secretKey
+    });
     
     // Get AWS account ID using STS
     let accountId = '';
@@ -307,13 +253,31 @@ export async function POST(request: NextRequest) {
       }
       
       try {
+        // Primeiro, tentamos criar o grupo de log
+        configResults.details.diagnostics.push(`Attempting to create log group: ${logGroupName}`);
         await logsClient.send(
           new CreateLogGroupCommand({
             logGroupName
           })
         );
         
+        // Aguardamos um momento para garantir que o grupo foi criado
+        await delay(1000);
+        
+        // Agora verificamos se o grupo realmente foi criado
+        const checkLogGroups = await logsClient.send(new DescribeLogGroupsCommand({
+          logGroupNamePrefix: logGroupName
+        }));
+        
+        const logGroupExists = checkLogGroups.logGroups?.some(lg => lg.logGroupName === logGroupName);
+        
+        if (!logGroupExists) {
+          configResults.details.diagnostics.push(`Warning: Log group ${logGroupName} was not found after creation attempt.`);
+          continue;
+        }
+        
         // Set retention policy to 30 days
+        configResults.details.diagnostics.push(`Setting 30-day retention policy for: ${logGroupName}`);
         await logsClient.send(
           new PutRetentionPolicyCommand({
             logGroupName,
@@ -323,8 +287,13 @@ export async function POST(request: NextRequest) {
         
         configResults.details.logGroups++;
         configResults.details.diagnostics.push(`Created log group ${logGroupName} with 30-day retention`);
+        createdLogGroups.push(logGroupName);
       } catch (error) {
         configResults.details.diagnostics.push(`Error creating log group ${logGroupName}: ${error instanceof Error ? error.message : String(error)}`);
+        // Tentar obter mais detalhes sobre o erro
+        if (error instanceof Error) {
+          configResults.details.diagnostics.push(`Error type: ${error.name}, Stack: ${error.stack?.substring(0, 200)}`);
+        }
       }
     }
     
@@ -396,14 +365,95 @@ export async function POST(request: NextRequest) {
     const cloudTrailLogGroupArn = `arn:aws:logs:${credential.region}:${accountId}:log-group:${cloudTrailLogGroupName}:*`;
     configResults.details.diagnostics.push(`Using CloudWatch Log Group ARN: ${cloudTrailLogGroupArn}`);
     
-    // Construir nome único do bucket para CloudTrail (se necessário)
-    const bucketName = `cloudtrail-logs-${accountId}-${credential.region}-${Date.now().toString().substring(0, 6)}`;
+    // Construir nome único do bucket para CloudTrail
+    // Use um nome de bucket mais simples e previsível
+    const bucketName = `cloudtrail-logs-${accountId.substring(0, 8)}-${credential.region}`;
     
     if (!siemTrail) {
       configResults.details.diagnostics.push('No CloudSIEM trail found, creating new trail');
-      // Create a new CloudTrail trail for SIEM
+      
+      // Step 3.1: Verificar e criar bucket S3 para CloudTrail
       try {
-        // Create CloudTrail trail
+        configResults.details.diagnostics.push(`Checking if S3 bucket ${bucketName} exists...`);
+        
+        // Verificar se o bucket já existe
+        try {
+          await s3Client.headBucket({ Bucket: bucketName }).promise();
+          configResults.details.diagnostics.push(`S3 bucket ${bucketName} already exists`);
+        } catch (bucketError: any) {
+          // Bucket não existe, criar um novo
+          configResults.details.diagnostics.push(`S3 bucket ${bucketName} does not exist, creating it...`);
+          
+          try {
+            const createBucketParams: any = {
+              Bucket: bucketName
+            };
+            
+            // Se a região não for us-east-1, especificamos a LocationConstraint
+            if (credential.region !== 'us-east-1') {
+              createBucketParams.CreateBucketConfiguration = {
+                LocationConstraint: credential.region
+              };
+            }
+            
+            await s3Client.createBucket(createBucketParams).promise();
+            configResults.details.diagnostics.push(`Successfully created S3 bucket: ${bucketName}`);
+            
+            // Adicionar política de bucket
+            const bucketPolicy = {
+              Version: '2012-10-17',
+              Statement: [
+                {
+                  Sid: 'AWSCloudTrailAclCheck',
+                  Effect: 'Allow',
+                  Principal: {
+                    Service: 'cloudtrail.amazonaws.com'
+                  },
+                  Action: 's3:GetBucketAcl',
+                  Resource: `arn:aws:s3:::${bucketName}`
+                },
+                {
+                  Sid: 'AWSCloudTrailWrite',
+                  Effect: 'Allow',
+                  Principal: {
+                    Service: 'cloudtrail.amazonaws.com'
+                  },
+                  Action: 's3:PutObject',
+                  Resource: `arn:aws:s3:::${bucketName}/AWSLogs/${accountId}/*`,
+                  Condition: {
+                    StringEquals: {
+                      's3:x-amz-acl': 'bucket-owner-full-control'
+                    }
+                  }
+                }
+              ]
+            };
+            
+            await s3Client.putBucketPolicy({
+              Bucket: bucketName,
+              Policy: JSON.stringify(bucketPolicy)
+            }).promise();
+            
+            configResults.details.diagnostics.push(`Successfully added policy to S3 bucket: ${bucketName}`);
+            
+            // Aguardar propagação do bucket
+            configResults.details.diagnostics.push('Waiting for S3 bucket to propagate (5 seconds)...');
+            await delay(5000);
+          } catch (createBucketError: any) {
+            configResults.details.diagnostics.push(`Error creating S3 bucket: ${createBucketError.message || String(createBucketError)}`);
+            
+            // Se o erro for BucketAlreadyExists, podemos prosseguir
+            if (createBucketError.code === 'BucketAlreadyExists' || createBucketError.code === 'BucketAlreadyOwnedByYou') {
+              configResults.details.diagnostics.push('Bucket already exists but is owned by you or another account. Will attempt to use it.');
+            } else {
+              throw createBucketError; // Propagar o erro para ser capturado no catch externo
+            }
+          }
+        }
+        
+        // Step 3.2: Criar CloudTrail trail
+        configResults.details.diagnostics.push(`Creating CloudTrail trail ${trailName} using bucket ${bucketName}...`);
+        
         const createTrailResponse = await cloudTrailClient.send(
           new CreateTrailCommand({
             Name: trailName,
@@ -418,14 +468,16 @@ export async function POST(request: NextRequest) {
         
         configResults.details.diagnostics.push(`Trail created successfully: ${JSON.stringify(createTrailResponse)}`);
         
-        // Start logging for the trail
+        // Iniciar o registro de logs
+        configResults.details.diagnostics.push(`Starting logging for trail ${trailName}...`);
         await cloudTrailClient.send(
           new StartLoggingCommand({
             Name: trailName
           })
         );
         
-        // Get trail status
+        // Verificar o status da trilha
+        configResults.details.diagnostics.push(`Checking status of trail ${trailName}...`);
         const trailStatusResponse = await cloudTrailClient.send(
           new GetTrailStatusCommand({
             Name: trailName
@@ -434,26 +486,138 @@ export async function POST(request: NextRequest) {
         
         trailStatus = trailStatusResponse.IsLogging ? 'Logging' : 'Not Logging';
         configResults.details.diagnostics.push(`Created new CloudTrail trail: ${trailName}, Status: ${trailStatus}`);
+        
+        // Verificar se há erros de entrega
+        if (trailStatusResponse.LatestDeliveryError) {
+          configResults.details.diagnostics.push(`Warning: CloudTrail delivery error: ${trailStatusResponse.LatestDeliveryError}`);
+        }
+        if (trailStatusResponse.LatestCloudWatchLogsDeliveryError) {
+          configResults.details.diagnostics.push(`Warning: CloudWatch Logs delivery error: ${trailStatusResponse.LatestCloudWatchLogsDeliveryError}`);
+        }
+        
         configResults.details.cloudTrail = 'Created new trail';
+        
+        // Verificar novamente se a trilha foi realmente criada
+        const verifyTrailsResponse = await cloudTrailClient.send(new DescribeTrailsCommand({}));
+        const verifiedTrail = verifyTrailsResponse.trailList?.find(trail => trail.Name === trailName);
+        
+        if (verifiedTrail) {
+          configResults.details.diagnostics.push(`Verified trail exists: ${trailName}`);
+        } else {
+          configResults.details.diagnostics.push(`Warning: Could not verify trail ${trailName} after creation. Please check the AWS CloudTrail console.`);
+        }
       } catch (trailError) {
-        configResults.details.diagnostics.push(`Error creating CloudTrail trail: ${trailError instanceof Error ? trailError.message : String(trailError)}`);
+        configResults.details.diagnostics.push(`Error setting up CloudTrail: ${trailError instanceof Error ? trailError.message : String(trailError)}`);
+        if (trailError instanceof Error && trailError.stack) {
+          configResults.details.diagnostics.push(`Error stack: ${trailError.stack.substring(0, 200)}`);
+        }
         configResults.details.diagnostics.push('Continuing with configuration despite CloudTrail error');
-        // Continue with the setup even if CloudTrail setup fails
       }
     } else {
       configResults.details.diagnostics.push(`Found existing CloudSIEM trail: ${siemTrail.Name}`);
+      
+      // Verificar se o bucket S3 da trilha existente está acessível
+      const existingBucketName = siemTrail.S3BucketName || '';
+      
+      if (existingBucketName) {
+        configResults.details.diagnostics.push(`Checking access to existing S3 bucket: ${existingBucketName}`);
+        
+        try {
+          await s3Client.headBucket({ Bucket: existingBucketName }).promise();
+          configResults.details.diagnostics.push(`Confirmed access to existing S3 bucket: ${existingBucketName}`);
+        } catch (bucketError: any) {
+          configResults.details.diagnostics.push(`Warning: Cannot access existing S3 bucket ${existingBucketName}: ${bucketError.message || String(bucketError)}`);
+          configResults.details.diagnostics.push(`Will attempt to use the original bucket name in the update anyway.`);
+        }
+      } else {
+        configResults.details.diagnostics.push(`Warning: Existing trail does not have an S3 bucket name. Will use generated bucket name: ${bucketName}`);
+      }
+      
       // Update existing trail to integrate with CloudWatch Logs
       try {
+        configResults.details.diagnostics.push(`Updating existing CloudTrail trail: ${siemTrail.Name}`);
+        
+        const updateParams: any = {
+          Name: siemTrail.Name,
+          IsMultiRegionTrail: true,
+          IncludeGlobalServiceEvents: true,
+          EnableLogFileValidation: true,
+          CloudWatchLogsLogGroupArn: cloudTrailLogGroupArn,
+          CloudWatchLogsRoleArn: roleArn
+        };
+        
+        // Usar o bucket existente se disponível, caso contrário, usar o novo bucket
+        if (existingBucketName) {
+          updateParams.S3BucketName = existingBucketName;
+        } else {
+          // Verificar e criar o bucket se necessário
+          try {
+            await s3Client.headBucket({ Bucket: bucketName }).promise();
+          } catch (bucketError) {
+            configResults.details.diagnostics.push(`Creating new S3 bucket for trail update: ${bucketName}`);
+            
+            try {
+              const createBucketParams: any = {
+                Bucket: bucketName
+              };
+              
+              if (credential.region !== 'us-east-1') {
+                createBucketParams.CreateBucketConfiguration = {
+                  LocationConstraint: credential.region
+                };
+              }
+              
+              await s3Client.createBucket(createBucketParams).promise();
+              
+              // Adicionar política ao bucket
+              const bucketPolicy = {
+                Version: '2012-10-17',
+                Statement: [
+                  {
+                    Sid: 'AWSCloudTrailAclCheck',
+                    Effect: 'Allow',
+                    Principal: {
+                      Service: 'cloudtrail.amazonaws.com'
+                    },
+                    Action: 's3:GetBucketAcl',
+                    Resource: `arn:aws:s3:::${bucketName}`
+                  },
+                  {
+                    Sid: 'AWSCloudTrailWrite',
+                    Effect: 'Allow',
+                    Principal: {
+                      Service: 'cloudtrail.amazonaws.com'
+                    },
+                    Action: 's3:PutObject',
+                    Resource: `arn:aws:s3:::${bucketName}/AWSLogs/${accountId}/*`,
+                    Condition: {
+                      StringEquals: {
+                        's3:x-amz-acl': 'bucket-owner-full-control'
+                      }
+                    }
+                  }
+                ]
+              };
+              
+              await s3Client.putBucketPolicy({
+                Bucket: bucketName,
+                Policy: JSON.stringify(bucketPolicy)
+              }).promise();
+              
+              configResults.details.diagnostics.push(`Created and configured new S3 bucket: ${bucketName}`);
+            } catch (createError: any) {
+              configResults.details.diagnostics.push(`Error creating S3 bucket: ${createError.message}`);
+            }
+          }
+          
+          updateParams.S3BucketName = bucketName;
+        }
+        
         await cloudTrailClient.send(
-          new UpdateTrailCommand({
-            Name: siemTrail.Name,
-            IsMultiRegionTrail: true,
-            IncludeGlobalServiceEvents: true,
-            EnableLogFileValidation: true,
-            CloudWatchLogsLogGroupArn: cloudTrailLogGroupArn,
-            CloudWatchLogsRoleArn: roleArn
-          })
+          new UpdateTrailCommand(updateParams)
         );
+        
+        configResults.details.diagnostics.push(`Successfully updated trail: ${siemTrail.Name}`);
         
         // Check if logging is enabled
         const trailStatusResponse = await cloudTrailClient.send(
@@ -474,10 +638,21 @@ export async function POST(request: NextRequest) {
         
         trailStatus = trailStatusResponse.IsLogging ? 'Logging' : 'Not Logging';
         configResults.details.diagnostics.push(`Updated existing CloudTrail trail: ${siemTrail.Name}, Status: ${trailStatus}`);
+        
+        // Verificar erros de entrega
+        if (trailStatusResponse.LatestDeliveryError) {
+          configResults.details.diagnostics.push(`Warning: CloudTrail delivery error: ${trailStatusResponse.LatestDeliveryError}`);
+        }
+        if (trailStatusResponse.LatestCloudWatchLogsDeliveryError) {
+          configResults.details.diagnostics.push(`Warning: CloudWatch Logs delivery error: ${trailStatusResponse.LatestCloudWatchLogsDeliveryError}`);
+        }
+        
         configResults.details.cloudTrail = 'Updated existing trail';
       } catch (updateError) {
         configResults.details.diagnostics.push(`Error updating CloudTrail trail: ${updateError instanceof Error ? updateError.message : String(updateError)}`);
-        // Continue with the setup even if CloudTrail update fails
+        if (updateError instanceof Error && updateError.stack) {
+          configResults.details.diagnostics.push(`Error stack: ${updateError.stack.substring(0, 200)}`);
+        }
       }
     }
     
@@ -489,115 +664,188 @@ export async function POST(request: NextRequest) {
     configResults.details.diagnostics.push('Setting up log subscription to centralize CloudTrail logs in SIEM group...');
     
     try {
-      // Create a subscription filter to forward CloudTrail logs to the main SIEM group
-      await logsClient.send(
-        new PutSubscriptionFilterCommand({
-          logGroupName: '/aws/cloudtrail/management-events',
-          filterName: 'ForwardToSIEM',
-          filterPattern: '', // Empty pattern to forward all logs
-          destinationArn: `arn:aws:logs:${credential.region}:${accountId}:log-group:/aws/siem/security-events:*`
-        })
-      );
-      configResults.details.diagnostics.push('Successfully set up subscription filter to forward CloudTrail logs to SIEM group');
+      // Verificar se ambos os grupos de log existem antes de configurar o filtro de assinatura
+      configResults.details.diagnostics.push('Checking if required log groups exist for subscription filter...');
+      
+      // Obter uma lista atualizada dos grupos de log
+      const updatedLogGroupsResponse = await logsClient.send(new DescribeLogGroupsCommand({}));
+      const updatedLogGroupNames = updatedLogGroupsResponse.logGroups?.map(lg => lg.logGroupName) || [];
+      configResults.details.diagnostics.push(`Verificados ${updatedLogGroupNames.length} grupos de log para consultas Insights`);
+      
+      const cloudTrailLogExists = updatedLogGroupNames.includes('/aws/cloudtrail/management-events') || 
+                                 createdLogGroups.includes('/aws/cloudtrail/management-events');
+      
+      const siemLogExists = updatedLogGroupNames.includes('/aws/siem/security-events') || 
+                           createdLogGroups.includes('/aws/siem/security-events');
+      
+      if (!cloudTrailLogExists) {
+        configResults.details.diagnostics.push('CloudTrail log group does not exist, cannot set up subscription filter');
+        configResults.details.diagnostics.push('Make sure the CloudTrail log group /aws/cloudtrail/management-events is created successfully');
+      } else if (!siemLogExists) {
+        configResults.details.diagnostics.push('SIEM security events log group does not exist, cannot set up subscription filter');
+        configResults.details.diagnostics.push('Make sure the SIEM log group /aws/siem/security-events is created successfully');
+      } else {
+        configResults.details.diagnostics.push('Both required log groups exist, proceeding with subscription filter setup...');
+        
+        // Verificar se já existe um filtro de assinatura com este nome
+        try {
+          const filters = await logsClient.send(
+            new DescribeMetricFiltersCommand({
+              logGroupName: '/aws/cloudtrail/management-events'
+            })
+          );
+          
+          const existingFilterNames = filters.metricFilters?.map(f => f.filterName) || [];
+          
+          if (existingFilterNames.includes('ForwardToSIEM')) {
+            configResults.details.diagnostics.push('A filter named ForwardToSIEM already exists, will attempt to update it');
+          }
+          
+          // Create a subscription filter to forward CloudTrail logs to the main SIEM group
+          configResults.details.diagnostics.push('Creating/updating subscription filter...');
+          await logsClient.send(
+            new PutSubscriptionFilterCommand({
+              logGroupName: '/aws/cloudtrail/management-events',
+              filterName: 'ForwardToSIEM',
+              filterPattern: '', // Empty pattern to forward all logs
+              destinationArn: `arn:aws:logs:${credential.region}:${accountId}:log-group:/aws/siem/security-events:*`
+            })
+          );
+          configResults.details.diagnostics.push('Successfully set up subscription filter to forward CloudTrail logs to SIEM group');
+        } catch (filterError) {
+          configResults.details.diagnostics.push(`Error checking existing filters: ${filterError instanceof Error ? filterError.message : String(filterError)}`);
+          
+          // Tentar criar o filtro de qualquer forma
+          configResults.details.diagnostics.push('Attempting to create subscription filter directly...');
+          await logsClient.send(
+            new PutSubscriptionFilterCommand({
+              logGroupName: '/aws/cloudtrail/management-events',
+              filterName: 'ForwardToSIEM',
+              filterPattern: '', // Empty pattern to forward all logs
+              destinationArn: `arn:aws:logs:${credential.region}:${accountId}:log-group:/aws/siem/security-events:*`
+            })
+          );
+          configResults.details.diagnostics.push('Successfully set up subscription filter to forward CloudTrail logs to SIEM group');
+        }
+      }
     } catch (subError) {
       configResults.details.diagnostics.push(`Error setting up subscription filter: ${subError instanceof Error ? subError.message : String(subError)}`);
+      if (subError instanceof Error) {
+        configResults.details.diagnostics.push(`Error type: ${subError.name}, Stack: ${subError.stack?.substring(0, 200)}`);
+      }
       configResults.details.diagnostics.push('This may be due to permissions issues or log destination configuration requirements');
       configResults.details.diagnostics.push('Continuing with other configurations...');
     }
     
-    // Step 5: Create metric filters
-    configResults.details.diagnostics.push('Creating metric filters...');
-    for (const filter of DEFAULT_METRIC_FILTERS) {
-      try {
-        // Ensure the log group exists before creating the filter
-        if (!existingLogGroupNames.includes(filter.logGroupName) && 
-            !DEFAULT_LOG_GROUPS.includes(filter.logGroupName)) {
-          configResults.details.diagnostics.push(`Log group ${filter.logGroupName} does not exist, skipping filter ${filter.filterName}`);
-          continue;
-        }
+    // Step 5: Configure CloudWatch Logs Insights queries
+    configResults.details.diagnostics.push('Configurando consultas CloudWatch Logs Insights predefinidas...');
+    configResults.details.diagnostics.push('O CloudWatch Logs Insights é a solução recomendada para análise de logs segurança no AWS');
+    configResults.details.insightsQueries = 0;
+    
+    try {
+      // Obter uma lista atualizada dos grupos de log
+      const updatedLogGroupsResponse = await logsClient.send(new DescribeLogGroupsCommand({}));
+      const updatedLogGroupNames = updatedLogGroupsResponse.logGroups?.map(lg => lg.logGroupName) || [];
+      configResults.details.diagnostics.push(`Verificados ${updatedLogGroupNames.length} grupos de log para consultas Insights`);
+      
+      // Verificar primeiro se o grupo de log do CloudTrail existe
+      const cloudTrailLogExists = updatedLogGroupNames.includes('/aws/cloudtrail/management-events') || 
+                                 createdLogGroups.includes('/aws/cloudtrail/management-events');
+      
+      if (!cloudTrailLogExists) {
+        configResults.details.diagnostics.push('O grupo de log do CloudTrail não existe, não é possível configurar consultas do Logs Insights');
+      } else {
+        configResults.details.diagnostics.push('O grupo de log do CloudTrail existe, configurando consultas do Logs Insights');
         
-        await logsClient.send(
-          new PutMetricFilterCommand({
-            logGroupName: filter.logGroupName,
-            filterName: filter.filterName,
-            filterPattern: filter.filterPattern,
-            metricTransformations: [
-              {
-                metricName: filter.metricName,
-                metricNamespace: filter.metricNamespace,
-                metricValue: filter.metricValue
+        // Armazenar as consultas pré-configuradas em um objeto para referência
+        const insightsQueriesData = [];
+        
+        // Aqui listaremos todas as consultas predefinidas como parte do resultado
+        configResults.details.insightsQueriesList = DEFAULT_INSIGHTS_QUERIES.map(q => ({
+          name: q.name,
+          description: q.description,
+          logGroups: q.logGroups
+        }));
+        
+        for (const query of DEFAULT_INSIGHTS_QUERIES) {
+          try {
+            // Verificar se todos os grupos de log da consulta existem
+            const allLogGroupsExist = query.logGroups.every(logGroup => 
+              updatedLogGroupNames.includes(logGroup) || createdLogGroups.includes(logGroup)
+            );
+            
+            if (!allLogGroupsExist) {
+              configResults.details.diagnostics.push(`Pulando consulta "${query.name}" pois nem todos os grupos de log necessários existem`);
+              continue;
+            }
+            
+            // Calcular o intervalo de tempo
+            const now = new Date();
+            const startTime = new Date(now.getTime() - query.timeRange);
+            
+            configResults.details.diagnostics.push(`Configurando consulta Insights: ${query.name}`);
+            
+            // Iniciar uma consulta para testar e obter o ID da consulta
+            try {
+              const queryResponse = await cwLogsClient.startQuery({
+                logGroupNames: query.logGroups,
+                startTime: Math.floor(startTime.getTime() / 1000),
+                endTime: Math.floor(now.getTime() / 1000),
+                queryString: query.queryString,
+                limit: 10 // Limite para consulta de teste
+              }).promise();
+              
+              if (queryResponse.queryId) {
+                // Salvar os detalhes da consulta para referência futura
+                insightsQueriesData.push({
+                  id: queryResponse.queryId,
+                  name: query.name,
+                  description: query.description,
+                  logGroups: query.logGroups,
+                  queryString: query.queryString,
+                  timeRange: query.timeRange
+                });
+                
+                configResults.details.insightsQueries++;
+                configResults.details.diagnostics.push(`Consulta CloudWatch Logs Insights configurada: ${query.name}`);
+                
+                // Verificar o status da consulta
+                await delay(2000); // Aguardar um pouco para que a consulta inicie
+                
+                try {
+                  const queryResult = await cwLogsClient.getQueryResults({
+                    queryId: queryResponse.queryId
+                  }).promise();
+                  
+                  configResults.details.diagnostics.push(`Status da consulta ${query.name}: ${queryResult.status}`);
+                  
+                  // Se a consulta estiver em andamento ou terminada, podemos parar
+                  if (queryResult.status === 'Running' || queryResult.status === 'Complete') {
+                    configResults.details.diagnostics.push(`Consulta ${query.name} está funcionando corretamente`);
+                  }
+                } catch (resultError: any) {
+                  configResults.details.diagnostics.push(`Não foi possível verificar o status da consulta ${query.name}: ${resultError.message}`);
+                }
               }
-            ]
-          })
-        );
-        
-        configResults.details.metricFilters++;
-        configResults.details.diagnostics.push(`Created metric filter: ${filter.filterName} on log group ${filter.logGroupName}`);
-      } catch (filterError) {
-        configResults.details.diagnostics.push(`Error creating metric filter ${filter.filterName}: ${filterError instanceof Error ? filterError.message : String(filterError)}`);
-      }
-    }
-    
-    // Step 6: Create CloudWatch alarms
-    configResults.details.diagnostics.push('Creating CloudWatch alarms...');
-    for (const alarm of DEFAULT_ALARMS) {
-      try {
-        await cloudWatchClient.send(
-          new PutMetricAlarmCommand({
-            AlarmName: alarm.alarmName,
-            MetricName: alarm.metricName,
-            Namespace: alarm.namespace,
-            ComparisonOperator: alarm.comparisonOperator,
-            EvaluationPeriods: alarm.evaluationPeriods,
-            Period: alarm.period,
-            Statistic: alarm.statistic,
-            Threshold: alarm.threshold,
-            AlarmDescription: alarm.alarmDescription,
-            AlarmActions: alarm.alarmActions
-          })
-        );
-        
-        configResults.details.alarms++;
-        configResults.details.diagnostics.push(`Created alarm: ${alarm.alarmName}`);
-      } catch (alarmError) {
-        configResults.details.diagnostics.push(`Error creating alarm ${alarm.alarmName}: ${alarmError instanceof Error ? alarmError.message : String(alarmError)}`);
-      }
-    }
-    
-    // Step 7: Create SIEM rules
-    configResults.details.diagnostics.push('Creating SIEM rules...');
-    // For this step, we'll use the existing API endpoint
-    for (const rule of DEFAULT_SIEM_RULES) {
-      try {
-        const response = await fetch(`${request.nextUrl.origin}/api/aws/siem/rules`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            rule: {
-              name: rule.name,
-              description: rule.description,
-              severity: rule.severity,
-              status: rule.enabled ? 'active' : 'inactive',
-              type: 'log-pattern',
-              query: rule.pattern,
-              credentialId: credentialId
-            },
-            credentialId
-          }),
-        });
-        
-        if (response.ok) {
-          configResults.details.rules++;
-          configResults.details.diagnostics.push(`Created rule: ${rule.name}`);
-        } else {
-          const errorData = await response.json();
-          configResults.details.diagnostics.push(`Error creating rule ${rule.name}: ${errorData.error || response.statusText}`);
+              
+              // Aguardar um momento para não atingir limites de taxa da API
+              await delay(500);
+            } catch (startError: any) {
+              configResults.details.diagnostics.push(`Erro ao iniciar consulta "${query.name}": ${startError.message}`);
+            }
+          } catch (queryError) {
+            configResults.details.diagnostics.push(`Erro ao configurar consulta "${query.name}": ${queryError instanceof Error ? queryError.message : String(queryError)}`);
+          }
         }
-      } catch (ruleError) {
-        configResults.details.diagnostics.push(`Error creating rule ${rule.name}: ${ruleError instanceof Error ? ruleError.message : String(ruleError)}`);
+        
+        // Salvar as consultas configuradas
+        configResults.details.insightsQueriesData = insightsQueriesData;
+        configResults.details.diagnostics.push(`Total de consultas CloudWatch Logs Insights configuradas: ${configResults.details.insightsQueries}`);
+        configResults.details.diagnostics.push(`As consultas podem ser acessadas através da API /api/aws/cloudwatch/insights?credentialId=${credentialId}`);
+        configResults.details.diagnostics.push(`Para executar uma consulta, use o método POST em /api/aws/cloudwatch/insights com o corpo contendo a consulta e o credentialId`);
       }
+    } catch (insightsError) {
+      configResults.details.diagnostics.push(`Erro ao configurar consultas CloudWatch Logs Insights: ${insightsError instanceof Error ? insightsError.message : String(insightsError)}`);
     }
     
     // Final verification step - attempt to get trail status to confirm everything is working
@@ -620,8 +868,13 @@ export async function POST(request: NextRequest) {
       configResults.details.diagnostics.push(`Error in final CloudTrail verification: ${finalCheckError instanceof Error ? finalCheckError.message : String(finalCheckError)}`);
     }
     
+    // Atualizar a mensagem final para incluir informações sobre as consultas Logs Insights
     configResults.message = 'SIEM environment successfully configured';
+    if (configResults.details.insightsQueries > 0) {
+      configResults.message += ` with ${configResults.details.insightsQueries} CloudWatch Logs Insights queries`;
+    }
     configResults.details.diagnostics.push('Configuration complete!');
+    configResults.details.diagnostics.push('Agora você pode usar o CloudWatch Logs Insights para analisar os logs de segurança');
     
     return NextResponse.json(configResults);
     

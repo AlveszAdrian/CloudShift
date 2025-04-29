@@ -29,15 +29,15 @@ export type AwsCredential = $Result.DefaultSelection<Prisma.$AwsCredentialPayloa
  */
 export type Alert = $Result.DefaultSelection<Prisma.$AlertPayload>
 /**
- * Model SiemRule
+ * Model InsightsRule
  * 
  */
-export type SiemRule = $Result.DefaultSelection<Prisma.$SiemRulePayload>
+export type InsightsRule = $Result.DefaultSelection<Prisma.$InsightsRulePayload>
 /**
- * Model SiemEvent
+ * Model Detection
  * 
  */
-export type SiemEvent = $Result.DefaultSelection<Prisma.$SiemEventPayload>
+export type Detection = $Result.DefaultSelection<Prisma.$DetectionPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -195,24 +195,24 @@ export class PrismaClient<
   get alert(): Prisma.AlertDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.siemRule`: Exposes CRUD operations for the **SiemRule** model.
+   * `prisma.insightsRule`: Exposes CRUD operations for the **InsightsRule** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more SiemRules
-    * const siemRules = await prisma.siemRule.findMany()
+    * // Fetch zero or more InsightsRules
+    * const insightsRules = await prisma.insightsRule.findMany()
     * ```
     */
-  get siemRule(): Prisma.SiemRuleDelegate<ExtArgs, ClientOptions>;
+  get insightsRule(): Prisma.InsightsRuleDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.siemEvent`: Exposes CRUD operations for the **SiemEvent** model.
+   * `prisma.detection`: Exposes CRUD operations for the **Detection** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more SiemEvents
-    * const siemEvents = await prisma.siemEvent.findMany()
+    * // Fetch zero or more Detections
+    * const detections = await prisma.detection.findMany()
     * ```
     */
-  get siemEvent(): Prisma.SiemEventDelegate<ExtArgs, ClientOptions>;
+  get detection(): Prisma.DetectionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -656,8 +656,8 @@ export namespace Prisma {
     User: 'User',
     AwsCredential: 'AwsCredential',
     Alert: 'Alert',
-    SiemRule: 'SiemRule',
-    SiemEvent: 'SiemEvent'
+    InsightsRule: 'InsightsRule',
+    Detection: 'Detection'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -676,7 +676,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "awsCredential" | "alert" | "siemRule" | "siemEvent"
+      modelProps: "user" | "awsCredential" | "alert" | "insightsRule" | "detection"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -902,151 +902,151 @@ export namespace Prisma {
           }
         }
       }
-      SiemRule: {
-        payload: Prisma.$SiemRulePayload<ExtArgs>
-        fields: Prisma.SiemRuleFieldRefs
+      InsightsRule: {
+        payload: Prisma.$InsightsRulePayload<ExtArgs>
+        fields: Prisma.InsightsRuleFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.SiemRuleFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemRulePayload> | null
+            args: Prisma.InsightsRuleFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InsightsRulePayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.SiemRuleFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemRulePayload>
+            args: Prisma.InsightsRuleFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InsightsRulePayload>
           }
           findFirst: {
-            args: Prisma.SiemRuleFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemRulePayload> | null
+            args: Prisma.InsightsRuleFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InsightsRulePayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.SiemRuleFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemRulePayload>
+            args: Prisma.InsightsRuleFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InsightsRulePayload>
           }
           findMany: {
-            args: Prisma.SiemRuleFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemRulePayload>[]
+            args: Prisma.InsightsRuleFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InsightsRulePayload>[]
           }
           create: {
-            args: Prisma.SiemRuleCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemRulePayload>
+            args: Prisma.InsightsRuleCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InsightsRulePayload>
           }
           createMany: {
-            args: Prisma.SiemRuleCreateManyArgs<ExtArgs>
+            args: Prisma.InsightsRuleCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.SiemRuleCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemRulePayload>[]
+            args: Prisma.InsightsRuleCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InsightsRulePayload>[]
           }
           delete: {
-            args: Prisma.SiemRuleDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemRulePayload>
+            args: Prisma.InsightsRuleDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InsightsRulePayload>
           }
           update: {
-            args: Prisma.SiemRuleUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemRulePayload>
+            args: Prisma.InsightsRuleUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InsightsRulePayload>
           }
           deleteMany: {
-            args: Prisma.SiemRuleDeleteManyArgs<ExtArgs>
+            args: Prisma.InsightsRuleDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.SiemRuleUpdateManyArgs<ExtArgs>
+            args: Prisma.InsightsRuleUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.SiemRuleUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemRulePayload>[]
+            args: Prisma.InsightsRuleUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InsightsRulePayload>[]
           }
           upsert: {
-            args: Prisma.SiemRuleUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemRulePayload>
+            args: Prisma.InsightsRuleUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InsightsRulePayload>
           }
           aggregate: {
-            args: Prisma.SiemRuleAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateSiemRule>
+            args: Prisma.InsightsRuleAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInsightsRule>
           }
           groupBy: {
-            args: Prisma.SiemRuleGroupByArgs<ExtArgs>
-            result: $Utils.Optional<SiemRuleGroupByOutputType>[]
+            args: Prisma.InsightsRuleGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InsightsRuleGroupByOutputType>[]
           }
           count: {
-            args: Prisma.SiemRuleCountArgs<ExtArgs>
-            result: $Utils.Optional<SiemRuleCountAggregateOutputType> | number
+            args: Prisma.InsightsRuleCountArgs<ExtArgs>
+            result: $Utils.Optional<InsightsRuleCountAggregateOutputType> | number
           }
         }
       }
-      SiemEvent: {
-        payload: Prisma.$SiemEventPayload<ExtArgs>
-        fields: Prisma.SiemEventFieldRefs
+      Detection: {
+        payload: Prisma.$DetectionPayload<ExtArgs>
+        fields: Prisma.DetectionFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.SiemEventFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemEventPayload> | null
+            args: Prisma.DetectionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DetectionPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.SiemEventFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemEventPayload>
+            args: Prisma.DetectionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DetectionPayload>
           }
           findFirst: {
-            args: Prisma.SiemEventFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemEventPayload> | null
+            args: Prisma.DetectionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DetectionPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.SiemEventFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemEventPayload>
+            args: Prisma.DetectionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DetectionPayload>
           }
           findMany: {
-            args: Prisma.SiemEventFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemEventPayload>[]
+            args: Prisma.DetectionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DetectionPayload>[]
           }
           create: {
-            args: Prisma.SiemEventCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemEventPayload>
+            args: Prisma.DetectionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DetectionPayload>
           }
           createMany: {
-            args: Prisma.SiemEventCreateManyArgs<ExtArgs>
+            args: Prisma.DetectionCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.SiemEventCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemEventPayload>[]
+            args: Prisma.DetectionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DetectionPayload>[]
           }
           delete: {
-            args: Prisma.SiemEventDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemEventPayload>
+            args: Prisma.DetectionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DetectionPayload>
           }
           update: {
-            args: Prisma.SiemEventUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemEventPayload>
+            args: Prisma.DetectionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DetectionPayload>
           }
           deleteMany: {
-            args: Prisma.SiemEventDeleteManyArgs<ExtArgs>
+            args: Prisma.DetectionDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.SiemEventUpdateManyArgs<ExtArgs>
+            args: Prisma.DetectionUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.SiemEventUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemEventPayload>[]
+            args: Prisma.DetectionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DetectionPayload>[]
           }
           upsert: {
-            args: Prisma.SiemEventUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SiemEventPayload>
+            args: Prisma.DetectionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DetectionPayload>
           }
           aggregate: {
-            args: Prisma.SiemEventAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateSiemEvent>
+            args: Prisma.DetectionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDetection>
           }
           groupBy: {
-            args: Prisma.SiemEventGroupByArgs<ExtArgs>
-            result: $Utils.Optional<SiemEventGroupByOutputType>[]
+            args: Prisma.DetectionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DetectionGroupByOutputType>[]
           }
           count: {
-            args: Prisma.SiemEventCountArgs<ExtArgs>
-            result: $Utils.Optional<SiemEventCountAggregateOutputType> | number
+            args: Prisma.DetectionCountArgs<ExtArgs>
+            result: $Utils.Optional<DetectionCountAggregateOutputType> | number
           }
         }
       }
@@ -1137,8 +1137,8 @@ export namespace Prisma {
     user?: UserOmit
     awsCredential?: AwsCredentialOmit
     alert?: AlertOmit
-    siemRule?: SiemRuleOmit
-    siemEvent?: SiemEventOmit
+    insightsRule?: InsightsRuleOmit
+    detection?: DetectionOmit
   }
 
   /* Types for Logging */
@@ -1265,14 +1265,12 @@ export namespace Prisma {
 
   export type AwsCredentialCountOutputType = {
     alerts: number
-    siemRules: number
-    siemEvents: number
+    insightsRules: number
   }
 
   export type AwsCredentialCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     alerts?: boolean | AwsCredentialCountOutputTypeCountAlertsArgs
-    siemRules?: boolean | AwsCredentialCountOutputTypeCountSiemRulesArgs
-    siemEvents?: boolean | AwsCredentialCountOutputTypeCountSiemEventsArgs
+    insightsRules?: boolean | AwsCredentialCountOutputTypeCountInsightsRulesArgs
   }
 
   // Custom InputTypes
@@ -1296,46 +1294,39 @@ export namespace Prisma {
   /**
    * AwsCredentialCountOutputType without action
    */
-  export type AwsCredentialCountOutputTypeCountSiemRulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SiemRuleWhereInput
-  }
-
-  /**
-   * AwsCredentialCountOutputType without action
-   */
-  export type AwsCredentialCountOutputTypeCountSiemEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SiemEventWhereInput
+  export type AwsCredentialCountOutputTypeCountInsightsRulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InsightsRuleWhereInput
   }
 
 
   /**
-   * Count Type SiemRuleCountOutputType
+   * Count Type InsightsRuleCountOutputType
    */
 
-  export type SiemRuleCountOutputType = {
-    events: number
+  export type InsightsRuleCountOutputType = {
+    detections: number
   }
 
-  export type SiemRuleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    events?: boolean | SiemRuleCountOutputTypeCountEventsArgs
+  export type InsightsRuleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    detections?: boolean | InsightsRuleCountOutputTypeCountDetectionsArgs
   }
 
   // Custom InputTypes
   /**
-   * SiemRuleCountOutputType without action
+   * InsightsRuleCountOutputType without action
    */
-  export type SiemRuleCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemRuleCountOutputType
+     * Select specific fields to fetch from the InsightsRuleCountOutputType
      */
-    select?: SiemRuleCountOutputTypeSelect<ExtArgs> | null
+    select?: InsightsRuleCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * SiemRuleCountOutputType without action
+   * InsightsRuleCountOutputType without action
    */
-  export type SiemRuleCountOutputTypeCountEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SiemEventWhereInput
+  export type InsightsRuleCountOutputTypeCountDetectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DetectionWhereInput
   }
 
 
@@ -2614,8 +2605,7 @@ export namespace Prisma {
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     alerts?: boolean | AwsCredential$alertsArgs<ExtArgs>
-    siemRules?: boolean | AwsCredential$siemRulesArgs<ExtArgs>
-    siemEvents?: boolean | AwsCredential$siemEventsArgs<ExtArgs>
+    insightsRules?: boolean | AwsCredential$insightsRulesArgs<ExtArgs>
     _count?: boolean | AwsCredentialCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["awsCredential"]>
 
@@ -2658,8 +2648,7 @@ export namespace Prisma {
   export type AwsCredentialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     alerts?: boolean | AwsCredential$alertsArgs<ExtArgs>
-    siemRules?: boolean | AwsCredential$siemRulesArgs<ExtArgs>
-    siemEvents?: boolean | AwsCredential$siemEventsArgs<ExtArgs>
+    insightsRules?: boolean | AwsCredential$insightsRulesArgs<ExtArgs>
     _count?: boolean | AwsCredentialCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AwsCredentialIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2674,8 +2663,7 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       alerts: Prisma.$AlertPayload<ExtArgs>[]
-      siemRules: Prisma.$SiemRulePayload<ExtArgs>[]
-      siemEvents: Prisma.$SiemEventPayload<ExtArgs>[]
+      insightsRules: Prisma.$InsightsRulePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3082,8 +3070,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     alerts<T extends AwsCredential$alertsArgs<ExtArgs> = {}>(args?: Subset<T, AwsCredential$alertsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AlertPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    siemRules<T extends AwsCredential$siemRulesArgs<ExtArgs> = {}>(args?: Subset<T, AwsCredential$siemRulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SiemRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    siemEvents<T extends AwsCredential$siemEventsArgs<ExtArgs> = {}>(args?: Subset<T, AwsCredential$siemEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SiemEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    insightsRules<T extends AwsCredential$insightsRulesArgs<ExtArgs> = {}>(args?: Subset<T, AwsCredential$insightsRulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InsightsRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3539,51 +3526,27 @@ export namespace Prisma {
   }
 
   /**
-   * AwsCredential.siemRules
+   * AwsCredential.insightsRules
    */
-  export type AwsCredential$siemRulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type AwsCredential$insightsRulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemRule
+     * Select specific fields to fetch from the InsightsRule
      */
-    select?: SiemRuleSelect<ExtArgs> | null
+    select?: InsightsRuleSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemRule
+     * Omit specific fields from the InsightsRule
      */
-    omit?: SiemRuleOmit<ExtArgs> | null
+    omit?: InsightsRuleOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemRuleInclude<ExtArgs> | null
-    where?: SiemRuleWhereInput
-    orderBy?: SiemRuleOrderByWithRelationInput | SiemRuleOrderByWithRelationInput[]
-    cursor?: SiemRuleWhereUniqueInput
+    include?: InsightsRuleInclude<ExtArgs> | null
+    where?: InsightsRuleWhereInput
+    orderBy?: InsightsRuleOrderByWithRelationInput | InsightsRuleOrderByWithRelationInput[]
+    cursor?: InsightsRuleWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: SiemRuleScalarFieldEnum | SiemRuleScalarFieldEnum[]
-  }
-
-  /**
-   * AwsCredential.siemEvents
-   */
-  export type AwsCredential$siemEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SiemEvent
-     */
-    select?: SiemEventSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the SiemEvent
-     */
-    omit?: SiemEventOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SiemEventInclude<ExtArgs> | null
-    where?: SiemEventWhereInput
-    orderBy?: SiemEventOrderByWithRelationInput | SiemEventOrderByWithRelationInput[]
-    cursor?: SiemEventWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: SiemEventScalarFieldEnum | SiemEventScalarFieldEnum[]
+    distinct?: InsightsRuleScalarFieldEnum | InsightsRuleScalarFieldEnum[]
   }
 
   /**
@@ -4746,473 +4709,497 @@ export namespace Prisma {
 
 
   /**
-   * Model SiemRule
+   * Model InsightsRule
    */
 
-  export type AggregateSiemRule = {
-    _count: SiemRuleCountAggregateOutputType | null
-    _avg: SiemRuleAvgAggregateOutputType | null
-    _sum: SiemRuleSumAggregateOutputType | null
-    _min: SiemRuleMinAggregateOutputType | null
-    _max: SiemRuleMaxAggregateOutputType | null
+  export type AggregateInsightsRule = {
+    _count: InsightsRuleCountAggregateOutputType | null
+    _avg: InsightsRuleAvgAggregateOutputType | null
+    _sum: InsightsRuleSumAggregateOutputType | null
+    _min: InsightsRuleMinAggregateOutputType | null
+    _max: InsightsRuleMaxAggregateOutputType | null
   }
 
-  export type SiemRuleAvgAggregateOutputType = {
+  export type InsightsRuleAvgAggregateOutputType = {
     triggers: number | null
   }
 
-  export type SiemRuleSumAggregateOutputType = {
+  export type InsightsRuleSumAggregateOutputType = {
     triggers: number | null
   }
 
-  export type SiemRuleMinAggregateOutputType = {
+  export type InsightsRuleMinAggregateOutputType = {
     id: string | null
     name: string | null
     description: string | null
-    type: string | null
     query: string | null
+    logGroup: string | null
     severity: string | null
-    status: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    isActive: boolean | null
     triggers: number | null
     lastTriggered: Date | null
+    lastExecuted: Date | null
+    region: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     credentialId: string | null
   }
 
-  export type SiemRuleMaxAggregateOutputType = {
+  export type InsightsRuleMaxAggregateOutputType = {
     id: string | null
     name: string | null
     description: string | null
-    type: string | null
     query: string | null
+    logGroup: string | null
     severity: string | null
-    status: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    isActive: boolean | null
     triggers: number | null
     lastTriggered: Date | null
+    lastExecuted: Date | null
+    region: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     credentialId: string | null
   }
 
-  export type SiemRuleCountAggregateOutputType = {
+  export type InsightsRuleCountAggregateOutputType = {
     id: number
     name: number
     description: number
-    type: number
     query: number
+    logGroup: number
     severity: number
-    status: number
-    createdAt: number
-    updatedAt: number
+    isActive: number
     triggers: number
     lastTriggered: number
+    lastExecuted: number
+    region: number
+    createdAt: number
+    updatedAt: number
     credentialId: number
     _all: number
   }
 
 
-  export type SiemRuleAvgAggregateInputType = {
+  export type InsightsRuleAvgAggregateInputType = {
     triggers?: true
   }
 
-  export type SiemRuleSumAggregateInputType = {
+  export type InsightsRuleSumAggregateInputType = {
     triggers?: true
   }
 
-  export type SiemRuleMinAggregateInputType = {
+  export type InsightsRuleMinAggregateInputType = {
     id?: true
     name?: true
     description?: true
-    type?: true
     query?: true
+    logGroup?: true
     severity?: true
-    status?: true
-    createdAt?: true
-    updatedAt?: true
+    isActive?: true
     triggers?: true
     lastTriggered?: true
+    lastExecuted?: true
+    region?: true
+    createdAt?: true
+    updatedAt?: true
     credentialId?: true
   }
 
-  export type SiemRuleMaxAggregateInputType = {
+  export type InsightsRuleMaxAggregateInputType = {
     id?: true
     name?: true
     description?: true
-    type?: true
     query?: true
+    logGroup?: true
     severity?: true
-    status?: true
-    createdAt?: true
-    updatedAt?: true
+    isActive?: true
     triggers?: true
     lastTriggered?: true
+    lastExecuted?: true
+    region?: true
+    createdAt?: true
+    updatedAt?: true
     credentialId?: true
   }
 
-  export type SiemRuleCountAggregateInputType = {
+  export type InsightsRuleCountAggregateInputType = {
     id?: true
     name?: true
     description?: true
-    type?: true
     query?: true
+    logGroup?: true
     severity?: true
-    status?: true
-    createdAt?: true
-    updatedAt?: true
+    isActive?: true
     triggers?: true
     lastTriggered?: true
+    lastExecuted?: true
+    region?: true
+    createdAt?: true
+    updatedAt?: true
     credentialId?: true
     _all?: true
   }
 
-  export type SiemRuleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which SiemRule to aggregate.
+     * Filter which InsightsRule to aggregate.
      */
-    where?: SiemRuleWhereInput
+    where?: InsightsRuleWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of SiemRules to fetch.
+     * Determine the order of InsightsRules to fetch.
      */
-    orderBy?: SiemRuleOrderByWithRelationInput | SiemRuleOrderByWithRelationInput[]
+    orderBy?: InsightsRuleOrderByWithRelationInput | InsightsRuleOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: SiemRuleWhereUniqueInput
+    cursor?: InsightsRuleWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` SiemRules from the position of the cursor.
+     * Take `±n` InsightsRules from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` SiemRules.
+     * Skip the first `n` InsightsRules.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned SiemRules
+     * Count returned InsightsRules
     **/
-    _count?: true | SiemRuleCountAggregateInputType
+    _count?: true | InsightsRuleCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: SiemRuleAvgAggregateInputType
+    _avg?: InsightsRuleAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: SiemRuleSumAggregateInputType
+    _sum?: InsightsRuleSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: SiemRuleMinAggregateInputType
+    _min?: InsightsRuleMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: SiemRuleMaxAggregateInputType
+    _max?: InsightsRuleMaxAggregateInputType
   }
 
-  export type GetSiemRuleAggregateType<T extends SiemRuleAggregateArgs> = {
-        [P in keyof T & keyof AggregateSiemRule]: P extends '_count' | 'count'
+  export type GetInsightsRuleAggregateType<T extends InsightsRuleAggregateArgs> = {
+        [P in keyof T & keyof AggregateInsightsRule]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateSiemRule[P]>
-      : GetScalarType<T[P], AggregateSiemRule[P]>
+        : GetScalarType<T[P], AggregateInsightsRule[P]>
+      : GetScalarType<T[P], AggregateInsightsRule[P]>
   }
 
 
 
 
-  export type SiemRuleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SiemRuleWhereInput
-    orderBy?: SiemRuleOrderByWithAggregationInput | SiemRuleOrderByWithAggregationInput[]
-    by: SiemRuleScalarFieldEnum[] | SiemRuleScalarFieldEnum
-    having?: SiemRuleScalarWhereWithAggregatesInput
+  export type InsightsRuleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InsightsRuleWhereInput
+    orderBy?: InsightsRuleOrderByWithAggregationInput | InsightsRuleOrderByWithAggregationInput[]
+    by: InsightsRuleScalarFieldEnum[] | InsightsRuleScalarFieldEnum
+    having?: InsightsRuleScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: SiemRuleCountAggregateInputType | true
-    _avg?: SiemRuleAvgAggregateInputType
-    _sum?: SiemRuleSumAggregateInputType
-    _min?: SiemRuleMinAggregateInputType
-    _max?: SiemRuleMaxAggregateInputType
+    _count?: InsightsRuleCountAggregateInputType | true
+    _avg?: InsightsRuleAvgAggregateInputType
+    _sum?: InsightsRuleSumAggregateInputType
+    _min?: InsightsRuleMinAggregateInputType
+    _max?: InsightsRuleMaxAggregateInputType
   }
 
-  export type SiemRuleGroupByOutputType = {
+  export type InsightsRuleGroupByOutputType = {
     id: string
     name: string
-    description: string
-    type: string
+    description: string | null
     query: string
+    logGroup: string
     severity: string
-    status: string
-    createdAt: Date
-    updatedAt: Date
+    isActive: boolean
     triggers: number
     lastTriggered: Date | null
+    lastExecuted: Date | null
+    region: string | null
+    createdAt: Date
+    updatedAt: Date
     credentialId: string
-    _count: SiemRuleCountAggregateOutputType | null
-    _avg: SiemRuleAvgAggregateOutputType | null
-    _sum: SiemRuleSumAggregateOutputType | null
-    _min: SiemRuleMinAggregateOutputType | null
-    _max: SiemRuleMaxAggregateOutputType | null
+    _count: InsightsRuleCountAggregateOutputType | null
+    _avg: InsightsRuleAvgAggregateOutputType | null
+    _sum: InsightsRuleSumAggregateOutputType | null
+    _min: InsightsRuleMinAggregateOutputType | null
+    _max: InsightsRuleMaxAggregateOutputType | null
   }
 
-  type GetSiemRuleGroupByPayload<T extends SiemRuleGroupByArgs> = Prisma.PrismaPromise<
+  type GetInsightsRuleGroupByPayload<T extends InsightsRuleGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<SiemRuleGroupByOutputType, T['by']> &
+      PickEnumerable<InsightsRuleGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof SiemRuleGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof InsightsRuleGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], SiemRuleGroupByOutputType[P]>
-            : GetScalarType<T[P], SiemRuleGroupByOutputType[P]>
+              : GetScalarType<T[P], InsightsRuleGroupByOutputType[P]>
+            : GetScalarType<T[P], InsightsRuleGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type SiemRuleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type InsightsRuleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     description?: boolean
-    type?: boolean
     query?: boolean
+    logGroup?: boolean
     severity?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    isActive?: boolean
     triggers?: boolean
     lastTriggered?: boolean
+    lastExecuted?: boolean
+    region?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     credentialId?: boolean
     credential?: boolean | AwsCredentialDefaultArgs<ExtArgs>
-    events?: boolean | SiemRule$eventsArgs<ExtArgs>
-    _count?: boolean | SiemRuleCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["siemRule"]>
+    detections?: boolean | InsightsRule$detectionsArgs<ExtArgs>
+    _count?: boolean | InsightsRuleCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["insightsRule"]>
 
-  export type SiemRuleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type InsightsRuleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     description?: boolean
-    type?: boolean
     query?: boolean
+    logGroup?: boolean
     severity?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    isActive?: boolean
     triggers?: boolean
     lastTriggered?: boolean
+    lastExecuted?: boolean
+    region?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     credentialId?: boolean
     credential?: boolean | AwsCredentialDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["siemRule"]>
+  }, ExtArgs["result"]["insightsRule"]>
 
-  export type SiemRuleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type InsightsRuleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     description?: boolean
-    type?: boolean
     query?: boolean
+    logGroup?: boolean
     severity?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    isActive?: boolean
     triggers?: boolean
     lastTriggered?: boolean
+    lastExecuted?: boolean
+    region?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     credentialId?: boolean
     credential?: boolean | AwsCredentialDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["siemRule"]>
+  }, ExtArgs["result"]["insightsRule"]>
 
-  export type SiemRuleSelectScalar = {
+  export type InsightsRuleSelectScalar = {
     id?: boolean
     name?: boolean
     description?: boolean
-    type?: boolean
     query?: boolean
+    logGroup?: boolean
     severity?: boolean
-    status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    isActive?: boolean
     triggers?: boolean
     lastTriggered?: boolean
+    lastExecuted?: boolean
+    region?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     credentialId?: boolean
   }
 
-  export type SiemRuleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "type" | "query" | "severity" | "status" | "createdAt" | "updatedAt" | "triggers" | "lastTriggered" | "credentialId", ExtArgs["result"]["siemRule"]>
-  export type SiemRuleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "query" | "logGroup" | "severity" | "isActive" | "triggers" | "lastTriggered" | "lastExecuted" | "region" | "createdAt" | "updatedAt" | "credentialId", ExtArgs["result"]["insightsRule"]>
+  export type InsightsRuleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     credential?: boolean | AwsCredentialDefaultArgs<ExtArgs>
-    events?: boolean | SiemRule$eventsArgs<ExtArgs>
-    _count?: boolean | SiemRuleCountOutputTypeDefaultArgs<ExtArgs>
+    detections?: boolean | InsightsRule$detectionsArgs<ExtArgs>
+    _count?: boolean | InsightsRuleCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type SiemRuleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     credential?: boolean | AwsCredentialDefaultArgs<ExtArgs>
   }
-  export type SiemRuleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     credential?: boolean | AwsCredentialDefaultArgs<ExtArgs>
   }
 
-  export type $SiemRulePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "SiemRule"
+  export type $InsightsRulePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InsightsRule"
     objects: {
       credential: Prisma.$AwsCredentialPayload<ExtArgs>
-      events: Prisma.$SiemEventPayload<ExtArgs>[]
+      detections: Prisma.$DetectionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
-      description: string
-      type: string
+      description: string | null
       query: string
+      logGroup: string
       severity: string
-      status: string
-      createdAt: Date
-      updatedAt: Date
+      isActive: boolean
       triggers: number
       lastTriggered: Date | null
+      lastExecuted: Date | null
+      region: string | null
+      createdAt: Date
+      updatedAt: Date
       credentialId: string
-    }, ExtArgs["result"]["siemRule"]>
+    }, ExtArgs["result"]["insightsRule"]>
     composites: {}
   }
 
-  type SiemRuleGetPayload<S extends boolean | null | undefined | SiemRuleDefaultArgs> = $Result.GetResult<Prisma.$SiemRulePayload, S>
+  type InsightsRuleGetPayload<S extends boolean | null | undefined | InsightsRuleDefaultArgs> = $Result.GetResult<Prisma.$InsightsRulePayload, S>
 
-  type SiemRuleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<SiemRuleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: SiemRuleCountAggregateInputType | true
+  type InsightsRuleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InsightsRuleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InsightsRuleCountAggregateInputType | true
     }
 
-  export interface SiemRuleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SiemRule'], meta: { name: 'SiemRule' } }
+  export interface InsightsRuleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InsightsRule'], meta: { name: 'InsightsRule' } }
     /**
-     * Find zero or one SiemRule that matches the filter.
-     * @param {SiemRuleFindUniqueArgs} args - Arguments to find a SiemRule
+     * Find zero or one InsightsRule that matches the filter.
+     * @param {InsightsRuleFindUniqueArgs} args - Arguments to find a InsightsRule
      * @example
-     * // Get one SiemRule
-     * const siemRule = await prisma.siemRule.findUnique({
+     * // Get one InsightsRule
+     * const insightsRule = await prisma.insightsRule.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends SiemRuleFindUniqueArgs>(args: SelectSubset<T, SiemRuleFindUniqueArgs<ExtArgs>>): Prisma__SiemRuleClient<$Result.GetResult<Prisma.$SiemRulePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends InsightsRuleFindUniqueArgs>(args: SelectSubset<T, InsightsRuleFindUniqueArgs<ExtArgs>>): Prisma__InsightsRuleClient<$Result.GetResult<Prisma.$InsightsRulePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one SiemRule that matches the filter or throw an error with `error.code='P2025'`
+     * Find one InsightsRule that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {SiemRuleFindUniqueOrThrowArgs} args - Arguments to find a SiemRule
+     * @param {InsightsRuleFindUniqueOrThrowArgs} args - Arguments to find a InsightsRule
      * @example
-     * // Get one SiemRule
-     * const siemRule = await prisma.siemRule.findUniqueOrThrow({
+     * // Get one InsightsRule
+     * const insightsRule = await prisma.insightsRule.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends SiemRuleFindUniqueOrThrowArgs>(args: SelectSubset<T, SiemRuleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SiemRuleClient<$Result.GetResult<Prisma.$SiemRulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends InsightsRuleFindUniqueOrThrowArgs>(args: SelectSubset<T, InsightsRuleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InsightsRuleClient<$Result.GetResult<Prisma.$InsightsRulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first SiemRule that matches the filter.
+     * Find the first InsightsRule that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SiemRuleFindFirstArgs} args - Arguments to find a SiemRule
+     * @param {InsightsRuleFindFirstArgs} args - Arguments to find a InsightsRule
      * @example
-     * // Get one SiemRule
-     * const siemRule = await prisma.siemRule.findFirst({
+     * // Get one InsightsRule
+     * const insightsRule = await prisma.insightsRule.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends SiemRuleFindFirstArgs>(args?: SelectSubset<T, SiemRuleFindFirstArgs<ExtArgs>>): Prisma__SiemRuleClient<$Result.GetResult<Prisma.$SiemRulePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends InsightsRuleFindFirstArgs>(args?: SelectSubset<T, InsightsRuleFindFirstArgs<ExtArgs>>): Prisma__InsightsRuleClient<$Result.GetResult<Prisma.$InsightsRulePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first SiemRule that matches the filter or
+     * Find the first InsightsRule that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SiemRuleFindFirstOrThrowArgs} args - Arguments to find a SiemRule
+     * @param {InsightsRuleFindFirstOrThrowArgs} args - Arguments to find a InsightsRule
      * @example
-     * // Get one SiemRule
-     * const siemRule = await prisma.siemRule.findFirstOrThrow({
+     * // Get one InsightsRule
+     * const insightsRule = await prisma.insightsRule.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends SiemRuleFindFirstOrThrowArgs>(args?: SelectSubset<T, SiemRuleFindFirstOrThrowArgs<ExtArgs>>): Prisma__SiemRuleClient<$Result.GetResult<Prisma.$SiemRulePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends InsightsRuleFindFirstOrThrowArgs>(args?: SelectSubset<T, InsightsRuleFindFirstOrThrowArgs<ExtArgs>>): Prisma__InsightsRuleClient<$Result.GetResult<Prisma.$InsightsRulePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more SiemRules that matches the filter.
+     * Find zero or more InsightsRules that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SiemRuleFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {InsightsRuleFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all SiemRules
-     * const siemRules = await prisma.siemRule.findMany()
+     * // Get all InsightsRules
+     * const insightsRules = await prisma.insightsRule.findMany()
      * 
-     * // Get first 10 SiemRules
-     * const siemRules = await prisma.siemRule.findMany({ take: 10 })
+     * // Get first 10 InsightsRules
+     * const insightsRules = await prisma.insightsRule.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const siemRuleWithIdOnly = await prisma.siemRule.findMany({ select: { id: true } })
+     * const insightsRuleWithIdOnly = await prisma.insightsRule.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends SiemRuleFindManyArgs>(args?: SelectSubset<T, SiemRuleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SiemRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends InsightsRuleFindManyArgs>(args?: SelectSubset<T, InsightsRuleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InsightsRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a SiemRule.
-     * @param {SiemRuleCreateArgs} args - Arguments to create a SiemRule.
+     * Create a InsightsRule.
+     * @param {InsightsRuleCreateArgs} args - Arguments to create a InsightsRule.
      * @example
-     * // Create one SiemRule
-     * const SiemRule = await prisma.siemRule.create({
+     * // Create one InsightsRule
+     * const InsightsRule = await prisma.insightsRule.create({
      *   data: {
-     *     // ... data to create a SiemRule
+     *     // ... data to create a InsightsRule
      *   }
      * })
      * 
      */
-    create<T extends SiemRuleCreateArgs>(args: SelectSubset<T, SiemRuleCreateArgs<ExtArgs>>): Prisma__SiemRuleClient<$Result.GetResult<Prisma.$SiemRulePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends InsightsRuleCreateArgs>(args: SelectSubset<T, InsightsRuleCreateArgs<ExtArgs>>): Prisma__InsightsRuleClient<$Result.GetResult<Prisma.$InsightsRulePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many SiemRules.
-     * @param {SiemRuleCreateManyArgs} args - Arguments to create many SiemRules.
+     * Create many InsightsRules.
+     * @param {InsightsRuleCreateManyArgs} args - Arguments to create many InsightsRules.
      * @example
-     * // Create many SiemRules
-     * const siemRule = await prisma.siemRule.createMany({
+     * // Create many InsightsRules
+     * const insightsRule = await prisma.insightsRule.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends SiemRuleCreateManyArgs>(args?: SelectSubset<T, SiemRuleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends InsightsRuleCreateManyArgs>(args?: SelectSubset<T, InsightsRuleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many SiemRules and returns the data saved in the database.
-     * @param {SiemRuleCreateManyAndReturnArgs} args - Arguments to create many SiemRules.
+     * Create many InsightsRules and returns the data saved in the database.
+     * @param {InsightsRuleCreateManyAndReturnArgs} args - Arguments to create many InsightsRules.
      * @example
-     * // Create many SiemRules
-     * const siemRule = await prisma.siemRule.createManyAndReturn({
+     * // Create many InsightsRules
+     * const insightsRule = await prisma.insightsRule.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many SiemRules and only return the `id`
-     * const siemRuleWithIdOnly = await prisma.siemRule.createManyAndReturn({
+     * // Create many InsightsRules and only return the `id`
+     * const insightsRuleWithIdOnly = await prisma.insightsRule.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -5222,28 +5209,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends SiemRuleCreateManyAndReturnArgs>(args?: SelectSubset<T, SiemRuleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SiemRulePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends InsightsRuleCreateManyAndReturnArgs>(args?: SelectSubset<T, InsightsRuleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InsightsRulePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a SiemRule.
-     * @param {SiemRuleDeleteArgs} args - Arguments to delete one SiemRule.
+     * Delete a InsightsRule.
+     * @param {InsightsRuleDeleteArgs} args - Arguments to delete one InsightsRule.
      * @example
-     * // Delete one SiemRule
-     * const SiemRule = await prisma.siemRule.delete({
+     * // Delete one InsightsRule
+     * const InsightsRule = await prisma.insightsRule.delete({
      *   where: {
-     *     // ... filter to delete one SiemRule
+     *     // ... filter to delete one InsightsRule
      *   }
      * })
      * 
      */
-    delete<T extends SiemRuleDeleteArgs>(args: SelectSubset<T, SiemRuleDeleteArgs<ExtArgs>>): Prisma__SiemRuleClient<$Result.GetResult<Prisma.$SiemRulePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends InsightsRuleDeleteArgs>(args: SelectSubset<T, InsightsRuleDeleteArgs<ExtArgs>>): Prisma__InsightsRuleClient<$Result.GetResult<Prisma.$InsightsRulePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one SiemRule.
-     * @param {SiemRuleUpdateArgs} args - Arguments to update one SiemRule.
+     * Update one InsightsRule.
+     * @param {InsightsRuleUpdateArgs} args - Arguments to update one InsightsRule.
      * @example
-     * // Update one SiemRule
-     * const siemRule = await prisma.siemRule.update({
+     * // Update one InsightsRule
+     * const insightsRule = await prisma.insightsRule.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -5253,30 +5240,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends SiemRuleUpdateArgs>(args: SelectSubset<T, SiemRuleUpdateArgs<ExtArgs>>): Prisma__SiemRuleClient<$Result.GetResult<Prisma.$SiemRulePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends InsightsRuleUpdateArgs>(args: SelectSubset<T, InsightsRuleUpdateArgs<ExtArgs>>): Prisma__InsightsRuleClient<$Result.GetResult<Prisma.$InsightsRulePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more SiemRules.
-     * @param {SiemRuleDeleteManyArgs} args - Arguments to filter SiemRules to delete.
+     * Delete zero or more InsightsRules.
+     * @param {InsightsRuleDeleteManyArgs} args - Arguments to filter InsightsRules to delete.
      * @example
-     * // Delete a few SiemRules
-     * const { count } = await prisma.siemRule.deleteMany({
+     * // Delete a few InsightsRules
+     * const { count } = await prisma.insightsRule.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends SiemRuleDeleteManyArgs>(args?: SelectSubset<T, SiemRuleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends InsightsRuleDeleteManyArgs>(args?: SelectSubset<T, InsightsRuleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more SiemRules.
+     * Update zero or more InsightsRules.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SiemRuleUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {InsightsRuleUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many SiemRules
-     * const siemRule = await prisma.siemRule.updateMany({
+     * // Update many InsightsRules
+     * const insightsRule = await prisma.insightsRule.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -5286,14 +5273,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends SiemRuleUpdateManyArgs>(args: SelectSubset<T, SiemRuleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends InsightsRuleUpdateManyArgs>(args: SelectSubset<T, InsightsRuleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more SiemRules and returns the data updated in the database.
-     * @param {SiemRuleUpdateManyAndReturnArgs} args - Arguments to update many SiemRules.
+     * Update zero or more InsightsRules and returns the data updated in the database.
+     * @param {InsightsRuleUpdateManyAndReturnArgs} args - Arguments to update many InsightsRules.
      * @example
-     * // Update many SiemRules
-     * const siemRule = await prisma.siemRule.updateManyAndReturn({
+     * // Update many InsightsRules
+     * const insightsRule = await prisma.insightsRule.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -5302,8 +5289,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more SiemRules and only return the `id`
-     * const siemRuleWithIdOnly = await prisma.siemRule.updateManyAndReturn({
+     * // Update zero or more InsightsRules and only return the `id`
+     * const insightsRuleWithIdOnly = await prisma.insightsRule.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -5316,56 +5303,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends SiemRuleUpdateManyAndReturnArgs>(args: SelectSubset<T, SiemRuleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SiemRulePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends InsightsRuleUpdateManyAndReturnArgs>(args: SelectSubset<T, InsightsRuleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InsightsRulePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one SiemRule.
-     * @param {SiemRuleUpsertArgs} args - Arguments to update or create a SiemRule.
+     * Create or update one InsightsRule.
+     * @param {InsightsRuleUpsertArgs} args - Arguments to update or create a InsightsRule.
      * @example
-     * // Update or create a SiemRule
-     * const siemRule = await prisma.siemRule.upsert({
+     * // Update or create a InsightsRule
+     * const insightsRule = await prisma.insightsRule.upsert({
      *   create: {
-     *     // ... data to create a SiemRule
+     *     // ... data to create a InsightsRule
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the SiemRule we want to update
+     *     // ... the filter for the InsightsRule we want to update
      *   }
      * })
      */
-    upsert<T extends SiemRuleUpsertArgs>(args: SelectSubset<T, SiemRuleUpsertArgs<ExtArgs>>): Prisma__SiemRuleClient<$Result.GetResult<Prisma.$SiemRulePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends InsightsRuleUpsertArgs>(args: SelectSubset<T, InsightsRuleUpsertArgs<ExtArgs>>): Prisma__InsightsRuleClient<$Result.GetResult<Prisma.$InsightsRulePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of SiemRules.
+     * Count the number of InsightsRules.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SiemRuleCountArgs} args - Arguments to filter SiemRules to count.
+     * @param {InsightsRuleCountArgs} args - Arguments to filter InsightsRules to count.
      * @example
-     * // Count the number of SiemRules
-     * const count = await prisma.siemRule.count({
+     * // Count the number of InsightsRules
+     * const count = await prisma.insightsRule.count({
      *   where: {
-     *     // ... the filter for the SiemRules we want to count
+     *     // ... the filter for the InsightsRules we want to count
      *   }
      * })
     **/
-    count<T extends SiemRuleCountArgs>(
-      args?: Subset<T, SiemRuleCountArgs>,
+    count<T extends InsightsRuleCountArgs>(
+      args?: Subset<T, InsightsRuleCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], SiemRuleCountAggregateOutputType>
+          : GetScalarType<T['select'], InsightsRuleCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a SiemRule.
+     * Allows you to perform aggregations operations on a InsightsRule.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SiemRuleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {InsightsRuleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -5385,13 +5372,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends SiemRuleAggregateArgs>(args: Subset<T, SiemRuleAggregateArgs>): Prisma.PrismaPromise<GetSiemRuleAggregateType<T>>
+    aggregate<T extends InsightsRuleAggregateArgs>(args: Subset<T, InsightsRuleAggregateArgs>): Prisma.PrismaPromise<GetInsightsRuleAggregateType<T>>
 
     /**
-     * Group by SiemRule.
+     * Group by InsightsRule.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SiemRuleGroupByArgs} args - Group by arguments.
+     * @param {InsightsRuleGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -5406,14 +5393,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends SiemRuleGroupByArgs,
+      T extends InsightsRuleGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: SiemRuleGroupByArgs['orderBy'] }
-        : { orderBy?: SiemRuleGroupByArgs['orderBy'] },
+        ? { orderBy: InsightsRuleGroupByArgs['orderBy'] }
+        : { orderBy?: InsightsRuleGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -5462,23 +5449,23 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, SiemRuleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSiemRuleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, InsightsRuleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInsightsRuleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the SiemRule model
+   * Fields of the InsightsRule model
    */
-  readonly fields: SiemRuleFieldRefs;
+  readonly fields: InsightsRuleFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for SiemRule.
+   * The delegate class that acts as a "Promise-like" for InsightsRule.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__SiemRuleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__InsightsRuleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     credential<T extends AwsCredentialDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AwsCredentialDefaultArgs<ExtArgs>>): Prisma__AwsCredentialClient<$Result.GetResult<Prisma.$AwsCredentialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    events<T extends SiemRule$eventsArgs<ExtArgs> = {}>(args?: Subset<T, SiemRule$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SiemEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    detections<T extends InsightsRule$detectionsArgs<ExtArgs> = {}>(args?: Subset<T, InsightsRule$detectionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DetectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5505,929 +5492,848 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the SiemRule model
+   * Fields of the InsightsRule model
    */
-  interface SiemRuleFieldRefs {
-    readonly id: FieldRef<"SiemRule", 'String'>
-    readonly name: FieldRef<"SiemRule", 'String'>
-    readonly description: FieldRef<"SiemRule", 'String'>
-    readonly type: FieldRef<"SiemRule", 'String'>
-    readonly query: FieldRef<"SiemRule", 'String'>
-    readonly severity: FieldRef<"SiemRule", 'String'>
-    readonly status: FieldRef<"SiemRule", 'String'>
-    readonly createdAt: FieldRef<"SiemRule", 'DateTime'>
-    readonly updatedAt: FieldRef<"SiemRule", 'DateTime'>
-    readonly triggers: FieldRef<"SiemRule", 'Int'>
-    readonly lastTriggered: FieldRef<"SiemRule", 'DateTime'>
-    readonly credentialId: FieldRef<"SiemRule", 'String'>
+  interface InsightsRuleFieldRefs {
+    readonly id: FieldRef<"InsightsRule", 'String'>
+    readonly name: FieldRef<"InsightsRule", 'String'>
+    readonly description: FieldRef<"InsightsRule", 'String'>
+    readonly query: FieldRef<"InsightsRule", 'String'>
+    readonly logGroup: FieldRef<"InsightsRule", 'String'>
+    readonly severity: FieldRef<"InsightsRule", 'String'>
+    readonly isActive: FieldRef<"InsightsRule", 'Boolean'>
+    readonly triggers: FieldRef<"InsightsRule", 'Int'>
+    readonly lastTriggered: FieldRef<"InsightsRule", 'DateTime'>
+    readonly lastExecuted: FieldRef<"InsightsRule", 'DateTime'>
+    readonly region: FieldRef<"InsightsRule", 'String'>
+    readonly createdAt: FieldRef<"InsightsRule", 'DateTime'>
+    readonly updatedAt: FieldRef<"InsightsRule", 'DateTime'>
+    readonly credentialId: FieldRef<"InsightsRule", 'String'>
   }
     
 
   // Custom InputTypes
   /**
-   * SiemRule findUnique
+   * InsightsRule findUnique
    */
-  export type SiemRuleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemRule
+     * Select specific fields to fetch from the InsightsRule
      */
-    select?: SiemRuleSelect<ExtArgs> | null
+    select?: InsightsRuleSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemRule
+     * Omit specific fields from the InsightsRule
      */
-    omit?: SiemRuleOmit<ExtArgs> | null
+    omit?: InsightsRuleOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemRuleInclude<ExtArgs> | null
+    include?: InsightsRuleInclude<ExtArgs> | null
     /**
-     * Filter, which SiemRule to fetch.
+     * Filter, which InsightsRule to fetch.
      */
-    where: SiemRuleWhereUniqueInput
+    where: InsightsRuleWhereUniqueInput
   }
 
   /**
-   * SiemRule findUniqueOrThrow
+   * InsightsRule findUniqueOrThrow
    */
-  export type SiemRuleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemRule
+     * Select specific fields to fetch from the InsightsRule
      */
-    select?: SiemRuleSelect<ExtArgs> | null
+    select?: InsightsRuleSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemRule
+     * Omit specific fields from the InsightsRule
      */
-    omit?: SiemRuleOmit<ExtArgs> | null
+    omit?: InsightsRuleOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemRuleInclude<ExtArgs> | null
+    include?: InsightsRuleInclude<ExtArgs> | null
     /**
-     * Filter, which SiemRule to fetch.
+     * Filter, which InsightsRule to fetch.
      */
-    where: SiemRuleWhereUniqueInput
+    where: InsightsRuleWhereUniqueInput
   }
 
   /**
-   * SiemRule findFirst
+   * InsightsRule findFirst
    */
-  export type SiemRuleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemRule
+     * Select specific fields to fetch from the InsightsRule
      */
-    select?: SiemRuleSelect<ExtArgs> | null
+    select?: InsightsRuleSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemRule
+     * Omit specific fields from the InsightsRule
      */
-    omit?: SiemRuleOmit<ExtArgs> | null
+    omit?: InsightsRuleOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemRuleInclude<ExtArgs> | null
+    include?: InsightsRuleInclude<ExtArgs> | null
     /**
-     * Filter, which SiemRule to fetch.
+     * Filter, which InsightsRule to fetch.
      */
-    where?: SiemRuleWhereInput
+    where?: InsightsRuleWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of SiemRules to fetch.
+     * Determine the order of InsightsRules to fetch.
      */
-    orderBy?: SiemRuleOrderByWithRelationInput | SiemRuleOrderByWithRelationInput[]
+    orderBy?: InsightsRuleOrderByWithRelationInput | InsightsRuleOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for SiemRules.
+     * Sets the position for searching for InsightsRules.
      */
-    cursor?: SiemRuleWhereUniqueInput
+    cursor?: InsightsRuleWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` SiemRules from the position of the cursor.
+     * Take `±n` InsightsRules from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` SiemRules.
+     * Skip the first `n` InsightsRules.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of SiemRules.
+     * Filter by unique combinations of InsightsRules.
      */
-    distinct?: SiemRuleScalarFieldEnum | SiemRuleScalarFieldEnum[]
+    distinct?: InsightsRuleScalarFieldEnum | InsightsRuleScalarFieldEnum[]
   }
 
   /**
-   * SiemRule findFirstOrThrow
+   * InsightsRule findFirstOrThrow
    */
-  export type SiemRuleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemRule
+     * Select specific fields to fetch from the InsightsRule
      */
-    select?: SiemRuleSelect<ExtArgs> | null
+    select?: InsightsRuleSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemRule
+     * Omit specific fields from the InsightsRule
      */
-    omit?: SiemRuleOmit<ExtArgs> | null
+    omit?: InsightsRuleOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemRuleInclude<ExtArgs> | null
+    include?: InsightsRuleInclude<ExtArgs> | null
     /**
-     * Filter, which SiemRule to fetch.
+     * Filter, which InsightsRule to fetch.
      */
-    where?: SiemRuleWhereInput
+    where?: InsightsRuleWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of SiemRules to fetch.
+     * Determine the order of InsightsRules to fetch.
      */
-    orderBy?: SiemRuleOrderByWithRelationInput | SiemRuleOrderByWithRelationInput[]
+    orderBy?: InsightsRuleOrderByWithRelationInput | InsightsRuleOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for SiemRules.
+     * Sets the position for searching for InsightsRules.
      */
-    cursor?: SiemRuleWhereUniqueInput
+    cursor?: InsightsRuleWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` SiemRules from the position of the cursor.
+     * Take `±n` InsightsRules from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` SiemRules.
+     * Skip the first `n` InsightsRules.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of SiemRules.
+     * Filter by unique combinations of InsightsRules.
      */
-    distinct?: SiemRuleScalarFieldEnum | SiemRuleScalarFieldEnum[]
+    distinct?: InsightsRuleScalarFieldEnum | InsightsRuleScalarFieldEnum[]
   }
 
   /**
-   * SiemRule findMany
+   * InsightsRule findMany
    */
-  export type SiemRuleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemRule
+     * Select specific fields to fetch from the InsightsRule
      */
-    select?: SiemRuleSelect<ExtArgs> | null
+    select?: InsightsRuleSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemRule
+     * Omit specific fields from the InsightsRule
      */
-    omit?: SiemRuleOmit<ExtArgs> | null
+    omit?: InsightsRuleOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemRuleInclude<ExtArgs> | null
+    include?: InsightsRuleInclude<ExtArgs> | null
     /**
-     * Filter, which SiemRules to fetch.
+     * Filter, which InsightsRules to fetch.
      */
-    where?: SiemRuleWhereInput
+    where?: InsightsRuleWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of SiemRules to fetch.
+     * Determine the order of InsightsRules to fetch.
      */
-    orderBy?: SiemRuleOrderByWithRelationInput | SiemRuleOrderByWithRelationInput[]
+    orderBy?: InsightsRuleOrderByWithRelationInput | InsightsRuleOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing SiemRules.
+     * Sets the position for listing InsightsRules.
      */
-    cursor?: SiemRuleWhereUniqueInput
+    cursor?: InsightsRuleWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` SiemRules from the position of the cursor.
+     * Take `±n` InsightsRules from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` SiemRules.
+     * Skip the first `n` InsightsRules.
      */
     skip?: number
-    distinct?: SiemRuleScalarFieldEnum | SiemRuleScalarFieldEnum[]
+    distinct?: InsightsRuleScalarFieldEnum | InsightsRuleScalarFieldEnum[]
   }
 
   /**
-   * SiemRule create
+   * InsightsRule create
    */
-  export type SiemRuleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemRule
+     * Select specific fields to fetch from the InsightsRule
      */
-    select?: SiemRuleSelect<ExtArgs> | null
+    select?: InsightsRuleSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemRule
+     * Omit specific fields from the InsightsRule
      */
-    omit?: SiemRuleOmit<ExtArgs> | null
+    omit?: InsightsRuleOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemRuleInclude<ExtArgs> | null
+    include?: InsightsRuleInclude<ExtArgs> | null
     /**
-     * The data needed to create a SiemRule.
+     * The data needed to create a InsightsRule.
      */
-    data: XOR<SiemRuleCreateInput, SiemRuleUncheckedCreateInput>
+    data: XOR<InsightsRuleCreateInput, InsightsRuleUncheckedCreateInput>
   }
 
   /**
-   * SiemRule createMany
+   * InsightsRule createMany
    */
-  export type SiemRuleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many SiemRules.
+     * The data used to create many InsightsRules.
      */
-    data: SiemRuleCreateManyInput | SiemRuleCreateManyInput[]
+    data: InsightsRuleCreateManyInput | InsightsRuleCreateManyInput[]
   }
 
   /**
-   * SiemRule createManyAndReturn
+   * InsightsRule createManyAndReturn
    */
-  export type SiemRuleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemRule
+     * Select specific fields to fetch from the InsightsRule
      */
-    select?: SiemRuleSelectCreateManyAndReturn<ExtArgs> | null
+    select?: InsightsRuleSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemRule
+     * Omit specific fields from the InsightsRule
      */
-    omit?: SiemRuleOmit<ExtArgs> | null
+    omit?: InsightsRuleOmit<ExtArgs> | null
     /**
-     * The data used to create many SiemRules.
+     * The data used to create many InsightsRules.
      */
-    data: SiemRuleCreateManyInput | SiemRuleCreateManyInput[]
+    data: InsightsRuleCreateManyInput | InsightsRuleCreateManyInput[]
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemRuleIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: InsightsRuleIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * SiemRule update
+   * InsightsRule update
    */
-  export type SiemRuleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemRule
+     * Select specific fields to fetch from the InsightsRule
      */
-    select?: SiemRuleSelect<ExtArgs> | null
+    select?: InsightsRuleSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemRule
+     * Omit specific fields from the InsightsRule
      */
-    omit?: SiemRuleOmit<ExtArgs> | null
+    omit?: InsightsRuleOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemRuleInclude<ExtArgs> | null
+    include?: InsightsRuleInclude<ExtArgs> | null
     /**
-     * The data needed to update a SiemRule.
+     * The data needed to update a InsightsRule.
      */
-    data: XOR<SiemRuleUpdateInput, SiemRuleUncheckedUpdateInput>
+    data: XOR<InsightsRuleUpdateInput, InsightsRuleUncheckedUpdateInput>
     /**
-     * Choose, which SiemRule to update.
+     * Choose, which InsightsRule to update.
      */
-    where: SiemRuleWhereUniqueInput
+    where: InsightsRuleWhereUniqueInput
   }
 
   /**
-   * SiemRule updateMany
+   * InsightsRule updateMany
    */
-  export type SiemRuleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update SiemRules.
+     * The data used to update InsightsRules.
      */
-    data: XOR<SiemRuleUpdateManyMutationInput, SiemRuleUncheckedUpdateManyInput>
+    data: XOR<InsightsRuleUpdateManyMutationInput, InsightsRuleUncheckedUpdateManyInput>
     /**
-     * Filter which SiemRules to update
+     * Filter which InsightsRules to update
      */
-    where?: SiemRuleWhereInput
+    where?: InsightsRuleWhereInput
     /**
-     * Limit how many SiemRules to update.
+     * Limit how many InsightsRules to update.
      */
     limit?: number
   }
 
   /**
-   * SiemRule updateManyAndReturn
+   * InsightsRule updateManyAndReturn
    */
-  export type SiemRuleUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemRule
+     * Select specific fields to fetch from the InsightsRule
      */
-    select?: SiemRuleSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: InsightsRuleSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemRule
+     * Omit specific fields from the InsightsRule
      */
-    omit?: SiemRuleOmit<ExtArgs> | null
+    omit?: InsightsRuleOmit<ExtArgs> | null
     /**
-     * The data used to update SiemRules.
+     * The data used to update InsightsRules.
      */
-    data: XOR<SiemRuleUpdateManyMutationInput, SiemRuleUncheckedUpdateManyInput>
+    data: XOR<InsightsRuleUpdateManyMutationInput, InsightsRuleUncheckedUpdateManyInput>
     /**
-     * Filter which SiemRules to update
+     * Filter which InsightsRules to update
      */
-    where?: SiemRuleWhereInput
+    where?: InsightsRuleWhereInput
     /**
-     * Limit how many SiemRules to update.
+     * Limit how many InsightsRules to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemRuleIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: InsightsRuleIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * SiemRule upsert
+   * InsightsRule upsert
    */
-  export type SiemRuleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemRule
+     * Select specific fields to fetch from the InsightsRule
      */
-    select?: SiemRuleSelect<ExtArgs> | null
+    select?: InsightsRuleSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemRule
+     * Omit specific fields from the InsightsRule
      */
-    omit?: SiemRuleOmit<ExtArgs> | null
+    omit?: InsightsRuleOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemRuleInclude<ExtArgs> | null
+    include?: InsightsRuleInclude<ExtArgs> | null
     /**
-     * The filter to search for the SiemRule to update in case it exists.
+     * The filter to search for the InsightsRule to update in case it exists.
      */
-    where: SiemRuleWhereUniqueInput
+    where: InsightsRuleWhereUniqueInput
     /**
-     * In case the SiemRule found by the `where` argument doesn't exist, create a new SiemRule with this data.
+     * In case the InsightsRule found by the `where` argument doesn't exist, create a new InsightsRule with this data.
      */
-    create: XOR<SiemRuleCreateInput, SiemRuleUncheckedCreateInput>
+    create: XOR<InsightsRuleCreateInput, InsightsRuleUncheckedCreateInput>
     /**
-     * In case the SiemRule was found with the provided `where` argument, update it with this data.
+     * In case the InsightsRule was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<SiemRuleUpdateInput, SiemRuleUncheckedUpdateInput>
+    update: XOR<InsightsRuleUpdateInput, InsightsRuleUncheckedUpdateInput>
   }
 
   /**
-   * SiemRule delete
+   * InsightsRule delete
    */
-  export type SiemRuleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemRule
+     * Select specific fields to fetch from the InsightsRule
      */
-    select?: SiemRuleSelect<ExtArgs> | null
+    select?: InsightsRuleSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemRule
+     * Omit specific fields from the InsightsRule
      */
-    omit?: SiemRuleOmit<ExtArgs> | null
+    omit?: InsightsRuleOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemRuleInclude<ExtArgs> | null
+    include?: InsightsRuleInclude<ExtArgs> | null
     /**
-     * Filter which SiemRule to delete.
+     * Filter which InsightsRule to delete.
      */
-    where: SiemRuleWhereUniqueInput
+    where: InsightsRuleWhereUniqueInput
   }
 
   /**
-   * SiemRule deleteMany
+   * InsightsRule deleteMany
    */
-  export type SiemRuleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which SiemRules to delete
+     * Filter which InsightsRules to delete
      */
-    where?: SiemRuleWhereInput
+    where?: InsightsRuleWhereInput
     /**
-     * Limit how many SiemRules to delete.
+     * Limit how many InsightsRules to delete.
      */
     limit?: number
   }
 
   /**
-   * SiemRule.events
+   * InsightsRule.detections
    */
-  export type SiemRule$eventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRule$detectionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemEvent
+     * Select specific fields to fetch from the Detection
      */
-    select?: SiemEventSelect<ExtArgs> | null
+    select?: DetectionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemEvent
+     * Omit specific fields from the Detection
      */
-    omit?: SiemEventOmit<ExtArgs> | null
+    omit?: DetectionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemEventInclude<ExtArgs> | null
-    where?: SiemEventWhereInput
-    orderBy?: SiemEventOrderByWithRelationInput | SiemEventOrderByWithRelationInput[]
-    cursor?: SiemEventWhereUniqueInput
+    include?: DetectionInclude<ExtArgs> | null
+    where?: DetectionWhereInput
+    orderBy?: DetectionOrderByWithRelationInput | DetectionOrderByWithRelationInput[]
+    cursor?: DetectionWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: SiemEventScalarFieldEnum | SiemEventScalarFieldEnum[]
+    distinct?: DetectionScalarFieldEnum | DetectionScalarFieldEnum[]
   }
 
   /**
-   * SiemRule without action
+   * InsightsRule without action
    */
-  export type SiemRuleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type InsightsRuleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemRule
+     * Select specific fields to fetch from the InsightsRule
      */
-    select?: SiemRuleSelect<ExtArgs> | null
+    select?: InsightsRuleSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemRule
+     * Omit specific fields from the InsightsRule
      */
-    omit?: SiemRuleOmit<ExtArgs> | null
+    omit?: InsightsRuleOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemRuleInclude<ExtArgs> | null
+    include?: InsightsRuleInclude<ExtArgs> | null
   }
 
 
   /**
-   * Model SiemEvent
+   * Model Detection
    */
 
-  export type AggregateSiemEvent = {
-    _count: SiemEventCountAggregateOutputType | null
-    _min: SiemEventMinAggregateOutputType | null
-    _max: SiemEventMaxAggregateOutputType | null
+  export type AggregateDetection = {
+    _count: DetectionCountAggregateOutputType | null
+    _min: DetectionMinAggregateOutputType | null
+    _max: DetectionMaxAggregateOutputType | null
   }
 
-  export type SiemEventMinAggregateOutputType = {
+  export type DetectionMinAggregateOutputType = {
     id: string | null
+    ruleId: string | null
     timestamp: Date | null
-    source: string | null
-    eventType: string | null
-    severity: string | null
-    status: string | null
     message: string | null
-    rawData: string | null
-    accountId: string | null
-    region: string | null
-    resource: string | null
+    severity: string | null
+    acknowledged: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
-    credentialId: string | null
-    ruleId: string | null
   }
 
-  export type SiemEventMaxAggregateOutputType = {
+  export type DetectionMaxAggregateOutputType = {
     id: string | null
+    ruleId: string | null
     timestamp: Date | null
-    source: string | null
-    eventType: string | null
-    severity: string | null
-    status: string | null
     message: string | null
-    rawData: string | null
-    accountId: string | null
-    region: string | null
-    resource: string | null
+    severity: string | null
+    acknowledged: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
-    credentialId: string | null
-    ruleId: string | null
   }
 
-  export type SiemEventCountAggregateOutputType = {
+  export type DetectionCountAggregateOutputType = {
     id: number
+    ruleId: number
     timestamp: number
-    source: number
-    eventType: number
-    severity: number
-    status: number
     message: number
-    rawData: number
-    accountId: number
-    region: number
-    resource: number
+    severity: number
+    fields: number
+    acknowledged: number
     createdAt: number
     updatedAt: number
-    credentialId: number
-    ruleId: number
     _all: number
   }
 
 
-  export type SiemEventMinAggregateInputType = {
+  export type DetectionMinAggregateInputType = {
     id?: true
+    ruleId?: true
     timestamp?: true
-    source?: true
-    eventType?: true
-    severity?: true
-    status?: true
     message?: true
-    rawData?: true
-    accountId?: true
-    region?: true
-    resource?: true
+    severity?: true
+    acknowledged?: true
     createdAt?: true
     updatedAt?: true
-    credentialId?: true
-    ruleId?: true
   }
 
-  export type SiemEventMaxAggregateInputType = {
+  export type DetectionMaxAggregateInputType = {
     id?: true
+    ruleId?: true
     timestamp?: true
-    source?: true
-    eventType?: true
-    severity?: true
-    status?: true
     message?: true
-    rawData?: true
-    accountId?: true
-    region?: true
-    resource?: true
+    severity?: true
+    acknowledged?: true
     createdAt?: true
     updatedAt?: true
-    credentialId?: true
-    ruleId?: true
   }
 
-  export type SiemEventCountAggregateInputType = {
+  export type DetectionCountAggregateInputType = {
     id?: true
+    ruleId?: true
     timestamp?: true
-    source?: true
-    eventType?: true
-    severity?: true
-    status?: true
     message?: true
-    rawData?: true
-    accountId?: true
-    region?: true
-    resource?: true
+    severity?: true
+    fields?: true
+    acknowledged?: true
     createdAt?: true
     updatedAt?: true
-    credentialId?: true
-    ruleId?: true
     _all?: true
   }
 
-  export type SiemEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DetectionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which SiemEvent to aggregate.
+     * Filter which Detection to aggregate.
      */
-    where?: SiemEventWhereInput
+    where?: DetectionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of SiemEvents to fetch.
+     * Determine the order of Detections to fetch.
      */
-    orderBy?: SiemEventOrderByWithRelationInput | SiemEventOrderByWithRelationInput[]
+    orderBy?: DetectionOrderByWithRelationInput | DetectionOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: SiemEventWhereUniqueInput
+    cursor?: DetectionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` SiemEvents from the position of the cursor.
+     * Take `±n` Detections from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` SiemEvents.
+     * Skip the first `n` Detections.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned SiemEvents
+     * Count returned Detections
     **/
-    _count?: true | SiemEventCountAggregateInputType
+    _count?: true | DetectionCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: SiemEventMinAggregateInputType
+    _min?: DetectionMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: SiemEventMaxAggregateInputType
+    _max?: DetectionMaxAggregateInputType
   }
 
-  export type GetSiemEventAggregateType<T extends SiemEventAggregateArgs> = {
-        [P in keyof T & keyof AggregateSiemEvent]: P extends '_count' | 'count'
+  export type GetDetectionAggregateType<T extends DetectionAggregateArgs> = {
+        [P in keyof T & keyof AggregateDetection]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateSiemEvent[P]>
-      : GetScalarType<T[P], AggregateSiemEvent[P]>
+        : GetScalarType<T[P], AggregateDetection[P]>
+      : GetScalarType<T[P], AggregateDetection[P]>
   }
 
 
 
 
-  export type SiemEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SiemEventWhereInput
-    orderBy?: SiemEventOrderByWithAggregationInput | SiemEventOrderByWithAggregationInput[]
-    by: SiemEventScalarFieldEnum[] | SiemEventScalarFieldEnum
-    having?: SiemEventScalarWhereWithAggregatesInput
+  export type DetectionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DetectionWhereInput
+    orderBy?: DetectionOrderByWithAggregationInput | DetectionOrderByWithAggregationInput[]
+    by: DetectionScalarFieldEnum[] | DetectionScalarFieldEnum
+    having?: DetectionScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: SiemEventCountAggregateInputType | true
-    _min?: SiemEventMinAggregateInputType
-    _max?: SiemEventMaxAggregateInputType
+    _count?: DetectionCountAggregateInputType | true
+    _min?: DetectionMinAggregateInputType
+    _max?: DetectionMaxAggregateInputType
   }
 
-  export type SiemEventGroupByOutputType = {
+  export type DetectionGroupByOutputType = {
     id: string
+    ruleId: string
     timestamp: Date
-    source: string
-    eventType: string
-    severity: string
-    status: string
     message: string
-    rawData: string
-    accountId: string | null
-    region: string | null
-    resource: string | null
+    severity: string
+    fields: JsonValue
+    acknowledged: boolean
     createdAt: Date
     updatedAt: Date
-    credentialId: string
-    ruleId: string | null
-    _count: SiemEventCountAggregateOutputType | null
-    _min: SiemEventMinAggregateOutputType | null
-    _max: SiemEventMaxAggregateOutputType | null
+    _count: DetectionCountAggregateOutputType | null
+    _min: DetectionMinAggregateOutputType | null
+    _max: DetectionMaxAggregateOutputType | null
   }
 
-  type GetSiemEventGroupByPayload<T extends SiemEventGroupByArgs> = Prisma.PrismaPromise<
+  type GetDetectionGroupByPayload<T extends DetectionGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<SiemEventGroupByOutputType, T['by']> &
+      PickEnumerable<DetectionGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof SiemEventGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof DetectionGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], SiemEventGroupByOutputType[P]>
-            : GetScalarType<T[P], SiemEventGroupByOutputType[P]>
+              : GetScalarType<T[P], DetectionGroupByOutputType[P]>
+            : GetScalarType<T[P], DetectionGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type SiemEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type DetectionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    ruleId?: boolean
     timestamp?: boolean
-    source?: boolean
-    eventType?: boolean
-    severity?: boolean
-    status?: boolean
     message?: boolean
-    rawData?: boolean
-    accountId?: boolean
-    region?: boolean
-    resource?: boolean
+    severity?: boolean
+    fields?: boolean
+    acknowledged?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    credentialId?: boolean
-    ruleId?: boolean
-    credential?: boolean | AwsCredentialDefaultArgs<ExtArgs>
-    rule?: boolean | SiemEvent$ruleArgs<ExtArgs>
-  }, ExtArgs["result"]["siemEvent"]>
+    rule?: boolean | InsightsRuleDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["detection"]>
 
-  export type SiemEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type DetectionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    ruleId?: boolean
     timestamp?: boolean
-    source?: boolean
-    eventType?: boolean
-    severity?: boolean
-    status?: boolean
     message?: boolean
-    rawData?: boolean
-    accountId?: boolean
-    region?: boolean
-    resource?: boolean
+    severity?: boolean
+    fields?: boolean
+    acknowledged?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    credentialId?: boolean
-    ruleId?: boolean
-    credential?: boolean | AwsCredentialDefaultArgs<ExtArgs>
-    rule?: boolean | SiemEvent$ruleArgs<ExtArgs>
-  }, ExtArgs["result"]["siemEvent"]>
+    rule?: boolean | InsightsRuleDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["detection"]>
 
-  export type SiemEventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type DetectionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    ruleId?: boolean
     timestamp?: boolean
-    source?: boolean
-    eventType?: boolean
-    severity?: boolean
-    status?: boolean
     message?: boolean
-    rawData?: boolean
-    accountId?: boolean
-    region?: boolean
-    resource?: boolean
+    severity?: boolean
+    fields?: boolean
+    acknowledged?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    credentialId?: boolean
-    ruleId?: boolean
-    credential?: boolean | AwsCredentialDefaultArgs<ExtArgs>
-    rule?: boolean | SiemEvent$ruleArgs<ExtArgs>
-  }, ExtArgs["result"]["siemEvent"]>
+    rule?: boolean | InsightsRuleDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["detection"]>
 
-  export type SiemEventSelectScalar = {
+  export type DetectionSelectScalar = {
     id?: boolean
+    ruleId?: boolean
     timestamp?: boolean
-    source?: boolean
-    eventType?: boolean
-    severity?: boolean
-    status?: boolean
     message?: boolean
-    rawData?: boolean
-    accountId?: boolean
-    region?: boolean
-    resource?: boolean
+    severity?: boolean
+    fields?: boolean
+    acknowledged?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    credentialId?: boolean
-    ruleId?: boolean
   }
 
-  export type SiemEventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "timestamp" | "source" | "eventType" | "severity" | "status" | "message" | "rawData" | "accountId" | "region" | "resource" | "createdAt" | "updatedAt" | "credentialId" | "ruleId", ExtArgs["result"]["siemEvent"]>
-  export type SiemEventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    credential?: boolean | AwsCredentialDefaultArgs<ExtArgs>
-    rule?: boolean | SiemEvent$ruleArgs<ExtArgs>
+  export type DetectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ruleId" | "timestamp" | "message" | "severity" | "fields" | "acknowledged" | "createdAt" | "updatedAt", ExtArgs["result"]["detection"]>
+  export type DetectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rule?: boolean | InsightsRuleDefaultArgs<ExtArgs>
   }
-  export type SiemEventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    credential?: boolean | AwsCredentialDefaultArgs<ExtArgs>
-    rule?: boolean | SiemEvent$ruleArgs<ExtArgs>
+  export type DetectionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rule?: boolean | InsightsRuleDefaultArgs<ExtArgs>
   }
-  export type SiemEventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    credential?: boolean | AwsCredentialDefaultArgs<ExtArgs>
-    rule?: boolean | SiemEvent$ruleArgs<ExtArgs>
+  export type DetectionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rule?: boolean | InsightsRuleDefaultArgs<ExtArgs>
   }
 
-  export type $SiemEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "SiemEvent"
+  export type $DetectionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Detection"
     objects: {
-      credential: Prisma.$AwsCredentialPayload<ExtArgs>
-      rule: Prisma.$SiemRulePayload<ExtArgs> | null
+      rule: Prisma.$InsightsRulePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      ruleId: string
       timestamp: Date
-      source: string
-      eventType: string
-      severity: string
-      status: string
       message: string
-      rawData: string
-      accountId: string | null
-      region: string | null
-      resource: string | null
+      severity: string
+      fields: Prisma.JsonValue
+      acknowledged: boolean
       createdAt: Date
       updatedAt: Date
-      credentialId: string
-      ruleId: string | null
-    }, ExtArgs["result"]["siemEvent"]>
+    }, ExtArgs["result"]["detection"]>
     composites: {}
   }
 
-  type SiemEventGetPayload<S extends boolean | null | undefined | SiemEventDefaultArgs> = $Result.GetResult<Prisma.$SiemEventPayload, S>
+  type DetectionGetPayload<S extends boolean | null | undefined | DetectionDefaultArgs> = $Result.GetResult<Prisma.$DetectionPayload, S>
 
-  type SiemEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<SiemEventFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: SiemEventCountAggregateInputType | true
+  type DetectionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DetectionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DetectionCountAggregateInputType | true
     }
 
-  export interface SiemEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SiemEvent'], meta: { name: 'SiemEvent' } }
+  export interface DetectionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Detection'], meta: { name: 'Detection' } }
     /**
-     * Find zero or one SiemEvent that matches the filter.
-     * @param {SiemEventFindUniqueArgs} args - Arguments to find a SiemEvent
+     * Find zero or one Detection that matches the filter.
+     * @param {DetectionFindUniqueArgs} args - Arguments to find a Detection
      * @example
-     * // Get one SiemEvent
-     * const siemEvent = await prisma.siemEvent.findUnique({
+     * // Get one Detection
+     * const detection = await prisma.detection.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends SiemEventFindUniqueArgs>(args: SelectSubset<T, SiemEventFindUniqueArgs<ExtArgs>>): Prisma__SiemEventClient<$Result.GetResult<Prisma.$SiemEventPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends DetectionFindUniqueArgs>(args: SelectSubset<T, DetectionFindUniqueArgs<ExtArgs>>): Prisma__DetectionClient<$Result.GetResult<Prisma.$DetectionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one SiemEvent that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Detection that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {SiemEventFindUniqueOrThrowArgs} args - Arguments to find a SiemEvent
+     * @param {DetectionFindUniqueOrThrowArgs} args - Arguments to find a Detection
      * @example
-     * // Get one SiemEvent
-     * const siemEvent = await prisma.siemEvent.findUniqueOrThrow({
+     * // Get one Detection
+     * const detection = await prisma.detection.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends SiemEventFindUniqueOrThrowArgs>(args: SelectSubset<T, SiemEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SiemEventClient<$Result.GetResult<Prisma.$SiemEventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends DetectionFindUniqueOrThrowArgs>(args: SelectSubset<T, DetectionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DetectionClient<$Result.GetResult<Prisma.$DetectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first SiemEvent that matches the filter.
+     * Find the first Detection that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SiemEventFindFirstArgs} args - Arguments to find a SiemEvent
+     * @param {DetectionFindFirstArgs} args - Arguments to find a Detection
      * @example
-     * // Get one SiemEvent
-     * const siemEvent = await prisma.siemEvent.findFirst({
+     * // Get one Detection
+     * const detection = await prisma.detection.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends SiemEventFindFirstArgs>(args?: SelectSubset<T, SiemEventFindFirstArgs<ExtArgs>>): Prisma__SiemEventClient<$Result.GetResult<Prisma.$SiemEventPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends DetectionFindFirstArgs>(args?: SelectSubset<T, DetectionFindFirstArgs<ExtArgs>>): Prisma__DetectionClient<$Result.GetResult<Prisma.$DetectionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first SiemEvent that matches the filter or
+     * Find the first Detection that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SiemEventFindFirstOrThrowArgs} args - Arguments to find a SiemEvent
+     * @param {DetectionFindFirstOrThrowArgs} args - Arguments to find a Detection
      * @example
-     * // Get one SiemEvent
-     * const siemEvent = await prisma.siemEvent.findFirstOrThrow({
+     * // Get one Detection
+     * const detection = await prisma.detection.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends SiemEventFindFirstOrThrowArgs>(args?: SelectSubset<T, SiemEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__SiemEventClient<$Result.GetResult<Prisma.$SiemEventPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends DetectionFindFirstOrThrowArgs>(args?: SelectSubset<T, DetectionFindFirstOrThrowArgs<ExtArgs>>): Prisma__DetectionClient<$Result.GetResult<Prisma.$DetectionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more SiemEvents that matches the filter.
+     * Find zero or more Detections that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SiemEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {DetectionFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all SiemEvents
-     * const siemEvents = await prisma.siemEvent.findMany()
+     * // Get all Detections
+     * const detections = await prisma.detection.findMany()
      * 
-     * // Get first 10 SiemEvents
-     * const siemEvents = await prisma.siemEvent.findMany({ take: 10 })
+     * // Get first 10 Detections
+     * const detections = await prisma.detection.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const siemEventWithIdOnly = await prisma.siemEvent.findMany({ select: { id: true } })
+     * const detectionWithIdOnly = await prisma.detection.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends SiemEventFindManyArgs>(args?: SelectSubset<T, SiemEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SiemEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends DetectionFindManyArgs>(args?: SelectSubset<T, DetectionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DetectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a SiemEvent.
-     * @param {SiemEventCreateArgs} args - Arguments to create a SiemEvent.
+     * Create a Detection.
+     * @param {DetectionCreateArgs} args - Arguments to create a Detection.
      * @example
-     * // Create one SiemEvent
-     * const SiemEvent = await prisma.siemEvent.create({
+     * // Create one Detection
+     * const Detection = await prisma.detection.create({
      *   data: {
-     *     // ... data to create a SiemEvent
+     *     // ... data to create a Detection
      *   }
      * })
      * 
      */
-    create<T extends SiemEventCreateArgs>(args: SelectSubset<T, SiemEventCreateArgs<ExtArgs>>): Prisma__SiemEventClient<$Result.GetResult<Prisma.$SiemEventPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends DetectionCreateArgs>(args: SelectSubset<T, DetectionCreateArgs<ExtArgs>>): Prisma__DetectionClient<$Result.GetResult<Prisma.$DetectionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many SiemEvents.
-     * @param {SiemEventCreateManyArgs} args - Arguments to create many SiemEvents.
+     * Create many Detections.
+     * @param {DetectionCreateManyArgs} args - Arguments to create many Detections.
      * @example
-     * // Create many SiemEvents
-     * const siemEvent = await prisma.siemEvent.createMany({
+     * // Create many Detections
+     * const detection = await prisma.detection.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends SiemEventCreateManyArgs>(args?: SelectSubset<T, SiemEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends DetectionCreateManyArgs>(args?: SelectSubset<T, DetectionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many SiemEvents and returns the data saved in the database.
-     * @param {SiemEventCreateManyAndReturnArgs} args - Arguments to create many SiemEvents.
+     * Create many Detections and returns the data saved in the database.
+     * @param {DetectionCreateManyAndReturnArgs} args - Arguments to create many Detections.
      * @example
-     * // Create many SiemEvents
-     * const siemEvent = await prisma.siemEvent.createManyAndReturn({
+     * // Create many Detections
+     * const detection = await prisma.detection.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many SiemEvents and only return the `id`
-     * const siemEventWithIdOnly = await prisma.siemEvent.createManyAndReturn({
+     * // Create many Detections and only return the `id`
+     * const detectionWithIdOnly = await prisma.detection.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -6437,28 +6343,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends SiemEventCreateManyAndReturnArgs>(args?: SelectSubset<T, SiemEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SiemEventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends DetectionCreateManyAndReturnArgs>(args?: SelectSubset<T, DetectionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DetectionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a SiemEvent.
-     * @param {SiemEventDeleteArgs} args - Arguments to delete one SiemEvent.
+     * Delete a Detection.
+     * @param {DetectionDeleteArgs} args - Arguments to delete one Detection.
      * @example
-     * // Delete one SiemEvent
-     * const SiemEvent = await prisma.siemEvent.delete({
+     * // Delete one Detection
+     * const Detection = await prisma.detection.delete({
      *   where: {
-     *     // ... filter to delete one SiemEvent
+     *     // ... filter to delete one Detection
      *   }
      * })
      * 
      */
-    delete<T extends SiemEventDeleteArgs>(args: SelectSubset<T, SiemEventDeleteArgs<ExtArgs>>): Prisma__SiemEventClient<$Result.GetResult<Prisma.$SiemEventPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends DetectionDeleteArgs>(args: SelectSubset<T, DetectionDeleteArgs<ExtArgs>>): Prisma__DetectionClient<$Result.GetResult<Prisma.$DetectionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one SiemEvent.
-     * @param {SiemEventUpdateArgs} args - Arguments to update one SiemEvent.
+     * Update one Detection.
+     * @param {DetectionUpdateArgs} args - Arguments to update one Detection.
      * @example
-     * // Update one SiemEvent
-     * const siemEvent = await prisma.siemEvent.update({
+     * // Update one Detection
+     * const detection = await prisma.detection.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6468,30 +6374,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends SiemEventUpdateArgs>(args: SelectSubset<T, SiemEventUpdateArgs<ExtArgs>>): Prisma__SiemEventClient<$Result.GetResult<Prisma.$SiemEventPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends DetectionUpdateArgs>(args: SelectSubset<T, DetectionUpdateArgs<ExtArgs>>): Prisma__DetectionClient<$Result.GetResult<Prisma.$DetectionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more SiemEvents.
-     * @param {SiemEventDeleteManyArgs} args - Arguments to filter SiemEvents to delete.
+     * Delete zero or more Detections.
+     * @param {DetectionDeleteManyArgs} args - Arguments to filter Detections to delete.
      * @example
-     * // Delete a few SiemEvents
-     * const { count } = await prisma.siemEvent.deleteMany({
+     * // Delete a few Detections
+     * const { count } = await prisma.detection.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends SiemEventDeleteManyArgs>(args?: SelectSubset<T, SiemEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends DetectionDeleteManyArgs>(args?: SelectSubset<T, DetectionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more SiemEvents.
+     * Update zero or more Detections.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SiemEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {DetectionUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many SiemEvents
-     * const siemEvent = await prisma.siemEvent.updateMany({
+     * // Update many Detections
+     * const detection = await prisma.detection.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6501,14 +6407,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends SiemEventUpdateManyArgs>(args: SelectSubset<T, SiemEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends DetectionUpdateManyArgs>(args: SelectSubset<T, DetectionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more SiemEvents and returns the data updated in the database.
-     * @param {SiemEventUpdateManyAndReturnArgs} args - Arguments to update many SiemEvents.
+     * Update zero or more Detections and returns the data updated in the database.
+     * @param {DetectionUpdateManyAndReturnArgs} args - Arguments to update many Detections.
      * @example
-     * // Update many SiemEvents
-     * const siemEvent = await prisma.siemEvent.updateManyAndReturn({
+     * // Update many Detections
+     * const detection = await prisma.detection.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6517,8 +6423,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more SiemEvents and only return the `id`
-     * const siemEventWithIdOnly = await prisma.siemEvent.updateManyAndReturn({
+     * // Update zero or more Detections and only return the `id`
+     * const detectionWithIdOnly = await prisma.detection.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -6531,56 +6437,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends SiemEventUpdateManyAndReturnArgs>(args: SelectSubset<T, SiemEventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SiemEventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends DetectionUpdateManyAndReturnArgs>(args: SelectSubset<T, DetectionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DetectionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one SiemEvent.
-     * @param {SiemEventUpsertArgs} args - Arguments to update or create a SiemEvent.
+     * Create or update one Detection.
+     * @param {DetectionUpsertArgs} args - Arguments to update or create a Detection.
      * @example
-     * // Update or create a SiemEvent
-     * const siemEvent = await prisma.siemEvent.upsert({
+     * // Update or create a Detection
+     * const detection = await prisma.detection.upsert({
      *   create: {
-     *     // ... data to create a SiemEvent
+     *     // ... data to create a Detection
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the SiemEvent we want to update
+     *     // ... the filter for the Detection we want to update
      *   }
      * })
      */
-    upsert<T extends SiemEventUpsertArgs>(args: SelectSubset<T, SiemEventUpsertArgs<ExtArgs>>): Prisma__SiemEventClient<$Result.GetResult<Prisma.$SiemEventPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends DetectionUpsertArgs>(args: SelectSubset<T, DetectionUpsertArgs<ExtArgs>>): Prisma__DetectionClient<$Result.GetResult<Prisma.$DetectionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of SiemEvents.
+     * Count the number of Detections.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SiemEventCountArgs} args - Arguments to filter SiemEvents to count.
+     * @param {DetectionCountArgs} args - Arguments to filter Detections to count.
      * @example
-     * // Count the number of SiemEvents
-     * const count = await prisma.siemEvent.count({
+     * // Count the number of Detections
+     * const count = await prisma.detection.count({
      *   where: {
-     *     // ... the filter for the SiemEvents we want to count
+     *     // ... the filter for the Detections we want to count
      *   }
      * })
     **/
-    count<T extends SiemEventCountArgs>(
-      args?: Subset<T, SiemEventCountArgs>,
+    count<T extends DetectionCountArgs>(
+      args?: Subset<T, DetectionCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], SiemEventCountAggregateOutputType>
+          : GetScalarType<T['select'], DetectionCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a SiemEvent.
+     * Allows you to perform aggregations operations on a Detection.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SiemEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {DetectionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -6600,13 +6506,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends SiemEventAggregateArgs>(args: Subset<T, SiemEventAggregateArgs>): Prisma.PrismaPromise<GetSiemEventAggregateType<T>>
+    aggregate<T extends DetectionAggregateArgs>(args: Subset<T, DetectionAggregateArgs>): Prisma.PrismaPromise<GetDetectionAggregateType<T>>
 
     /**
-     * Group by SiemEvent.
+     * Group by Detection.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {SiemEventGroupByArgs} args - Group by arguments.
+     * @param {DetectionGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -6621,14 +6527,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends SiemEventGroupByArgs,
+      T extends DetectionGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: SiemEventGroupByArgs['orderBy'] }
-        : { orderBy?: SiemEventGroupByArgs['orderBy'] },
+        ? { orderBy: DetectionGroupByArgs['orderBy'] }
+        : { orderBy?: DetectionGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -6677,23 +6583,22 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, SiemEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSiemEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, DetectionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDetectionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the SiemEvent model
+   * Fields of the Detection model
    */
-  readonly fields: SiemEventFieldRefs;
+  readonly fields: DetectionFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for SiemEvent.
+   * The delegate class that acts as a "Promise-like" for Detection.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__SiemEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__DetectionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    credential<T extends AwsCredentialDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AwsCredentialDefaultArgs<ExtArgs>>): Prisma__AwsCredentialClient<$Result.GetResult<Prisma.$AwsCredentialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    rule<T extends SiemEvent$ruleArgs<ExtArgs> = {}>(args?: Subset<T, SiemEvent$ruleArgs<ExtArgs>>): Prisma__SiemRuleClient<$Result.GetResult<Prisma.$SiemRulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    rule<T extends InsightsRuleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InsightsRuleDefaultArgs<ExtArgs>>): Prisma__InsightsRuleClient<$Result.GetResult<Prisma.$InsightsRulePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6720,452 +6625,427 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the SiemEvent model
+   * Fields of the Detection model
    */
-  interface SiemEventFieldRefs {
-    readonly id: FieldRef<"SiemEvent", 'String'>
-    readonly timestamp: FieldRef<"SiemEvent", 'DateTime'>
-    readonly source: FieldRef<"SiemEvent", 'String'>
-    readonly eventType: FieldRef<"SiemEvent", 'String'>
-    readonly severity: FieldRef<"SiemEvent", 'String'>
-    readonly status: FieldRef<"SiemEvent", 'String'>
-    readonly message: FieldRef<"SiemEvent", 'String'>
-    readonly rawData: FieldRef<"SiemEvent", 'String'>
-    readonly accountId: FieldRef<"SiemEvent", 'String'>
-    readonly region: FieldRef<"SiemEvent", 'String'>
-    readonly resource: FieldRef<"SiemEvent", 'String'>
-    readonly createdAt: FieldRef<"SiemEvent", 'DateTime'>
-    readonly updatedAt: FieldRef<"SiemEvent", 'DateTime'>
-    readonly credentialId: FieldRef<"SiemEvent", 'String'>
-    readonly ruleId: FieldRef<"SiemEvent", 'String'>
+  interface DetectionFieldRefs {
+    readonly id: FieldRef<"Detection", 'String'>
+    readonly ruleId: FieldRef<"Detection", 'String'>
+    readonly timestamp: FieldRef<"Detection", 'DateTime'>
+    readonly message: FieldRef<"Detection", 'String'>
+    readonly severity: FieldRef<"Detection", 'String'>
+    readonly fields: FieldRef<"Detection", 'Json'>
+    readonly acknowledged: FieldRef<"Detection", 'Boolean'>
+    readonly createdAt: FieldRef<"Detection", 'DateTime'>
+    readonly updatedAt: FieldRef<"Detection", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * SiemEvent findUnique
+   * Detection findUnique
    */
-  export type SiemEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DetectionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemEvent
+     * Select specific fields to fetch from the Detection
      */
-    select?: SiemEventSelect<ExtArgs> | null
+    select?: DetectionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemEvent
+     * Omit specific fields from the Detection
      */
-    omit?: SiemEventOmit<ExtArgs> | null
+    omit?: DetectionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemEventInclude<ExtArgs> | null
+    include?: DetectionInclude<ExtArgs> | null
     /**
-     * Filter, which SiemEvent to fetch.
+     * Filter, which Detection to fetch.
      */
-    where: SiemEventWhereUniqueInput
+    where: DetectionWhereUniqueInput
   }
 
   /**
-   * SiemEvent findUniqueOrThrow
+   * Detection findUniqueOrThrow
    */
-  export type SiemEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DetectionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemEvent
+     * Select specific fields to fetch from the Detection
      */
-    select?: SiemEventSelect<ExtArgs> | null
+    select?: DetectionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemEvent
+     * Omit specific fields from the Detection
      */
-    omit?: SiemEventOmit<ExtArgs> | null
+    omit?: DetectionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemEventInclude<ExtArgs> | null
+    include?: DetectionInclude<ExtArgs> | null
     /**
-     * Filter, which SiemEvent to fetch.
+     * Filter, which Detection to fetch.
      */
-    where: SiemEventWhereUniqueInput
+    where: DetectionWhereUniqueInput
   }
 
   /**
-   * SiemEvent findFirst
+   * Detection findFirst
    */
-  export type SiemEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DetectionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemEvent
+     * Select specific fields to fetch from the Detection
      */
-    select?: SiemEventSelect<ExtArgs> | null
+    select?: DetectionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemEvent
+     * Omit specific fields from the Detection
      */
-    omit?: SiemEventOmit<ExtArgs> | null
+    omit?: DetectionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemEventInclude<ExtArgs> | null
+    include?: DetectionInclude<ExtArgs> | null
     /**
-     * Filter, which SiemEvent to fetch.
+     * Filter, which Detection to fetch.
      */
-    where?: SiemEventWhereInput
+    where?: DetectionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of SiemEvents to fetch.
+     * Determine the order of Detections to fetch.
      */
-    orderBy?: SiemEventOrderByWithRelationInput | SiemEventOrderByWithRelationInput[]
+    orderBy?: DetectionOrderByWithRelationInput | DetectionOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for SiemEvents.
+     * Sets the position for searching for Detections.
      */
-    cursor?: SiemEventWhereUniqueInput
+    cursor?: DetectionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` SiemEvents from the position of the cursor.
+     * Take `±n` Detections from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` SiemEvents.
+     * Skip the first `n` Detections.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of SiemEvents.
+     * Filter by unique combinations of Detections.
      */
-    distinct?: SiemEventScalarFieldEnum | SiemEventScalarFieldEnum[]
+    distinct?: DetectionScalarFieldEnum | DetectionScalarFieldEnum[]
   }
 
   /**
-   * SiemEvent findFirstOrThrow
+   * Detection findFirstOrThrow
    */
-  export type SiemEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DetectionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemEvent
+     * Select specific fields to fetch from the Detection
      */
-    select?: SiemEventSelect<ExtArgs> | null
+    select?: DetectionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemEvent
+     * Omit specific fields from the Detection
      */
-    omit?: SiemEventOmit<ExtArgs> | null
+    omit?: DetectionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemEventInclude<ExtArgs> | null
+    include?: DetectionInclude<ExtArgs> | null
     /**
-     * Filter, which SiemEvent to fetch.
+     * Filter, which Detection to fetch.
      */
-    where?: SiemEventWhereInput
+    where?: DetectionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of SiemEvents to fetch.
+     * Determine the order of Detections to fetch.
      */
-    orderBy?: SiemEventOrderByWithRelationInput | SiemEventOrderByWithRelationInput[]
+    orderBy?: DetectionOrderByWithRelationInput | DetectionOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for SiemEvents.
+     * Sets the position for searching for Detections.
      */
-    cursor?: SiemEventWhereUniqueInput
+    cursor?: DetectionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` SiemEvents from the position of the cursor.
+     * Take `±n` Detections from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` SiemEvents.
+     * Skip the first `n` Detections.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of SiemEvents.
+     * Filter by unique combinations of Detections.
      */
-    distinct?: SiemEventScalarFieldEnum | SiemEventScalarFieldEnum[]
+    distinct?: DetectionScalarFieldEnum | DetectionScalarFieldEnum[]
   }
 
   /**
-   * SiemEvent findMany
+   * Detection findMany
    */
-  export type SiemEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DetectionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemEvent
+     * Select specific fields to fetch from the Detection
      */
-    select?: SiemEventSelect<ExtArgs> | null
+    select?: DetectionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemEvent
+     * Omit specific fields from the Detection
      */
-    omit?: SiemEventOmit<ExtArgs> | null
+    omit?: DetectionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemEventInclude<ExtArgs> | null
+    include?: DetectionInclude<ExtArgs> | null
     /**
-     * Filter, which SiemEvents to fetch.
+     * Filter, which Detections to fetch.
      */
-    where?: SiemEventWhereInput
+    where?: DetectionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of SiemEvents to fetch.
+     * Determine the order of Detections to fetch.
      */
-    orderBy?: SiemEventOrderByWithRelationInput | SiemEventOrderByWithRelationInput[]
+    orderBy?: DetectionOrderByWithRelationInput | DetectionOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing SiemEvents.
+     * Sets the position for listing Detections.
      */
-    cursor?: SiemEventWhereUniqueInput
+    cursor?: DetectionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` SiemEvents from the position of the cursor.
+     * Take `±n` Detections from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` SiemEvents.
+     * Skip the first `n` Detections.
      */
     skip?: number
-    distinct?: SiemEventScalarFieldEnum | SiemEventScalarFieldEnum[]
+    distinct?: DetectionScalarFieldEnum | DetectionScalarFieldEnum[]
   }
 
   /**
-   * SiemEvent create
+   * Detection create
    */
-  export type SiemEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DetectionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemEvent
+     * Select specific fields to fetch from the Detection
      */
-    select?: SiemEventSelect<ExtArgs> | null
+    select?: DetectionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemEvent
+     * Omit specific fields from the Detection
      */
-    omit?: SiemEventOmit<ExtArgs> | null
+    omit?: DetectionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemEventInclude<ExtArgs> | null
+    include?: DetectionInclude<ExtArgs> | null
     /**
-     * The data needed to create a SiemEvent.
+     * The data needed to create a Detection.
      */
-    data: XOR<SiemEventCreateInput, SiemEventUncheckedCreateInput>
+    data: XOR<DetectionCreateInput, DetectionUncheckedCreateInput>
   }
 
   /**
-   * SiemEvent createMany
+   * Detection createMany
    */
-  export type SiemEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DetectionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many SiemEvents.
+     * The data used to create many Detections.
      */
-    data: SiemEventCreateManyInput | SiemEventCreateManyInput[]
+    data: DetectionCreateManyInput | DetectionCreateManyInput[]
   }
 
   /**
-   * SiemEvent createManyAndReturn
+   * Detection createManyAndReturn
    */
-  export type SiemEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DetectionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemEvent
+     * Select specific fields to fetch from the Detection
      */
-    select?: SiemEventSelectCreateManyAndReturn<ExtArgs> | null
+    select?: DetectionSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemEvent
+     * Omit specific fields from the Detection
      */
-    omit?: SiemEventOmit<ExtArgs> | null
+    omit?: DetectionOmit<ExtArgs> | null
     /**
-     * The data used to create many SiemEvents.
+     * The data used to create many Detections.
      */
-    data: SiemEventCreateManyInput | SiemEventCreateManyInput[]
+    data: DetectionCreateManyInput | DetectionCreateManyInput[]
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemEventIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: DetectionIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * SiemEvent update
+   * Detection update
    */
-  export type SiemEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DetectionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemEvent
+     * Select specific fields to fetch from the Detection
      */
-    select?: SiemEventSelect<ExtArgs> | null
+    select?: DetectionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemEvent
+     * Omit specific fields from the Detection
      */
-    omit?: SiemEventOmit<ExtArgs> | null
+    omit?: DetectionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemEventInclude<ExtArgs> | null
+    include?: DetectionInclude<ExtArgs> | null
     /**
-     * The data needed to update a SiemEvent.
+     * The data needed to update a Detection.
      */
-    data: XOR<SiemEventUpdateInput, SiemEventUncheckedUpdateInput>
+    data: XOR<DetectionUpdateInput, DetectionUncheckedUpdateInput>
     /**
-     * Choose, which SiemEvent to update.
+     * Choose, which Detection to update.
      */
-    where: SiemEventWhereUniqueInput
+    where: DetectionWhereUniqueInput
   }
 
   /**
-   * SiemEvent updateMany
+   * Detection updateMany
    */
-  export type SiemEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DetectionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update SiemEvents.
+     * The data used to update Detections.
      */
-    data: XOR<SiemEventUpdateManyMutationInput, SiemEventUncheckedUpdateManyInput>
+    data: XOR<DetectionUpdateManyMutationInput, DetectionUncheckedUpdateManyInput>
     /**
-     * Filter which SiemEvents to update
+     * Filter which Detections to update
      */
-    where?: SiemEventWhereInput
+    where?: DetectionWhereInput
     /**
-     * Limit how many SiemEvents to update.
+     * Limit how many Detections to update.
      */
     limit?: number
   }
 
   /**
-   * SiemEvent updateManyAndReturn
+   * Detection updateManyAndReturn
    */
-  export type SiemEventUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DetectionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemEvent
+     * Select specific fields to fetch from the Detection
      */
-    select?: SiemEventSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: DetectionSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemEvent
+     * Omit specific fields from the Detection
      */
-    omit?: SiemEventOmit<ExtArgs> | null
+    omit?: DetectionOmit<ExtArgs> | null
     /**
-     * The data used to update SiemEvents.
+     * The data used to update Detections.
      */
-    data: XOR<SiemEventUpdateManyMutationInput, SiemEventUncheckedUpdateManyInput>
+    data: XOR<DetectionUpdateManyMutationInput, DetectionUncheckedUpdateManyInput>
     /**
-     * Filter which SiemEvents to update
+     * Filter which Detections to update
      */
-    where?: SiemEventWhereInput
+    where?: DetectionWhereInput
     /**
-     * Limit how many SiemEvents to update.
+     * Limit how many Detections to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemEventIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: DetectionIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * SiemEvent upsert
+   * Detection upsert
    */
-  export type SiemEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DetectionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemEvent
+     * Select specific fields to fetch from the Detection
      */
-    select?: SiemEventSelect<ExtArgs> | null
+    select?: DetectionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemEvent
+     * Omit specific fields from the Detection
      */
-    omit?: SiemEventOmit<ExtArgs> | null
+    omit?: DetectionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemEventInclude<ExtArgs> | null
+    include?: DetectionInclude<ExtArgs> | null
     /**
-     * The filter to search for the SiemEvent to update in case it exists.
+     * The filter to search for the Detection to update in case it exists.
      */
-    where: SiemEventWhereUniqueInput
+    where: DetectionWhereUniqueInput
     /**
-     * In case the SiemEvent found by the `where` argument doesn't exist, create a new SiemEvent with this data.
+     * In case the Detection found by the `where` argument doesn't exist, create a new Detection with this data.
      */
-    create: XOR<SiemEventCreateInput, SiemEventUncheckedCreateInput>
+    create: XOR<DetectionCreateInput, DetectionUncheckedCreateInput>
     /**
-     * In case the SiemEvent was found with the provided `where` argument, update it with this data.
+     * In case the Detection was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<SiemEventUpdateInput, SiemEventUncheckedUpdateInput>
+    update: XOR<DetectionUpdateInput, DetectionUncheckedUpdateInput>
   }
 
   /**
-   * SiemEvent delete
+   * Detection delete
    */
-  export type SiemEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DetectionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemEvent
+     * Select specific fields to fetch from the Detection
      */
-    select?: SiemEventSelect<ExtArgs> | null
+    select?: DetectionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemEvent
+     * Omit specific fields from the Detection
      */
-    omit?: SiemEventOmit<ExtArgs> | null
+    omit?: DetectionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemEventInclude<ExtArgs> | null
+    include?: DetectionInclude<ExtArgs> | null
     /**
-     * Filter which SiemEvent to delete.
+     * Filter which Detection to delete.
      */
-    where: SiemEventWhereUniqueInput
+    where: DetectionWhereUniqueInput
   }
 
   /**
-   * SiemEvent deleteMany
+   * Detection deleteMany
    */
-  export type SiemEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DetectionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which SiemEvents to delete
+     * Filter which Detections to delete
      */
-    where?: SiemEventWhereInput
+    where?: DetectionWhereInput
     /**
-     * Limit how many SiemEvents to delete.
+     * Limit how many Detections to delete.
      */
     limit?: number
   }
 
   /**
-   * SiemEvent.rule
+   * Detection without action
    */
-  export type SiemEvent$ruleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type DetectionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SiemRule
+     * Select specific fields to fetch from the Detection
      */
-    select?: SiemRuleSelect<ExtArgs> | null
+    select?: DetectionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the SiemRule
+     * Omit specific fields from the Detection
      */
-    omit?: SiemRuleOmit<ExtArgs> | null
+    omit?: DetectionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SiemRuleInclude<ExtArgs> | null
-    where?: SiemRuleWhereInput
-  }
-
-  /**
-   * SiemEvent without action
-   */
-  export type SiemEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SiemEvent
-     */
-    select?: SiemEventSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the SiemEvent
-     */
-    omit?: SiemEventOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SiemEventInclude<ExtArgs> | null
+    include?: DetectionInclude<ExtArgs> | null
   }
 
 
@@ -7222,43 +7102,39 @@ export namespace Prisma {
   export type AlertScalarFieldEnum = (typeof AlertScalarFieldEnum)[keyof typeof AlertScalarFieldEnum]
 
 
-  export const SiemRuleScalarFieldEnum: {
+  export const InsightsRuleScalarFieldEnum: {
     id: 'id',
     name: 'name',
     description: 'description',
-    type: 'type',
     query: 'query',
+    logGroup: 'logGroup',
     severity: 'severity',
-    status: 'status',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
+    isActive: 'isActive',
     triggers: 'triggers',
     lastTriggered: 'lastTriggered',
+    lastExecuted: 'lastExecuted',
+    region: 'region',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     credentialId: 'credentialId'
   };
 
-  export type SiemRuleScalarFieldEnum = (typeof SiemRuleScalarFieldEnum)[keyof typeof SiemRuleScalarFieldEnum]
+  export type InsightsRuleScalarFieldEnum = (typeof InsightsRuleScalarFieldEnum)[keyof typeof InsightsRuleScalarFieldEnum]
 
 
-  export const SiemEventScalarFieldEnum: {
+  export const DetectionScalarFieldEnum: {
     id: 'id',
+    ruleId: 'ruleId',
     timestamp: 'timestamp',
-    source: 'source',
-    eventType: 'eventType',
-    severity: 'severity',
-    status: 'status',
     message: 'message',
-    rawData: 'rawData',
-    accountId: 'accountId',
-    region: 'region',
-    resource: 'resource',
+    severity: 'severity',
+    fields: 'fields',
+    acknowledged: 'acknowledged',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    credentialId: 'credentialId',
-    ruleId: 'ruleId'
+    updatedAt: 'updatedAt'
   };
 
-  export type SiemEventScalarFieldEnum = (typeof SiemEventScalarFieldEnum)[keyof typeof SiemEventScalarFieldEnum]
+  export type DetectionScalarFieldEnum = (typeof DetectionScalarFieldEnum)[keyof typeof DetectionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -7269,12 +7145,36 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
   export const NullsOrder: {
     first: 'first',
     last: 'last'
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+  export const QueryMode: {
+    default: 'default',
+    insensitive: 'insensitive'
+  };
+
+  export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
   /**
@@ -7297,9 +7197,30 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -7387,8 +7308,7 @@ export namespace Prisma {
     userId?: StringFilter<"AwsCredential"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     alerts?: AlertListRelationFilter
-    siemRules?: SiemRuleListRelationFilter
-    siemEvents?: SiemEventListRelationFilter
+    insightsRules?: InsightsRuleListRelationFilter
   }
 
   export type AwsCredentialOrderByWithRelationInput = {
@@ -7402,8 +7322,7 @@ export namespace Prisma {
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
     alerts?: AlertOrderByRelationAggregateInput
-    siemRules?: SiemRuleOrderByRelationAggregateInput
-    siemEvents?: SiemEventOrderByRelationAggregateInput
+    insightsRules?: InsightsRuleOrderByRelationAggregateInput
   }
 
   export type AwsCredentialWhereUniqueInput = Prisma.AtLeast<{
@@ -7420,8 +7339,7 @@ export namespace Prisma {
     userId?: StringFilter<"AwsCredential"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     alerts?: AlertListRelationFilter
-    siemRules?: SiemRuleListRelationFilter
-    siemEvents?: SiemEventListRelationFilter
+    insightsRules?: InsightsRuleListRelationFilter
   }, "id">
 
   export type AwsCredentialOrderByWithAggregationInput = {
@@ -7532,207 +7450,184 @@ export namespace Prisma {
     credentialId?: StringNullableWithAggregatesFilter<"Alert"> | string | null
   }
 
-  export type SiemRuleWhereInput = {
-    AND?: SiemRuleWhereInput | SiemRuleWhereInput[]
-    OR?: SiemRuleWhereInput[]
-    NOT?: SiemRuleWhereInput | SiemRuleWhereInput[]
-    id?: StringFilter<"SiemRule"> | string
-    name?: StringFilter<"SiemRule"> | string
-    description?: StringFilter<"SiemRule"> | string
-    type?: StringFilter<"SiemRule"> | string
-    query?: StringFilter<"SiemRule"> | string
-    severity?: StringFilter<"SiemRule"> | string
-    status?: StringFilter<"SiemRule"> | string
-    createdAt?: DateTimeFilter<"SiemRule"> | Date | string
-    updatedAt?: DateTimeFilter<"SiemRule"> | Date | string
-    triggers?: IntFilter<"SiemRule"> | number
-    lastTriggered?: DateTimeNullableFilter<"SiemRule"> | Date | string | null
-    credentialId?: StringFilter<"SiemRule"> | string
+  export type InsightsRuleWhereInput = {
+    AND?: InsightsRuleWhereInput | InsightsRuleWhereInput[]
+    OR?: InsightsRuleWhereInput[]
+    NOT?: InsightsRuleWhereInput | InsightsRuleWhereInput[]
+    id?: StringFilter<"InsightsRule"> | string
+    name?: StringFilter<"InsightsRule"> | string
+    description?: StringNullableFilter<"InsightsRule"> | string | null
+    query?: StringFilter<"InsightsRule"> | string
+    logGroup?: StringFilter<"InsightsRule"> | string
+    severity?: StringFilter<"InsightsRule"> | string
+    isActive?: BoolFilter<"InsightsRule"> | boolean
+    triggers?: IntFilter<"InsightsRule"> | number
+    lastTriggered?: DateTimeNullableFilter<"InsightsRule"> | Date | string | null
+    lastExecuted?: DateTimeNullableFilter<"InsightsRule"> | Date | string | null
+    region?: StringNullableFilter<"InsightsRule"> | string | null
+    createdAt?: DateTimeFilter<"InsightsRule"> | Date | string
+    updatedAt?: DateTimeFilter<"InsightsRule"> | Date | string
+    credentialId?: StringFilter<"InsightsRule"> | string
     credential?: XOR<AwsCredentialScalarRelationFilter, AwsCredentialWhereInput>
-    events?: SiemEventListRelationFilter
+    detections?: DetectionListRelationFilter
   }
 
-  export type SiemRuleOrderByWithRelationInput = {
+  export type InsightsRuleOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    description?: SortOrder
-    type?: SortOrder
+    description?: SortOrderInput | SortOrder
     query?: SortOrder
+    logGroup?: SortOrder
     severity?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    isActive?: SortOrder
     triggers?: SortOrder
     lastTriggered?: SortOrderInput | SortOrder
+    lastExecuted?: SortOrderInput | SortOrder
+    region?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     credentialId?: SortOrder
     credential?: AwsCredentialOrderByWithRelationInput
-    events?: SiemEventOrderByRelationAggregateInput
+    detections?: DetectionOrderByRelationAggregateInput
   }
 
-  export type SiemRuleWhereUniqueInput = Prisma.AtLeast<{
+  export type InsightsRuleWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: SiemRuleWhereInput | SiemRuleWhereInput[]
-    OR?: SiemRuleWhereInput[]
-    NOT?: SiemRuleWhereInput | SiemRuleWhereInput[]
-    name?: StringFilter<"SiemRule"> | string
-    description?: StringFilter<"SiemRule"> | string
-    type?: StringFilter<"SiemRule"> | string
-    query?: StringFilter<"SiemRule"> | string
-    severity?: StringFilter<"SiemRule"> | string
-    status?: StringFilter<"SiemRule"> | string
-    createdAt?: DateTimeFilter<"SiemRule"> | Date | string
-    updatedAt?: DateTimeFilter<"SiemRule"> | Date | string
-    triggers?: IntFilter<"SiemRule"> | number
-    lastTriggered?: DateTimeNullableFilter<"SiemRule"> | Date | string | null
-    credentialId?: StringFilter<"SiemRule"> | string
+    AND?: InsightsRuleWhereInput | InsightsRuleWhereInput[]
+    OR?: InsightsRuleWhereInput[]
+    NOT?: InsightsRuleWhereInput | InsightsRuleWhereInput[]
+    name?: StringFilter<"InsightsRule"> | string
+    description?: StringNullableFilter<"InsightsRule"> | string | null
+    query?: StringFilter<"InsightsRule"> | string
+    logGroup?: StringFilter<"InsightsRule"> | string
+    severity?: StringFilter<"InsightsRule"> | string
+    isActive?: BoolFilter<"InsightsRule"> | boolean
+    triggers?: IntFilter<"InsightsRule"> | number
+    lastTriggered?: DateTimeNullableFilter<"InsightsRule"> | Date | string | null
+    lastExecuted?: DateTimeNullableFilter<"InsightsRule"> | Date | string | null
+    region?: StringNullableFilter<"InsightsRule"> | string | null
+    createdAt?: DateTimeFilter<"InsightsRule"> | Date | string
+    updatedAt?: DateTimeFilter<"InsightsRule"> | Date | string
+    credentialId?: StringFilter<"InsightsRule"> | string
     credential?: XOR<AwsCredentialScalarRelationFilter, AwsCredentialWhereInput>
-    events?: SiemEventListRelationFilter
+    detections?: DetectionListRelationFilter
   }, "id">
 
-  export type SiemRuleOrderByWithAggregationInput = {
+  export type InsightsRuleOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
-    description?: SortOrder
-    type?: SortOrder
+    description?: SortOrderInput | SortOrder
     query?: SortOrder
+    logGroup?: SortOrder
     severity?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    isActive?: SortOrder
     triggers?: SortOrder
     lastTriggered?: SortOrderInput | SortOrder
-    credentialId?: SortOrder
-    _count?: SiemRuleCountOrderByAggregateInput
-    _avg?: SiemRuleAvgOrderByAggregateInput
-    _max?: SiemRuleMaxOrderByAggregateInput
-    _min?: SiemRuleMinOrderByAggregateInput
-    _sum?: SiemRuleSumOrderByAggregateInput
-  }
-
-  export type SiemRuleScalarWhereWithAggregatesInput = {
-    AND?: SiemRuleScalarWhereWithAggregatesInput | SiemRuleScalarWhereWithAggregatesInput[]
-    OR?: SiemRuleScalarWhereWithAggregatesInput[]
-    NOT?: SiemRuleScalarWhereWithAggregatesInput | SiemRuleScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"SiemRule"> | string
-    name?: StringWithAggregatesFilter<"SiemRule"> | string
-    description?: StringWithAggregatesFilter<"SiemRule"> | string
-    type?: StringWithAggregatesFilter<"SiemRule"> | string
-    query?: StringWithAggregatesFilter<"SiemRule"> | string
-    severity?: StringWithAggregatesFilter<"SiemRule"> | string
-    status?: StringWithAggregatesFilter<"SiemRule"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"SiemRule"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"SiemRule"> | Date | string
-    triggers?: IntWithAggregatesFilter<"SiemRule"> | number
-    lastTriggered?: DateTimeNullableWithAggregatesFilter<"SiemRule"> | Date | string | null
-    credentialId?: StringWithAggregatesFilter<"SiemRule"> | string
-  }
-
-  export type SiemEventWhereInput = {
-    AND?: SiemEventWhereInput | SiemEventWhereInput[]
-    OR?: SiemEventWhereInput[]
-    NOT?: SiemEventWhereInput | SiemEventWhereInput[]
-    id?: StringFilter<"SiemEvent"> | string
-    timestamp?: DateTimeFilter<"SiemEvent"> | Date | string
-    source?: StringFilter<"SiemEvent"> | string
-    eventType?: StringFilter<"SiemEvent"> | string
-    severity?: StringFilter<"SiemEvent"> | string
-    status?: StringFilter<"SiemEvent"> | string
-    message?: StringFilter<"SiemEvent"> | string
-    rawData?: StringFilter<"SiemEvent"> | string
-    accountId?: StringNullableFilter<"SiemEvent"> | string | null
-    region?: StringNullableFilter<"SiemEvent"> | string | null
-    resource?: StringNullableFilter<"SiemEvent"> | string | null
-    createdAt?: DateTimeFilter<"SiemEvent"> | Date | string
-    updatedAt?: DateTimeFilter<"SiemEvent"> | Date | string
-    credentialId?: StringFilter<"SiemEvent"> | string
-    ruleId?: StringNullableFilter<"SiemEvent"> | string | null
-    credential?: XOR<AwsCredentialScalarRelationFilter, AwsCredentialWhereInput>
-    rule?: XOR<SiemRuleNullableScalarRelationFilter, SiemRuleWhereInput> | null
-  }
-
-  export type SiemEventOrderByWithRelationInput = {
-    id?: SortOrder
-    timestamp?: SortOrder
-    source?: SortOrder
-    eventType?: SortOrder
-    severity?: SortOrder
-    status?: SortOrder
-    message?: SortOrder
-    rawData?: SortOrder
-    accountId?: SortOrderInput | SortOrder
+    lastExecuted?: SortOrderInput | SortOrder
     region?: SortOrderInput | SortOrder
-    resource?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     credentialId?: SortOrder
-    ruleId?: SortOrderInput | SortOrder
-    credential?: AwsCredentialOrderByWithRelationInput
-    rule?: SiemRuleOrderByWithRelationInput
+    _count?: InsightsRuleCountOrderByAggregateInput
+    _avg?: InsightsRuleAvgOrderByAggregateInput
+    _max?: InsightsRuleMaxOrderByAggregateInput
+    _min?: InsightsRuleMinOrderByAggregateInput
+    _sum?: InsightsRuleSumOrderByAggregateInput
   }
 
-  export type SiemEventWhereUniqueInput = Prisma.AtLeast<{
+  export type InsightsRuleScalarWhereWithAggregatesInput = {
+    AND?: InsightsRuleScalarWhereWithAggregatesInput | InsightsRuleScalarWhereWithAggregatesInput[]
+    OR?: InsightsRuleScalarWhereWithAggregatesInput[]
+    NOT?: InsightsRuleScalarWhereWithAggregatesInput | InsightsRuleScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"InsightsRule"> | string
+    name?: StringWithAggregatesFilter<"InsightsRule"> | string
+    description?: StringNullableWithAggregatesFilter<"InsightsRule"> | string | null
+    query?: StringWithAggregatesFilter<"InsightsRule"> | string
+    logGroup?: StringWithAggregatesFilter<"InsightsRule"> | string
+    severity?: StringWithAggregatesFilter<"InsightsRule"> | string
+    isActive?: BoolWithAggregatesFilter<"InsightsRule"> | boolean
+    triggers?: IntWithAggregatesFilter<"InsightsRule"> | number
+    lastTriggered?: DateTimeNullableWithAggregatesFilter<"InsightsRule"> | Date | string | null
+    lastExecuted?: DateTimeNullableWithAggregatesFilter<"InsightsRule"> | Date | string | null
+    region?: StringNullableWithAggregatesFilter<"InsightsRule"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"InsightsRule"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"InsightsRule"> | Date | string
+    credentialId?: StringWithAggregatesFilter<"InsightsRule"> | string
+  }
+
+  export type DetectionWhereInput = {
+    AND?: DetectionWhereInput | DetectionWhereInput[]
+    OR?: DetectionWhereInput[]
+    NOT?: DetectionWhereInput | DetectionWhereInput[]
+    id?: StringFilter<"Detection"> | string
+    ruleId?: StringFilter<"Detection"> | string
+    timestamp?: DateTimeFilter<"Detection"> | Date | string
+    message?: StringFilter<"Detection"> | string
+    severity?: StringFilter<"Detection"> | string
+    fields?: JsonFilter<"Detection">
+    acknowledged?: BoolFilter<"Detection"> | boolean
+    createdAt?: DateTimeFilter<"Detection"> | Date | string
+    updatedAt?: DateTimeFilter<"Detection"> | Date | string
+    rule?: XOR<InsightsRuleScalarRelationFilter, InsightsRuleWhereInput>
+  }
+
+  export type DetectionOrderByWithRelationInput = {
+    id?: SortOrder
+    ruleId?: SortOrder
+    timestamp?: SortOrder
+    message?: SortOrder
+    severity?: SortOrder
+    fields?: SortOrder
+    acknowledged?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    rule?: InsightsRuleOrderByWithRelationInput
+  }
+
+  export type DetectionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: SiemEventWhereInput | SiemEventWhereInput[]
-    OR?: SiemEventWhereInput[]
-    NOT?: SiemEventWhereInput | SiemEventWhereInput[]
-    timestamp?: DateTimeFilter<"SiemEvent"> | Date | string
-    source?: StringFilter<"SiemEvent"> | string
-    eventType?: StringFilter<"SiemEvent"> | string
-    severity?: StringFilter<"SiemEvent"> | string
-    status?: StringFilter<"SiemEvent"> | string
-    message?: StringFilter<"SiemEvent"> | string
-    rawData?: StringFilter<"SiemEvent"> | string
-    accountId?: StringNullableFilter<"SiemEvent"> | string | null
-    region?: StringNullableFilter<"SiemEvent"> | string | null
-    resource?: StringNullableFilter<"SiemEvent"> | string | null
-    createdAt?: DateTimeFilter<"SiemEvent"> | Date | string
-    updatedAt?: DateTimeFilter<"SiemEvent"> | Date | string
-    credentialId?: StringFilter<"SiemEvent"> | string
-    ruleId?: StringNullableFilter<"SiemEvent"> | string | null
-    credential?: XOR<AwsCredentialScalarRelationFilter, AwsCredentialWhereInput>
-    rule?: XOR<SiemRuleNullableScalarRelationFilter, SiemRuleWhereInput> | null
+    AND?: DetectionWhereInput | DetectionWhereInput[]
+    OR?: DetectionWhereInput[]
+    NOT?: DetectionWhereInput | DetectionWhereInput[]
+    ruleId?: StringFilter<"Detection"> | string
+    timestamp?: DateTimeFilter<"Detection"> | Date | string
+    message?: StringFilter<"Detection"> | string
+    severity?: StringFilter<"Detection"> | string
+    fields?: JsonFilter<"Detection">
+    acknowledged?: BoolFilter<"Detection"> | boolean
+    createdAt?: DateTimeFilter<"Detection"> | Date | string
+    updatedAt?: DateTimeFilter<"Detection"> | Date | string
+    rule?: XOR<InsightsRuleScalarRelationFilter, InsightsRuleWhereInput>
   }, "id">
 
-  export type SiemEventOrderByWithAggregationInput = {
+  export type DetectionOrderByWithAggregationInput = {
     id?: SortOrder
+    ruleId?: SortOrder
     timestamp?: SortOrder
-    source?: SortOrder
-    eventType?: SortOrder
-    severity?: SortOrder
-    status?: SortOrder
     message?: SortOrder
-    rawData?: SortOrder
-    accountId?: SortOrderInput | SortOrder
-    region?: SortOrderInput | SortOrder
-    resource?: SortOrderInput | SortOrder
+    severity?: SortOrder
+    fields?: SortOrder
+    acknowledged?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    credentialId?: SortOrder
-    ruleId?: SortOrderInput | SortOrder
-    _count?: SiemEventCountOrderByAggregateInput
-    _max?: SiemEventMaxOrderByAggregateInput
-    _min?: SiemEventMinOrderByAggregateInput
+    _count?: DetectionCountOrderByAggregateInput
+    _max?: DetectionMaxOrderByAggregateInput
+    _min?: DetectionMinOrderByAggregateInput
   }
 
-  export type SiemEventScalarWhereWithAggregatesInput = {
-    AND?: SiemEventScalarWhereWithAggregatesInput | SiemEventScalarWhereWithAggregatesInput[]
-    OR?: SiemEventScalarWhereWithAggregatesInput[]
-    NOT?: SiemEventScalarWhereWithAggregatesInput | SiemEventScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"SiemEvent"> | string
-    timestamp?: DateTimeWithAggregatesFilter<"SiemEvent"> | Date | string
-    source?: StringWithAggregatesFilter<"SiemEvent"> | string
-    eventType?: StringWithAggregatesFilter<"SiemEvent"> | string
-    severity?: StringWithAggregatesFilter<"SiemEvent"> | string
-    status?: StringWithAggregatesFilter<"SiemEvent"> | string
-    message?: StringWithAggregatesFilter<"SiemEvent"> | string
-    rawData?: StringWithAggregatesFilter<"SiemEvent"> | string
-    accountId?: StringNullableWithAggregatesFilter<"SiemEvent"> | string | null
-    region?: StringNullableWithAggregatesFilter<"SiemEvent"> | string | null
-    resource?: StringNullableWithAggregatesFilter<"SiemEvent"> | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"SiemEvent"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"SiemEvent"> | Date | string
-    credentialId?: StringWithAggregatesFilter<"SiemEvent"> | string
-    ruleId?: StringNullableWithAggregatesFilter<"SiemEvent"> | string | null
+  export type DetectionScalarWhereWithAggregatesInput = {
+    AND?: DetectionScalarWhereWithAggregatesInput | DetectionScalarWhereWithAggregatesInput[]
+    OR?: DetectionScalarWhereWithAggregatesInput[]
+    NOT?: DetectionScalarWhereWithAggregatesInput | DetectionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Detection"> | string
+    ruleId?: StringWithAggregatesFilter<"Detection"> | string
+    timestamp?: DateTimeWithAggregatesFilter<"Detection"> | Date | string
+    message?: StringWithAggregatesFilter<"Detection"> | string
+    severity?: StringWithAggregatesFilter<"Detection"> | string
+    fields?: JsonWithAggregatesFilter<"Detection">
+    acknowledged?: BoolWithAggregatesFilter<"Detection"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Detection"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Detection"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -7812,8 +7707,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAwsCredentialsInput
     alerts?: AlertCreateNestedManyWithoutCredentialInput
-    siemRules?: SiemRuleCreateNestedManyWithoutCredentialInput
-    siemEvents?: SiemEventCreateNestedManyWithoutCredentialInput
+    insightsRules?: InsightsRuleCreateNestedManyWithoutCredentialInput
   }
 
   export type AwsCredentialUncheckedCreateInput = {
@@ -7826,8 +7720,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     userId: string
     alerts?: AlertUncheckedCreateNestedManyWithoutCredentialInput
-    siemRules?: SiemRuleUncheckedCreateNestedManyWithoutCredentialInput
-    siemEvents?: SiemEventUncheckedCreateNestedManyWithoutCredentialInput
+    insightsRules?: InsightsRuleUncheckedCreateNestedManyWithoutCredentialInput
   }
 
   export type AwsCredentialUpdateInput = {
@@ -7840,8 +7733,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAwsCredentialsNestedInput
     alerts?: AlertUpdateManyWithoutCredentialNestedInput
-    siemRules?: SiemRuleUpdateManyWithoutCredentialNestedInput
-    siemEvents?: SiemEventUpdateManyWithoutCredentialNestedInput
+    insightsRules?: InsightsRuleUpdateManyWithoutCredentialNestedInput
   }
 
   export type AwsCredentialUncheckedUpdateInput = {
@@ -7854,8 +7746,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     alerts?: AlertUncheckedUpdateManyWithoutCredentialNestedInput
-    siemRules?: SiemRuleUncheckedUpdateManyWithoutCredentialNestedInput
-    siemEvents?: SiemEventUncheckedUpdateManyWithoutCredentialNestedInput
+    insightsRules?: InsightsRuleUncheckedUpdateManyWithoutCredentialNestedInput
   }
 
   export type AwsCredentialCreateManyInput = {
@@ -7980,236 +7871,209 @@ export namespace Prisma {
     credentialId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type SiemRuleCreateInput = {
+  export type InsightsRuleCreateInput = {
     id?: string
     name: string
-    description: string
-    type: string
+    description?: string | null
     query: string
+    logGroup: string
     severity: string
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isActive?: boolean
     triggers?: number
     lastTriggered?: Date | string | null
-    credential: AwsCredentialCreateNestedOneWithoutSiemRulesInput
-    events?: SiemEventCreateNestedManyWithoutRuleInput
+    lastExecuted?: Date | string | null
+    region?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    credential: AwsCredentialCreateNestedOneWithoutInsightsRulesInput
+    detections?: DetectionCreateNestedManyWithoutRuleInput
   }
 
-  export type SiemRuleUncheckedCreateInput = {
+  export type InsightsRuleUncheckedCreateInput = {
     id?: string
     name: string
-    description: string
-    type: string
+    description?: string | null
     query: string
+    logGroup: string
     severity: string
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isActive?: boolean
     triggers?: number
     lastTriggered?: Date | string | null
+    lastExecuted?: Date | string | null
+    region?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     credentialId: string
-    events?: SiemEventUncheckedCreateNestedManyWithoutRuleInput
+    detections?: DetectionUncheckedCreateNestedManyWithoutRuleInput
   }
 
-  export type SiemRuleUpdateInput = {
+  export type InsightsRuleUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     query?: StringFieldUpdateOperationsInput | string
+    logGroup?: StringFieldUpdateOperationsInput | string
     severity?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     triggers?: IntFieldUpdateOperationsInput | number
     lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    credential?: AwsCredentialUpdateOneRequiredWithoutSiemRulesNestedInput
-    events?: SiemEventUpdateManyWithoutRuleNestedInput
+    lastExecuted?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    credential?: AwsCredentialUpdateOneRequiredWithoutInsightsRulesNestedInput
+    detections?: DetectionUpdateManyWithoutRuleNestedInput
   }
 
-  export type SiemRuleUncheckedUpdateInput = {
+  export type InsightsRuleUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     query?: StringFieldUpdateOperationsInput | string
+    logGroup?: StringFieldUpdateOperationsInput | string
     severity?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     triggers?: IntFieldUpdateOperationsInput | number
     lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastExecuted?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     credentialId?: StringFieldUpdateOperationsInput | string
-    events?: SiemEventUncheckedUpdateManyWithoutRuleNestedInput
+    detections?: DetectionUncheckedUpdateManyWithoutRuleNestedInput
   }
 
-  export type SiemRuleCreateManyInput = {
+  export type InsightsRuleCreateManyInput = {
     id?: string
     name: string
-    description: string
-    type: string
+    description?: string | null
     query: string
+    logGroup: string
     severity: string
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isActive?: boolean
     triggers?: number
     lastTriggered?: Date | string | null
+    lastExecuted?: Date | string | null
+    region?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     credentialId: string
   }
 
-  export type SiemRuleUpdateManyMutationInput = {
+  export type InsightsRuleUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     query?: StringFieldUpdateOperationsInput | string
+    logGroup?: StringFieldUpdateOperationsInput | string
     severity?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     triggers?: IntFieldUpdateOperationsInput | number
     lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastExecuted?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SiemRuleUncheckedUpdateManyInput = {
+  export type InsightsRuleUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     query?: StringFieldUpdateOperationsInput | string
+    logGroup?: StringFieldUpdateOperationsInput | string
     severity?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     triggers?: IntFieldUpdateOperationsInput | number
     lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    credentialId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type SiemEventCreateInput = {
-    id?: string
-    timestamp: Date | string
-    source: string
-    eventType: string
-    severity: string
-    status?: string
-    message: string
-    rawData: string
-    accountId?: string | null
-    region?: string | null
-    resource?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    credential: AwsCredentialCreateNestedOneWithoutSiemEventsInput
-    rule?: SiemRuleCreateNestedOneWithoutEventsInput
-  }
-
-  export type SiemEventUncheckedCreateInput = {
-    id?: string
-    timestamp: Date | string
-    source: string
-    eventType: string
-    severity: string
-    status?: string
-    message: string
-    rawData: string
-    accountId?: string | null
-    region?: string | null
-    resource?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    credentialId: string
-    ruleId?: string | null
-  }
-
-  export type SiemEventUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    source?: StringFieldUpdateOperationsInput | string
-    eventType?: StringFieldUpdateOperationsInput | string
-    severity?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    rawData?: StringFieldUpdateOperationsInput | string
-    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastExecuted?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     region?: NullableStringFieldUpdateOperationsInput | string | null
-    resource?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    credential?: AwsCredentialUpdateOneRequiredWithoutSiemEventsNestedInput
-    rule?: SiemRuleUpdateOneWithoutEventsNestedInput
-  }
-
-  export type SiemEventUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    source?: StringFieldUpdateOperationsInput | string
-    eventType?: StringFieldUpdateOperationsInput | string
-    severity?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    rawData?: StringFieldUpdateOperationsInput | string
-    accountId?: NullableStringFieldUpdateOperationsInput | string | null
-    region?: NullableStringFieldUpdateOperationsInput | string | null
-    resource?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     credentialId?: StringFieldUpdateOperationsInput | string
-    ruleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type SiemEventCreateManyInput = {
+  export type DetectionCreateInput = {
     id?: string
     timestamp: Date | string
-    source: string
-    eventType: string
-    severity: string
-    status?: string
     message: string
-    rawData: string
-    accountId?: string | null
-    region?: string | null
-    resource?: string | null
+    severity: string
+    fields: JsonNullValueInput | InputJsonValue
+    acknowledged?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    credentialId: string
-    ruleId?: string | null
+    rule: InsightsRuleCreateNestedOneWithoutDetectionsInput
   }
 
-  export type SiemEventUpdateManyMutationInput = {
+  export type DetectionUncheckedCreateInput = {
+    id?: string
+    ruleId: string
+    timestamp: Date | string
+    message: string
+    severity: string
+    fields: JsonNullValueInput | InputJsonValue
+    acknowledged?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DetectionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    source?: StringFieldUpdateOperationsInput | string
-    eventType?: StringFieldUpdateOperationsInput | string
-    severity?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
-    rawData?: StringFieldUpdateOperationsInput | string
-    accountId?: NullableStringFieldUpdateOperationsInput | string | null
-    region?: NullableStringFieldUpdateOperationsInput | string | null
-    resource?: NullableStringFieldUpdateOperationsInput | string | null
+    severity?: StringFieldUpdateOperationsInput | string
+    fields?: JsonNullValueInput | InputJsonValue
+    acknowledged?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rule?: InsightsRuleUpdateOneRequiredWithoutDetectionsNestedInput
+  }
+
+  export type DetectionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ruleId?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    message?: StringFieldUpdateOperationsInput | string
+    severity?: StringFieldUpdateOperationsInput | string
+    fields?: JsonNullValueInput | InputJsonValue
+    acknowledged?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SiemEventUncheckedUpdateManyInput = {
+  export type DetectionCreateManyInput = {
+    id?: string
+    ruleId: string
+    timestamp: Date | string
+    message: string
+    severity: string
+    fields: JsonNullValueInput | InputJsonValue
+    acknowledged?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DetectionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    source?: StringFieldUpdateOperationsInput | string
-    eventType?: StringFieldUpdateOperationsInput | string
-    severity?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
-    rawData?: StringFieldUpdateOperationsInput | string
-    accountId?: NullableStringFieldUpdateOperationsInput | string | null
-    region?: NullableStringFieldUpdateOperationsInput | string | null
-    resource?: NullableStringFieldUpdateOperationsInput | string | null
+    severity?: StringFieldUpdateOperationsInput | string
+    fields?: JsonNullValueInput | InputJsonValue
+    acknowledged?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    credentialId?: StringFieldUpdateOperationsInput | string
-    ruleId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DetectionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ruleId?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    message?: StringFieldUpdateOperationsInput | string
+    severity?: StringFieldUpdateOperationsInput | string
+    fields?: JsonNullValueInput | InputJsonValue
+    acknowledged?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -8316,27 +8180,17 @@ export namespace Prisma {
     none?: AlertWhereInput
   }
 
-  export type SiemRuleListRelationFilter = {
-    every?: SiemRuleWhereInput
-    some?: SiemRuleWhereInput
-    none?: SiemRuleWhereInput
-  }
-
-  export type SiemEventListRelationFilter = {
-    every?: SiemEventWhereInput
-    some?: SiemEventWhereInput
-    none?: SiemEventWhereInput
+  export type InsightsRuleListRelationFilter = {
+    every?: InsightsRuleWhereInput
+    some?: InsightsRuleWhereInput
+    none?: InsightsRuleWhereInput
   }
 
   export type AlertOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type SiemRuleOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type SiemEventOrderByRelationAggregateInput = {
+  export type InsightsRuleOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -8453,6 +8307,11 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -8480,57 +8339,81 @@ export namespace Prisma {
     isNot?: AwsCredentialWhereInput
   }
 
-  export type SiemRuleCountOrderByAggregateInput = {
+  export type DetectionListRelationFilter = {
+    every?: DetectionWhereInput
+    some?: DetectionWhereInput
+    none?: DetectionWhereInput
+  }
+
+  export type DetectionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InsightsRuleCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
-    type?: SortOrder
     query?: SortOrder
+    logGroup?: SortOrder
     severity?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    isActive?: SortOrder
     triggers?: SortOrder
     lastTriggered?: SortOrder
+    lastExecuted?: SortOrder
+    region?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     credentialId?: SortOrder
   }
 
-  export type SiemRuleAvgOrderByAggregateInput = {
+  export type InsightsRuleAvgOrderByAggregateInput = {
     triggers?: SortOrder
   }
 
-  export type SiemRuleMaxOrderByAggregateInput = {
+  export type InsightsRuleMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
-    type?: SortOrder
     query?: SortOrder
+    logGroup?: SortOrder
     severity?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    isActive?: SortOrder
     triggers?: SortOrder
     lastTriggered?: SortOrder
+    lastExecuted?: SortOrder
+    region?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     credentialId?: SortOrder
   }
 
-  export type SiemRuleMinOrderByAggregateInput = {
+  export type InsightsRuleMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
-    type?: SortOrder
     query?: SortOrder
+    logGroup?: SortOrder
     severity?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    isActive?: SortOrder
     triggers?: SortOrder
     lastTriggered?: SortOrder
+    lastExecuted?: SortOrder
+    region?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     credentialId?: SortOrder
   }
 
-  export type SiemRuleSumOrderByAggregateInput = {
+  export type InsightsRuleSumOrderByAggregateInput = {
     triggers?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -8562,64 +8445,83 @@ export namespace Prisma {
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
 
-  export type SiemRuleNullableScalarRelationFilter = {
-    is?: SiemRuleWhereInput | null
-    isNot?: SiemRuleWhereInput | null
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type SiemEventCountOrderByAggregateInput = {
-    id?: SortOrder
-    timestamp?: SortOrder
-    source?: SortOrder
-    eventType?: SortOrder
-    severity?: SortOrder
-    status?: SortOrder
-    message?: SortOrder
-    rawData?: SortOrder
-    accountId?: SortOrder
-    region?: SortOrder
-    resource?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    credentialId?: SortOrder
-    ruleId?: SortOrder
+  export type InsightsRuleScalarRelationFilter = {
+    is?: InsightsRuleWhereInput
+    isNot?: InsightsRuleWhereInput
   }
 
-  export type SiemEventMaxOrderByAggregateInput = {
+  export type DetectionCountOrderByAggregateInput = {
     id?: SortOrder
+    ruleId?: SortOrder
     timestamp?: SortOrder
-    source?: SortOrder
-    eventType?: SortOrder
-    severity?: SortOrder
-    status?: SortOrder
     message?: SortOrder
-    rawData?: SortOrder
-    accountId?: SortOrder
-    region?: SortOrder
-    resource?: SortOrder
+    severity?: SortOrder
+    fields?: SortOrder
+    acknowledged?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    credentialId?: SortOrder
-    ruleId?: SortOrder
   }
 
-  export type SiemEventMinOrderByAggregateInput = {
+  export type DetectionMaxOrderByAggregateInput = {
     id?: SortOrder
+    ruleId?: SortOrder
     timestamp?: SortOrder
-    source?: SortOrder
-    eventType?: SortOrder
-    severity?: SortOrder
-    status?: SortOrder
     message?: SortOrder
-    rawData?: SortOrder
-    accountId?: SortOrder
-    region?: SortOrder
-    resource?: SortOrder
+    severity?: SortOrder
+    acknowledged?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    credentialId?: SortOrder
+  }
+
+  export type DetectionMinOrderByAggregateInput = {
+    id?: SortOrder
     ruleId?: SortOrder
+    timestamp?: SortOrder
+    message?: SortOrder
+    severity?: SortOrder
+    acknowledged?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
   }
 
   export type AwsCredentialCreateNestedManyWithoutUserInput = {
@@ -8685,18 +8587,11 @@ export namespace Prisma {
     connect?: AlertWhereUniqueInput | AlertWhereUniqueInput[]
   }
 
-  export type SiemRuleCreateNestedManyWithoutCredentialInput = {
-    create?: XOR<SiemRuleCreateWithoutCredentialInput, SiemRuleUncheckedCreateWithoutCredentialInput> | SiemRuleCreateWithoutCredentialInput[] | SiemRuleUncheckedCreateWithoutCredentialInput[]
-    connectOrCreate?: SiemRuleCreateOrConnectWithoutCredentialInput | SiemRuleCreateOrConnectWithoutCredentialInput[]
-    createMany?: SiemRuleCreateManyCredentialInputEnvelope
-    connect?: SiemRuleWhereUniqueInput | SiemRuleWhereUniqueInput[]
-  }
-
-  export type SiemEventCreateNestedManyWithoutCredentialInput = {
-    create?: XOR<SiemEventCreateWithoutCredentialInput, SiemEventUncheckedCreateWithoutCredentialInput> | SiemEventCreateWithoutCredentialInput[] | SiemEventUncheckedCreateWithoutCredentialInput[]
-    connectOrCreate?: SiemEventCreateOrConnectWithoutCredentialInput | SiemEventCreateOrConnectWithoutCredentialInput[]
-    createMany?: SiemEventCreateManyCredentialInputEnvelope
-    connect?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
+  export type InsightsRuleCreateNestedManyWithoutCredentialInput = {
+    create?: XOR<InsightsRuleCreateWithoutCredentialInput, InsightsRuleUncheckedCreateWithoutCredentialInput> | InsightsRuleCreateWithoutCredentialInput[] | InsightsRuleUncheckedCreateWithoutCredentialInput[]
+    connectOrCreate?: InsightsRuleCreateOrConnectWithoutCredentialInput | InsightsRuleCreateOrConnectWithoutCredentialInput[]
+    createMany?: InsightsRuleCreateManyCredentialInputEnvelope
+    connect?: InsightsRuleWhereUniqueInput | InsightsRuleWhereUniqueInput[]
   }
 
   export type AlertUncheckedCreateNestedManyWithoutCredentialInput = {
@@ -8706,18 +8601,11 @@ export namespace Prisma {
     connect?: AlertWhereUniqueInput | AlertWhereUniqueInput[]
   }
 
-  export type SiemRuleUncheckedCreateNestedManyWithoutCredentialInput = {
-    create?: XOR<SiemRuleCreateWithoutCredentialInput, SiemRuleUncheckedCreateWithoutCredentialInput> | SiemRuleCreateWithoutCredentialInput[] | SiemRuleUncheckedCreateWithoutCredentialInput[]
-    connectOrCreate?: SiemRuleCreateOrConnectWithoutCredentialInput | SiemRuleCreateOrConnectWithoutCredentialInput[]
-    createMany?: SiemRuleCreateManyCredentialInputEnvelope
-    connect?: SiemRuleWhereUniqueInput | SiemRuleWhereUniqueInput[]
-  }
-
-  export type SiemEventUncheckedCreateNestedManyWithoutCredentialInput = {
-    create?: XOR<SiemEventCreateWithoutCredentialInput, SiemEventUncheckedCreateWithoutCredentialInput> | SiemEventCreateWithoutCredentialInput[] | SiemEventUncheckedCreateWithoutCredentialInput[]
-    connectOrCreate?: SiemEventCreateOrConnectWithoutCredentialInput | SiemEventCreateOrConnectWithoutCredentialInput[]
-    createMany?: SiemEventCreateManyCredentialInputEnvelope
-    connect?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
+  export type InsightsRuleUncheckedCreateNestedManyWithoutCredentialInput = {
+    create?: XOR<InsightsRuleCreateWithoutCredentialInput, InsightsRuleUncheckedCreateWithoutCredentialInput> | InsightsRuleCreateWithoutCredentialInput[] | InsightsRuleUncheckedCreateWithoutCredentialInput[]
+    connectOrCreate?: InsightsRuleCreateOrConnectWithoutCredentialInput | InsightsRuleCreateOrConnectWithoutCredentialInput[]
+    createMany?: InsightsRuleCreateManyCredentialInputEnvelope
+    connect?: InsightsRuleWhereUniqueInput | InsightsRuleWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutAwsCredentialsNestedInput = {
@@ -8742,32 +8630,18 @@ export namespace Prisma {
     deleteMany?: AlertScalarWhereInput | AlertScalarWhereInput[]
   }
 
-  export type SiemRuleUpdateManyWithoutCredentialNestedInput = {
-    create?: XOR<SiemRuleCreateWithoutCredentialInput, SiemRuleUncheckedCreateWithoutCredentialInput> | SiemRuleCreateWithoutCredentialInput[] | SiemRuleUncheckedCreateWithoutCredentialInput[]
-    connectOrCreate?: SiemRuleCreateOrConnectWithoutCredentialInput | SiemRuleCreateOrConnectWithoutCredentialInput[]
-    upsert?: SiemRuleUpsertWithWhereUniqueWithoutCredentialInput | SiemRuleUpsertWithWhereUniqueWithoutCredentialInput[]
-    createMany?: SiemRuleCreateManyCredentialInputEnvelope
-    set?: SiemRuleWhereUniqueInput | SiemRuleWhereUniqueInput[]
-    disconnect?: SiemRuleWhereUniqueInput | SiemRuleWhereUniqueInput[]
-    delete?: SiemRuleWhereUniqueInput | SiemRuleWhereUniqueInput[]
-    connect?: SiemRuleWhereUniqueInput | SiemRuleWhereUniqueInput[]
-    update?: SiemRuleUpdateWithWhereUniqueWithoutCredentialInput | SiemRuleUpdateWithWhereUniqueWithoutCredentialInput[]
-    updateMany?: SiemRuleUpdateManyWithWhereWithoutCredentialInput | SiemRuleUpdateManyWithWhereWithoutCredentialInput[]
-    deleteMany?: SiemRuleScalarWhereInput | SiemRuleScalarWhereInput[]
-  }
-
-  export type SiemEventUpdateManyWithoutCredentialNestedInput = {
-    create?: XOR<SiemEventCreateWithoutCredentialInput, SiemEventUncheckedCreateWithoutCredentialInput> | SiemEventCreateWithoutCredentialInput[] | SiemEventUncheckedCreateWithoutCredentialInput[]
-    connectOrCreate?: SiemEventCreateOrConnectWithoutCredentialInput | SiemEventCreateOrConnectWithoutCredentialInput[]
-    upsert?: SiemEventUpsertWithWhereUniqueWithoutCredentialInput | SiemEventUpsertWithWhereUniqueWithoutCredentialInput[]
-    createMany?: SiemEventCreateManyCredentialInputEnvelope
-    set?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
-    disconnect?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
-    delete?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
-    connect?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
-    update?: SiemEventUpdateWithWhereUniqueWithoutCredentialInput | SiemEventUpdateWithWhereUniqueWithoutCredentialInput[]
-    updateMany?: SiemEventUpdateManyWithWhereWithoutCredentialInput | SiemEventUpdateManyWithWhereWithoutCredentialInput[]
-    deleteMany?: SiemEventScalarWhereInput | SiemEventScalarWhereInput[]
+  export type InsightsRuleUpdateManyWithoutCredentialNestedInput = {
+    create?: XOR<InsightsRuleCreateWithoutCredentialInput, InsightsRuleUncheckedCreateWithoutCredentialInput> | InsightsRuleCreateWithoutCredentialInput[] | InsightsRuleUncheckedCreateWithoutCredentialInput[]
+    connectOrCreate?: InsightsRuleCreateOrConnectWithoutCredentialInput | InsightsRuleCreateOrConnectWithoutCredentialInput[]
+    upsert?: InsightsRuleUpsertWithWhereUniqueWithoutCredentialInput | InsightsRuleUpsertWithWhereUniqueWithoutCredentialInput[]
+    createMany?: InsightsRuleCreateManyCredentialInputEnvelope
+    set?: InsightsRuleWhereUniqueInput | InsightsRuleWhereUniqueInput[]
+    disconnect?: InsightsRuleWhereUniqueInput | InsightsRuleWhereUniqueInput[]
+    delete?: InsightsRuleWhereUniqueInput | InsightsRuleWhereUniqueInput[]
+    connect?: InsightsRuleWhereUniqueInput | InsightsRuleWhereUniqueInput[]
+    update?: InsightsRuleUpdateWithWhereUniqueWithoutCredentialInput | InsightsRuleUpdateWithWhereUniqueWithoutCredentialInput[]
+    updateMany?: InsightsRuleUpdateManyWithWhereWithoutCredentialInput | InsightsRuleUpdateManyWithWhereWithoutCredentialInput[]
+    deleteMany?: InsightsRuleScalarWhereInput | InsightsRuleScalarWhereInput[]
   }
 
   export type AlertUncheckedUpdateManyWithoutCredentialNestedInput = {
@@ -8784,32 +8658,18 @@ export namespace Prisma {
     deleteMany?: AlertScalarWhereInput | AlertScalarWhereInput[]
   }
 
-  export type SiemRuleUncheckedUpdateManyWithoutCredentialNestedInput = {
-    create?: XOR<SiemRuleCreateWithoutCredentialInput, SiemRuleUncheckedCreateWithoutCredentialInput> | SiemRuleCreateWithoutCredentialInput[] | SiemRuleUncheckedCreateWithoutCredentialInput[]
-    connectOrCreate?: SiemRuleCreateOrConnectWithoutCredentialInput | SiemRuleCreateOrConnectWithoutCredentialInput[]
-    upsert?: SiemRuleUpsertWithWhereUniqueWithoutCredentialInput | SiemRuleUpsertWithWhereUniqueWithoutCredentialInput[]
-    createMany?: SiemRuleCreateManyCredentialInputEnvelope
-    set?: SiemRuleWhereUniqueInput | SiemRuleWhereUniqueInput[]
-    disconnect?: SiemRuleWhereUniqueInput | SiemRuleWhereUniqueInput[]
-    delete?: SiemRuleWhereUniqueInput | SiemRuleWhereUniqueInput[]
-    connect?: SiemRuleWhereUniqueInput | SiemRuleWhereUniqueInput[]
-    update?: SiemRuleUpdateWithWhereUniqueWithoutCredentialInput | SiemRuleUpdateWithWhereUniqueWithoutCredentialInput[]
-    updateMany?: SiemRuleUpdateManyWithWhereWithoutCredentialInput | SiemRuleUpdateManyWithWhereWithoutCredentialInput[]
-    deleteMany?: SiemRuleScalarWhereInput | SiemRuleScalarWhereInput[]
-  }
-
-  export type SiemEventUncheckedUpdateManyWithoutCredentialNestedInput = {
-    create?: XOR<SiemEventCreateWithoutCredentialInput, SiemEventUncheckedCreateWithoutCredentialInput> | SiemEventCreateWithoutCredentialInput[] | SiemEventUncheckedCreateWithoutCredentialInput[]
-    connectOrCreate?: SiemEventCreateOrConnectWithoutCredentialInput | SiemEventCreateOrConnectWithoutCredentialInput[]
-    upsert?: SiemEventUpsertWithWhereUniqueWithoutCredentialInput | SiemEventUpsertWithWhereUniqueWithoutCredentialInput[]
-    createMany?: SiemEventCreateManyCredentialInputEnvelope
-    set?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
-    disconnect?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
-    delete?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
-    connect?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
-    update?: SiemEventUpdateWithWhereUniqueWithoutCredentialInput | SiemEventUpdateWithWhereUniqueWithoutCredentialInput[]
-    updateMany?: SiemEventUpdateManyWithWhereWithoutCredentialInput | SiemEventUpdateManyWithWhereWithoutCredentialInput[]
-    deleteMany?: SiemEventScalarWhereInput | SiemEventScalarWhereInput[]
+  export type InsightsRuleUncheckedUpdateManyWithoutCredentialNestedInput = {
+    create?: XOR<InsightsRuleCreateWithoutCredentialInput, InsightsRuleUncheckedCreateWithoutCredentialInput> | InsightsRuleCreateWithoutCredentialInput[] | InsightsRuleUncheckedCreateWithoutCredentialInput[]
+    connectOrCreate?: InsightsRuleCreateOrConnectWithoutCredentialInput | InsightsRuleCreateOrConnectWithoutCredentialInput[]
+    upsert?: InsightsRuleUpsertWithWhereUniqueWithoutCredentialInput | InsightsRuleUpsertWithWhereUniqueWithoutCredentialInput[]
+    createMany?: InsightsRuleCreateManyCredentialInputEnvelope
+    set?: InsightsRuleWhereUniqueInput | InsightsRuleWhereUniqueInput[]
+    disconnect?: InsightsRuleWhereUniqueInput | InsightsRuleWhereUniqueInput[]
+    delete?: InsightsRuleWhereUniqueInput | InsightsRuleWhereUniqueInput[]
+    connect?: InsightsRuleWhereUniqueInput | InsightsRuleWhereUniqueInput[]
+    update?: InsightsRuleUpdateWithWhereUniqueWithoutCredentialInput | InsightsRuleUpdateWithWhereUniqueWithoutCredentialInput[]
+    updateMany?: InsightsRuleUpdateManyWithWhereWithoutCredentialInput | InsightsRuleUpdateManyWithWhereWithoutCredentialInput[]
+    deleteMany?: InsightsRuleScalarWhereInput | InsightsRuleScalarWhereInput[]
   }
 
   export type AwsCredentialCreateNestedOneWithoutAlertsInput = {
@@ -8832,24 +8692,28 @@ export namespace Prisma {
     set?: string | null
   }
 
-  export type AwsCredentialCreateNestedOneWithoutSiemRulesInput = {
-    create?: XOR<AwsCredentialCreateWithoutSiemRulesInput, AwsCredentialUncheckedCreateWithoutSiemRulesInput>
-    connectOrCreate?: AwsCredentialCreateOrConnectWithoutSiemRulesInput
+  export type AwsCredentialCreateNestedOneWithoutInsightsRulesInput = {
+    create?: XOR<AwsCredentialCreateWithoutInsightsRulesInput, AwsCredentialUncheckedCreateWithoutInsightsRulesInput>
+    connectOrCreate?: AwsCredentialCreateOrConnectWithoutInsightsRulesInput
     connect?: AwsCredentialWhereUniqueInput
   }
 
-  export type SiemEventCreateNestedManyWithoutRuleInput = {
-    create?: XOR<SiemEventCreateWithoutRuleInput, SiemEventUncheckedCreateWithoutRuleInput> | SiemEventCreateWithoutRuleInput[] | SiemEventUncheckedCreateWithoutRuleInput[]
-    connectOrCreate?: SiemEventCreateOrConnectWithoutRuleInput | SiemEventCreateOrConnectWithoutRuleInput[]
-    createMany?: SiemEventCreateManyRuleInputEnvelope
-    connect?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
+  export type DetectionCreateNestedManyWithoutRuleInput = {
+    create?: XOR<DetectionCreateWithoutRuleInput, DetectionUncheckedCreateWithoutRuleInput> | DetectionCreateWithoutRuleInput[] | DetectionUncheckedCreateWithoutRuleInput[]
+    connectOrCreate?: DetectionCreateOrConnectWithoutRuleInput | DetectionCreateOrConnectWithoutRuleInput[]
+    createMany?: DetectionCreateManyRuleInputEnvelope
+    connect?: DetectionWhereUniqueInput | DetectionWhereUniqueInput[]
   }
 
-  export type SiemEventUncheckedCreateNestedManyWithoutRuleInput = {
-    create?: XOR<SiemEventCreateWithoutRuleInput, SiemEventUncheckedCreateWithoutRuleInput> | SiemEventCreateWithoutRuleInput[] | SiemEventUncheckedCreateWithoutRuleInput[]
-    connectOrCreate?: SiemEventCreateOrConnectWithoutRuleInput | SiemEventCreateOrConnectWithoutRuleInput[]
-    createMany?: SiemEventCreateManyRuleInputEnvelope
-    connect?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
+  export type DetectionUncheckedCreateNestedManyWithoutRuleInput = {
+    create?: XOR<DetectionCreateWithoutRuleInput, DetectionUncheckedCreateWithoutRuleInput> | DetectionCreateWithoutRuleInput[] | DetectionUncheckedCreateWithoutRuleInput[]
+    connectOrCreate?: DetectionCreateOrConnectWithoutRuleInput | DetectionCreateOrConnectWithoutRuleInput[]
+    createMany?: DetectionCreateManyRuleInputEnvelope
+    connect?: DetectionWhereUniqueInput | DetectionWhereUniqueInput[]
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -8864,70 +8728,54 @@ export namespace Prisma {
     set?: Date | string | null
   }
 
-  export type AwsCredentialUpdateOneRequiredWithoutSiemRulesNestedInput = {
-    create?: XOR<AwsCredentialCreateWithoutSiemRulesInput, AwsCredentialUncheckedCreateWithoutSiemRulesInput>
-    connectOrCreate?: AwsCredentialCreateOrConnectWithoutSiemRulesInput
-    upsert?: AwsCredentialUpsertWithoutSiemRulesInput
+  export type AwsCredentialUpdateOneRequiredWithoutInsightsRulesNestedInput = {
+    create?: XOR<AwsCredentialCreateWithoutInsightsRulesInput, AwsCredentialUncheckedCreateWithoutInsightsRulesInput>
+    connectOrCreate?: AwsCredentialCreateOrConnectWithoutInsightsRulesInput
+    upsert?: AwsCredentialUpsertWithoutInsightsRulesInput
     connect?: AwsCredentialWhereUniqueInput
-    update?: XOR<XOR<AwsCredentialUpdateToOneWithWhereWithoutSiemRulesInput, AwsCredentialUpdateWithoutSiemRulesInput>, AwsCredentialUncheckedUpdateWithoutSiemRulesInput>
+    update?: XOR<XOR<AwsCredentialUpdateToOneWithWhereWithoutInsightsRulesInput, AwsCredentialUpdateWithoutInsightsRulesInput>, AwsCredentialUncheckedUpdateWithoutInsightsRulesInput>
   }
 
-  export type SiemEventUpdateManyWithoutRuleNestedInput = {
-    create?: XOR<SiemEventCreateWithoutRuleInput, SiemEventUncheckedCreateWithoutRuleInput> | SiemEventCreateWithoutRuleInput[] | SiemEventUncheckedCreateWithoutRuleInput[]
-    connectOrCreate?: SiemEventCreateOrConnectWithoutRuleInput | SiemEventCreateOrConnectWithoutRuleInput[]
-    upsert?: SiemEventUpsertWithWhereUniqueWithoutRuleInput | SiemEventUpsertWithWhereUniqueWithoutRuleInput[]
-    createMany?: SiemEventCreateManyRuleInputEnvelope
-    set?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
-    disconnect?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
-    delete?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
-    connect?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
-    update?: SiemEventUpdateWithWhereUniqueWithoutRuleInput | SiemEventUpdateWithWhereUniqueWithoutRuleInput[]
-    updateMany?: SiemEventUpdateManyWithWhereWithoutRuleInput | SiemEventUpdateManyWithWhereWithoutRuleInput[]
-    deleteMany?: SiemEventScalarWhereInput | SiemEventScalarWhereInput[]
+  export type DetectionUpdateManyWithoutRuleNestedInput = {
+    create?: XOR<DetectionCreateWithoutRuleInput, DetectionUncheckedCreateWithoutRuleInput> | DetectionCreateWithoutRuleInput[] | DetectionUncheckedCreateWithoutRuleInput[]
+    connectOrCreate?: DetectionCreateOrConnectWithoutRuleInput | DetectionCreateOrConnectWithoutRuleInput[]
+    upsert?: DetectionUpsertWithWhereUniqueWithoutRuleInput | DetectionUpsertWithWhereUniqueWithoutRuleInput[]
+    createMany?: DetectionCreateManyRuleInputEnvelope
+    set?: DetectionWhereUniqueInput | DetectionWhereUniqueInput[]
+    disconnect?: DetectionWhereUniqueInput | DetectionWhereUniqueInput[]
+    delete?: DetectionWhereUniqueInput | DetectionWhereUniqueInput[]
+    connect?: DetectionWhereUniqueInput | DetectionWhereUniqueInput[]
+    update?: DetectionUpdateWithWhereUniqueWithoutRuleInput | DetectionUpdateWithWhereUniqueWithoutRuleInput[]
+    updateMany?: DetectionUpdateManyWithWhereWithoutRuleInput | DetectionUpdateManyWithWhereWithoutRuleInput[]
+    deleteMany?: DetectionScalarWhereInput | DetectionScalarWhereInput[]
   }
 
-  export type SiemEventUncheckedUpdateManyWithoutRuleNestedInput = {
-    create?: XOR<SiemEventCreateWithoutRuleInput, SiemEventUncheckedCreateWithoutRuleInput> | SiemEventCreateWithoutRuleInput[] | SiemEventUncheckedCreateWithoutRuleInput[]
-    connectOrCreate?: SiemEventCreateOrConnectWithoutRuleInput | SiemEventCreateOrConnectWithoutRuleInput[]
-    upsert?: SiemEventUpsertWithWhereUniqueWithoutRuleInput | SiemEventUpsertWithWhereUniqueWithoutRuleInput[]
-    createMany?: SiemEventCreateManyRuleInputEnvelope
-    set?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
-    disconnect?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
-    delete?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
-    connect?: SiemEventWhereUniqueInput | SiemEventWhereUniqueInput[]
-    update?: SiemEventUpdateWithWhereUniqueWithoutRuleInput | SiemEventUpdateWithWhereUniqueWithoutRuleInput[]
-    updateMany?: SiemEventUpdateManyWithWhereWithoutRuleInput | SiemEventUpdateManyWithWhereWithoutRuleInput[]
-    deleteMany?: SiemEventScalarWhereInput | SiemEventScalarWhereInput[]
+  export type DetectionUncheckedUpdateManyWithoutRuleNestedInput = {
+    create?: XOR<DetectionCreateWithoutRuleInput, DetectionUncheckedCreateWithoutRuleInput> | DetectionCreateWithoutRuleInput[] | DetectionUncheckedCreateWithoutRuleInput[]
+    connectOrCreate?: DetectionCreateOrConnectWithoutRuleInput | DetectionCreateOrConnectWithoutRuleInput[]
+    upsert?: DetectionUpsertWithWhereUniqueWithoutRuleInput | DetectionUpsertWithWhereUniqueWithoutRuleInput[]
+    createMany?: DetectionCreateManyRuleInputEnvelope
+    set?: DetectionWhereUniqueInput | DetectionWhereUniqueInput[]
+    disconnect?: DetectionWhereUniqueInput | DetectionWhereUniqueInput[]
+    delete?: DetectionWhereUniqueInput | DetectionWhereUniqueInput[]
+    connect?: DetectionWhereUniqueInput | DetectionWhereUniqueInput[]
+    update?: DetectionUpdateWithWhereUniqueWithoutRuleInput | DetectionUpdateWithWhereUniqueWithoutRuleInput[]
+    updateMany?: DetectionUpdateManyWithWhereWithoutRuleInput | DetectionUpdateManyWithWhereWithoutRuleInput[]
+    deleteMany?: DetectionScalarWhereInput | DetectionScalarWhereInput[]
   }
 
-  export type AwsCredentialCreateNestedOneWithoutSiemEventsInput = {
-    create?: XOR<AwsCredentialCreateWithoutSiemEventsInput, AwsCredentialUncheckedCreateWithoutSiemEventsInput>
-    connectOrCreate?: AwsCredentialCreateOrConnectWithoutSiemEventsInput
-    connect?: AwsCredentialWhereUniqueInput
+  export type InsightsRuleCreateNestedOneWithoutDetectionsInput = {
+    create?: XOR<InsightsRuleCreateWithoutDetectionsInput, InsightsRuleUncheckedCreateWithoutDetectionsInput>
+    connectOrCreate?: InsightsRuleCreateOrConnectWithoutDetectionsInput
+    connect?: InsightsRuleWhereUniqueInput
   }
 
-  export type SiemRuleCreateNestedOneWithoutEventsInput = {
-    create?: XOR<SiemRuleCreateWithoutEventsInput, SiemRuleUncheckedCreateWithoutEventsInput>
-    connectOrCreate?: SiemRuleCreateOrConnectWithoutEventsInput
-    connect?: SiemRuleWhereUniqueInput
-  }
-
-  export type AwsCredentialUpdateOneRequiredWithoutSiemEventsNestedInput = {
-    create?: XOR<AwsCredentialCreateWithoutSiemEventsInput, AwsCredentialUncheckedCreateWithoutSiemEventsInput>
-    connectOrCreate?: AwsCredentialCreateOrConnectWithoutSiemEventsInput
-    upsert?: AwsCredentialUpsertWithoutSiemEventsInput
-    connect?: AwsCredentialWhereUniqueInput
-    update?: XOR<XOR<AwsCredentialUpdateToOneWithWhereWithoutSiemEventsInput, AwsCredentialUpdateWithoutSiemEventsInput>, AwsCredentialUncheckedUpdateWithoutSiemEventsInput>
-  }
-
-  export type SiemRuleUpdateOneWithoutEventsNestedInput = {
-    create?: XOR<SiemRuleCreateWithoutEventsInput, SiemRuleUncheckedCreateWithoutEventsInput>
-    connectOrCreate?: SiemRuleCreateOrConnectWithoutEventsInput
-    upsert?: SiemRuleUpsertWithoutEventsInput
-    disconnect?: SiemRuleWhereInput | boolean
-    delete?: SiemRuleWhereInput | boolean
-    connect?: SiemRuleWhereUniqueInput
-    update?: XOR<XOR<SiemRuleUpdateToOneWithWhereWithoutEventsInput, SiemRuleUpdateWithoutEventsInput>, SiemRuleUncheckedUpdateWithoutEventsInput>
+  export type InsightsRuleUpdateOneRequiredWithoutDetectionsNestedInput = {
+    create?: XOR<InsightsRuleCreateWithoutDetectionsInput, InsightsRuleUncheckedCreateWithoutDetectionsInput>
+    connectOrCreate?: InsightsRuleCreateOrConnectWithoutDetectionsInput
+    upsert?: InsightsRuleUpsertWithoutDetectionsInput
+    connect?: InsightsRuleWhereUniqueInput
+    update?: XOR<XOR<InsightsRuleUpdateToOneWithWhereWithoutDetectionsInput, InsightsRuleUpdateWithoutDetectionsInput>, InsightsRuleUncheckedUpdateWithoutDetectionsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -9039,6 +8887,11 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | null
@@ -9048,6 +8901,14 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -9090,6 +8951,24 @@ export namespace Prisma {
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type AwsCredentialCreateWithoutUserInput = {
     id?: string
@@ -9100,8 +8979,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     alerts?: AlertCreateNestedManyWithoutCredentialInput
-    siemRules?: SiemRuleCreateNestedManyWithoutCredentialInput
-    siemEvents?: SiemEventCreateNestedManyWithoutCredentialInput
+    insightsRules?: InsightsRuleCreateNestedManyWithoutCredentialInput
   }
 
   export type AwsCredentialUncheckedCreateWithoutUserInput = {
@@ -9113,8 +8991,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     alerts?: AlertUncheckedCreateNestedManyWithoutCredentialInput
-    siemRules?: SiemRuleUncheckedCreateNestedManyWithoutCredentialInput
-    siemEvents?: SiemEventUncheckedCreateNestedManyWithoutCredentialInput
+    insightsRules?: InsightsRuleUncheckedCreateNestedManyWithoutCredentialInput
   }
 
   export type AwsCredentialCreateOrConnectWithoutUserInput = {
@@ -9212,86 +9089,47 @@ export namespace Prisma {
     data: AlertCreateManyCredentialInput | AlertCreateManyCredentialInput[]
   }
 
-  export type SiemRuleCreateWithoutCredentialInput = {
+  export type InsightsRuleCreateWithoutCredentialInput = {
     id?: string
     name: string
-    description: string
-    type: string
+    description?: string | null
     query: string
+    logGroup: string
     severity: string
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isActive?: boolean
     triggers?: number
     lastTriggered?: Date | string | null
-    events?: SiemEventCreateNestedManyWithoutRuleInput
+    lastExecuted?: Date | string | null
+    region?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    detections?: DetectionCreateNestedManyWithoutRuleInput
   }
 
-  export type SiemRuleUncheckedCreateWithoutCredentialInput = {
+  export type InsightsRuleUncheckedCreateWithoutCredentialInput = {
     id?: string
     name: string
-    description: string
-    type: string
+    description?: string | null
     query: string
+    logGroup: string
     severity: string
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isActive?: boolean
     triggers?: number
     lastTriggered?: Date | string | null
-    events?: SiemEventUncheckedCreateNestedManyWithoutRuleInput
-  }
-
-  export type SiemRuleCreateOrConnectWithoutCredentialInput = {
-    where: SiemRuleWhereUniqueInput
-    create: XOR<SiemRuleCreateWithoutCredentialInput, SiemRuleUncheckedCreateWithoutCredentialInput>
-  }
-
-  export type SiemRuleCreateManyCredentialInputEnvelope = {
-    data: SiemRuleCreateManyCredentialInput | SiemRuleCreateManyCredentialInput[]
-  }
-
-  export type SiemEventCreateWithoutCredentialInput = {
-    id?: string
-    timestamp: Date | string
-    source: string
-    eventType: string
-    severity: string
-    status?: string
-    message: string
-    rawData: string
-    accountId?: string | null
+    lastExecuted?: Date | string | null
     region?: string | null
-    resource?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    rule?: SiemRuleCreateNestedOneWithoutEventsInput
+    detections?: DetectionUncheckedCreateNestedManyWithoutRuleInput
   }
 
-  export type SiemEventUncheckedCreateWithoutCredentialInput = {
-    id?: string
-    timestamp: Date | string
-    source: string
-    eventType: string
-    severity: string
-    status?: string
-    message: string
-    rawData: string
-    accountId?: string | null
-    region?: string | null
-    resource?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    ruleId?: string | null
+  export type InsightsRuleCreateOrConnectWithoutCredentialInput = {
+    where: InsightsRuleWhereUniqueInput
+    create: XOR<InsightsRuleCreateWithoutCredentialInput, InsightsRuleUncheckedCreateWithoutCredentialInput>
   }
 
-  export type SiemEventCreateOrConnectWithoutCredentialInput = {
-    where: SiemEventWhereUniqueInput
-    create: XOR<SiemEventCreateWithoutCredentialInput, SiemEventUncheckedCreateWithoutCredentialInput>
-  }
-
-  export type SiemEventCreateManyCredentialInputEnvelope = {
-    data: SiemEventCreateManyCredentialInput | SiemEventCreateManyCredentialInput[]
+  export type InsightsRuleCreateManyCredentialInputEnvelope = {
+    data: InsightsRuleCreateManyCredentialInput | InsightsRuleCreateManyCredentialInput[]
   }
 
   export type UserUpsertWithoutAwsCredentialsInput = {
@@ -9355,75 +9193,40 @@ export namespace Prisma {
     credentialId?: StringNullableFilter<"Alert"> | string | null
   }
 
-  export type SiemRuleUpsertWithWhereUniqueWithoutCredentialInput = {
-    where: SiemRuleWhereUniqueInput
-    update: XOR<SiemRuleUpdateWithoutCredentialInput, SiemRuleUncheckedUpdateWithoutCredentialInput>
-    create: XOR<SiemRuleCreateWithoutCredentialInput, SiemRuleUncheckedCreateWithoutCredentialInput>
+  export type InsightsRuleUpsertWithWhereUniqueWithoutCredentialInput = {
+    where: InsightsRuleWhereUniqueInput
+    update: XOR<InsightsRuleUpdateWithoutCredentialInput, InsightsRuleUncheckedUpdateWithoutCredentialInput>
+    create: XOR<InsightsRuleCreateWithoutCredentialInput, InsightsRuleUncheckedCreateWithoutCredentialInput>
   }
 
-  export type SiemRuleUpdateWithWhereUniqueWithoutCredentialInput = {
-    where: SiemRuleWhereUniqueInput
-    data: XOR<SiemRuleUpdateWithoutCredentialInput, SiemRuleUncheckedUpdateWithoutCredentialInput>
+  export type InsightsRuleUpdateWithWhereUniqueWithoutCredentialInput = {
+    where: InsightsRuleWhereUniqueInput
+    data: XOR<InsightsRuleUpdateWithoutCredentialInput, InsightsRuleUncheckedUpdateWithoutCredentialInput>
   }
 
-  export type SiemRuleUpdateManyWithWhereWithoutCredentialInput = {
-    where: SiemRuleScalarWhereInput
-    data: XOR<SiemRuleUpdateManyMutationInput, SiemRuleUncheckedUpdateManyWithoutCredentialInput>
+  export type InsightsRuleUpdateManyWithWhereWithoutCredentialInput = {
+    where: InsightsRuleScalarWhereInput
+    data: XOR<InsightsRuleUpdateManyMutationInput, InsightsRuleUncheckedUpdateManyWithoutCredentialInput>
   }
 
-  export type SiemRuleScalarWhereInput = {
-    AND?: SiemRuleScalarWhereInput | SiemRuleScalarWhereInput[]
-    OR?: SiemRuleScalarWhereInput[]
-    NOT?: SiemRuleScalarWhereInput | SiemRuleScalarWhereInput[]
-    id?: StringFilter<"SiemRule"> | string
-    name?: StringFilter<"SiemRule"> | string
-    description?: StringFilter<"SiemRule"> | string
-    type?: StringFilter<"SiemRule"> | string
-    query?: StringFilter<"SiemRule"> | string
-    severity?: StringFilter<"SiemRule"> | string
-    status?: StringFilter<"SiemRule"> | string
-    createdAt?: DateTimeFilter<"SiemRule"> | Date | string
-    updatedAt?: DateTimeFilter<"SiemRule"> | Date | string
-    triggers?: IntFilter<"SiemRule"> | number
-    lastTriggered?: DateTimeNullableFilter<"SiemRule"> | Date | string | null
-    credentialId?: StringFilter<"SiemRule"> | string
-  }
-
-  export type SiemEventUpsertWithWhereUniqueWithoutCredentialInput = {
-    where: SiemEventWhereUniqueInput
-    update: XOR<SiemEventUpdateWithoutCredentialInput, SiemEventUncheckedUpdateWithoutCredentialInput>
-    create: XOR<SiemEventCreateWithoutCredentialInput, SiemEventUncheckedCreateWithoutCredentialInput>
-  }
-
-  export type SiemEventUpdateWithWhereUniqueWithoutCredentialInput = {
-    where: SiemEventWhereUniqueInput
-    data: XOR<SiemEventUpdateWithoutCredentialInput, SiemEventUncheckedUpdateWithoutCredentialInput>
-  }
-
-  export type SiemEventUpdateManyWithWhereWithoutCredentialInput = {
-    where: SiemEventScalarWhereInput
-    data: XOR<SiemEventUpdateManyMutationInput, SiemEventUncheckedUpdateManyWithoutCredentialInput>
-  }
-
-  export type SiemEventScalarWhereInput = {
-    AND?: SiemEventScalarWhereInput | SiemEventScalarWhereInput[]
-    OR?: SiemEventScalarWhereInput[]
-    NOT?: SiemEventScalarWhereInput | SiemEventScalarWhereInput[]
-    id?: StringFilter<"SiemEvent"> | string
-    timestamp?: DateTimeFilter<"SiemEvent"> | Date | string
-    source?: StringFilter<"SiemEvent"> | string
-    eventType?: StringFilter<"SiemEvent"> | string
-    severity?: StringFilter<"SiemEvent"> | string
-    status?: StringFilter<"SiemEvent"> | string
-    message?: StringFilter<"SiemEvent"> | string
-    rawData?: StringFilter<"SiemEvent"> | string
-    accountId?: StringNullableFilter<"SiemEvent"> | string | null
-    region?: StringNullableFilter<"SiemEvent"> | string | null
-    resource?: StringNullableFilter<"SiemEvent"> | string | null
-    createdAt?: DateTimeFilter<"SiemEvent"> | Date | string
-    updatedAt?: DateTimeFilter<"SiemEvent"> | Date | string
-    credentialId?: StringFilter<"SiemEvent"> | string
-    ruleId?: StringNullableFilter<"SiemEvent"> | string | null
+  export type InsightsRuleScalarWhereInput = {
+    AND?: InsightsRuleScalarWhereInput | InsightsRuleScalarWhereInput[]
+    OR?: InsightsRuleScalarWhereInput[]
+    NOT?: InsightsRuleScalarWhereInput | InsightsRuleScalarWhereInput[]
+    id?: StringFilter<"InsightsRule"> | string
+    name?: StringFilter<"InsightsRule"> | string
+    description?: StringNullableFilter<"InsightsRule"> | string | null
+    query?: StringFilter<"InsightsRule"> | string
+    logGroup?: StringFilter<"InsightsRule"> | string
+    severity?: StringFilter<"InsightsRule"> | string
+    isActive?: BoolFilter<"InsightsRule"> | boolean
+    triggers?: IntFilter<"InsightsRule"> | number
+    lastTriggered?: DateTimeNullableFilter<"InsightsRule"> | Date | string | null
+    lastExecuted?: DateTimeNullableFilter<"InsightsRule"> | Date | string | null
+    region?: StringNullableFilter<"InsightsRule"> | string | null
+    createdAt?: DateTimeFilter<"InsightsRule"> | Date | string
+    updatedAt?: DateTimeFilter<"InsightsRule"> | Date | string
+    credentialId?: StringFilter<"InsightsRule"> | string
   }
 
   export type AwsCredentialCreateWithoutAlertsInput = {
@@ -9435,8 +9238,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAwsCredentialsInput
-    siemRules?: SiemRuleCreateNestedManyWithoutCredentialInput
-    siemEvents?: SiemEventCreateNestedManyWithoutCredentialInput
+    insightsRules?: InsightsRuleCreateNestedManyWithoutCredentialInput
   }
 
   export type AwsCredentialUncheckedCreateWithoutAlertsInput = {
@@ -9448,8 +9250,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
-    siemRules?: SiemRuleUncheckedCreateNestedManyWithoutCredentialInput
-    siemEvents?: SiemEventUncheckedCreateNestedManyWithoutCredentialInput
+    insightsRules?: InsightsRuleUncheckedCreateNestedManyWithoutCredentialInput
   }
 
   export type AwsCredentialCreateOrConnectWithoutAlertsInput = {
@@ -9477,8 +9278,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAwsCredentialsNestedInput
-    siemRules?: SiemRuleUpdateManyWithoutCredentialNestedInput
-    siemEvents?: SiemEventUpdateManyWithoutCredentialNestedInput
+    insightsRules?: InsightsRuleUpdateManyWithoutCredentialNestedInput
   }
 
   export type AwsCredentialUncheckedUpdateWithoutAlertsInput = {
@@ -9490,11 +9290,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
-    siemRules?: SiemRuleUncheckedUpdateManyWithoutCredentialNestedInput
-    siemEvents?: SiemEventUncheckedUpdateManyWithoutCredentialNestedInput
+    insightsRules?: InsightsRuleUncheckedUpdateManyWithoutCredentialNestedInput
   }
 
-  export type AwsCredentialCreateWithoutSiemRulesInput = {
+  export type AwsCredentialCreateWithoutInsightsRulesInput = {
     id?: string
     name: string
     accessKeyId: string
@@ -9504,10 +9303,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAwsCredentialsInput
     alerts?: AlertCreateNestedManyWithoutCredentialInput
-    siemEvents?: SiemEventCreateNestedManyWithoutCredentialInput
   }
 
-  export type AwsCredentialUncheckedCreateWithoutSiemRulesInput = {
+  export type AwsCredentialUncheckedCreateWithoutInsightsRulesInput = {
     id?: string
     name: string
     accessKeyId: string
@@ -9517,69 +9315,56 @@ export namespace Prisma {
     updatedAt?: Date | string
     userId: string
     alerts?: AlertUncheckedCreateNestedManyWithoutCredentialInput
-    siemEvents?: SiemEventUncheckedCreateNestedManyWithoutCredentialInput
   }
 
-  export type AwsCredentialCreateOrConnectWithoutSiemRulesInput = {
+  export type AwsCredentialCreateOrConnectWithoutInsightsRulesInput = {
     where: AwsCredentialWhereUniqueInput
-    create: XOR<AwsCredentialCreateWithoutSiemRulesInput, AwsCredentialUncheckedCreateWithoutSiemRulesInput>
+    create: XOR<AwsCredentialCreateWithoutInsightsRulesInput, AwsCredentialUncheckedCreateWithoutInsightsRulesInput>
   }
 
-  export type SiemEventCreateWithoutRuleInput = {
+  export type DetectionCreateWithoutRuleInput = {
     id?: string
     timestamp: Date | string
-    source: string
-    eventType: string
-    severity: string
-    status?: string
     message: string
-    rawData: string
-    accountId?: string | null
-    region?: string | null
-    resource?: string | null
+    severity: string
+    fields: JsonNullValueInput | InputJsonValue
+    acknowledged?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    credential: AwsCredentialCreateNestedOneWithoutSiemEventsInput
   }
 
-  export type SiemEventUncheckedCreateWithoutRuleInput = {
+  export type DetectionUncheckedCreateWithoutRuleInput = {
     id?: string
     timestamp: Date | string
-    source: string
-    eventType: string
-    severity: string
-    status?: string
     message: string
-    rawData: string
-    accountId?: string | null
-    region?: string | null
-    resource?: string | null
+    severity: string
+    fields: JsonNullValueInput | InputJsonValue
+    acknowledged?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    credentialId: string
   }
 
-  export type SiemEventCreateOrConnectWithoutRuleInput = {
-    where: SiemEventWhereUniqueInput
-    create: XOR<SiemEventCreateWithoutRuleInput, SiemEventUncheckedCreateWithoutRuleInput>
+  export type DetectionCreateOrConnectWithoutRuleInput = {
+    where: DetectionWhereUniqueInput
+    create: XOR<DetectionCreateWithoutRuleInput, DetectionUncheckedCreateWithoutRuleInput>
   }
 
-  export type SiemEventCreateManyRuleInputEnvelope = {
-    data: SiemEventCreateManyRuleInput | SiemEventCreateManyRuleInput[]
+  export type DetectionCreateManyRuleInputEnvelope = {
+    data: DetectionCreateManyRuleInput | DetectionCreateManyRuleInput[]
   }
 
-  export type AwsCredentialUpsertWithoutSiemRulesInput = {
-    update: XOR<AwsCredentialUpdateWithoutSiemRulesInput, AwsCredentialUncheckedUpdateWithoutSiemRulesInput>
-    create: XOR<AwsCredentialCreateWithoutSiemRulesInput, AwsCredentialUncheckedCreateWithoutSiemRulesInput>
+  export type AwsCredentialUpsertWithoutInsightsRulesInput = {
+    update: XOR<AwsCredentialUpdateWithoutInsightsRulesInput, AwsCredentialUncheckedUpdateWithoutInsightsRulesInput>
+    create: XOR<AwsCredentialCreateWithoutInsightsRulesInput, AwsCredentialUncheckedCreateWithoutInsightsRulesInput>
     where?: AwsCredentialWhereInput
   }
 
-  export type AwsCredentialUpdateToOneWithWhereWithoutSiemRulesInput = {
+  export type AwsCredentialUpdateToOneWithWhereWithoutInsightsRulesInput = {
     where?: AwsCredentialWhereInput
-    data: XOR<AwsCredentialUpdateWithoutSiemRulesInput, AwsCredentialUncheckedUpdateWithoutSiemRulesInput>
+    data: XOR<AwsCredentialUpdateWithoutInsightsRulesInput, AwsCredentialUncheckedUpdateWithoutInsightsRulesInput>
   }
 
-  export type AwsCredentialUpdateWithoutSiemRulesInput = {
+  export type AwsCredentialUpdateWithoutInsightsRulesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     accessKeyId?: StringFieldUpdateOperationsInput | string
@@ -9589,10 +9374,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAwsCredentialsNestedInput
     alerts?: AlertUpdateManyWithoutCredentialNestedInput
-    siemEvents?: SiemEventUpdateManyWithoutCredentialNestedInput
   }
 
-  export type AwsCredentialUncheckedUpdateWithoutSiemRulesInput = {
+  export type AwsCredentialUncheckedUpdateWithoutInsightsRulesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     accessKeyId?: StringFieldUpdateOperationsInput | string
@@ -9602,166 +9386,120 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
     alerts?: AlertUncheckedUpdateManyWithoutCredentialNestedInput
-    siemEvents?: SiemEventUncheckedUpdateManyWithoutCredentialNestedInput
   }
 
-  export type SiemEventUpsertWithWhereUniqueWithoutRuleInput = {
-    where: SiemEventWhereUniqueInput
-    update: XOR<SiemEventUpdateWithoutRuleInput, SiemEventUncheckedUpdateWithoutRuleInput>
-    create: XOR<SiemEventCreateWithoutRuleInput, SiemEventUncheckedCreateWithoutRuleInput>
+  export type DetectionUpsertWithWhereUniqueWithoutRuleInput = {
+    where: DetectionWhereUniqueInput
+    update: XOR<DetectionUpdateWithoutRuleInput, DetectionUncheckedUpdateWithoutRuleInput>
+    create: XOR<DetectionCreateWithoutRuleInput, DetectionUncheckedCreateWithoutRuleInput>
   }
 
-  export type SiemEventUpdateWithWhereUniqueWithoutRuleInput = {
-    where: SiemEventWhereUniqueInput
-    data: XOR<SiemEventUpdateWithoutRuleInput, SiemEventUncheckedUpdateWithoutRuleInput>
+  export type DetectionUpdateWithWhereUniqueWithoutRuleInput = {
+    where: DetectionWhereUniqueInput
+    data: XOR<DetectionUpdateWithoutRuleInput, DetectionUncheckedUpdateWithoutRuleInput>
   }
 
-  export type SiemEventUpdateManyWithWhereWithoutRuleInput = {
-    where: SiemEventScalarWhereInput
-    data: XOR<SiemEventUpdateManyMutationInput, SiemEventUncheckedUpdateManyWithoutRuleInput>
+  export type DetectionUpdateManyWithWhereWithoutRuleInput = {
+    where: DetectionScalarWhereInput
+    data: XOR<DetectionUpdateManyMutationInput, DetectionUncheckedUpdateManyWithoutRuleInput>
   }
 
-  export type AwsCredentialCreateWithoutSiemEventsInput = {
+  export type DetectionScalarWhereInput = {
+    AND?: DetectionScalarWhereInput | DetectionScalarWhereInput[]
+    OR?: DetectionScalarWhereInput[]
+    NOT?: DetectionScalarWhereInput | DetectionScalarWhereInput[]
+    id?: StringFilter<"Detection"> | string
+    ruleId?: StringFilter<"Detection"> | string
+    timestamp?: DateTimeFilter<"Detection"> | Date | string
+    message?: StringFilter<"Detection"> | string
+    severity?: StringFilter<"Detection"> | string
+    fields?: JsonFilter<"Detection">
+    acknowledged?: BoolFilter<"Detection"> | boolean
+    createdAt?: DateTimeFilter<"Detection"> | Date | string
+    updatedAt?: DateTimeFilter<"Detection"> | Date | string
+  }
+
+  export type InsightsRuleCreateWithoutDetectionsInput = {
     id?: string
     name: string
-    accessKeyId: string
-    secretKey: string
-    region: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutAwsCredentialsInput
-    alerts?: AlertCreateNestedManyWithoutCredentialInput
-    siemRules?: SiemRuleCreateNestedManyWithoutCredentialInput
-  }
-
-  export type AwsCredentialUncheckedCreateWithoutSiemEventsInput = {
-    id?: string
-    name: string
-    accessKeyId: string
-    secretKey: string
-    region: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    userId: string
-    alerts?: AlertUncheckedCreateNestedManyWithoutCredentialInput
-    siemRules?: SiemRuleUncheckedCreateNestedManyWithoutCredentialInput
-  }
-
-  export type AwsCredentialCreateOrConnectWithoutSiemEventsInput = {
-    where: AwsCredentialWhereUniqueInput
-    create: XOR<AwsCredentialCreateWithoutSiemEventsInput, AwsCredentialUncheckedCreateWithoutSiemEventsInput>
-  }
-
-  export type SiemRuleCreateWithoutEventsInput = {
-    id?: string
-    name: string
-    description: string
-    type: string
+    description?: string | null
     query: string
+    logGroup: string
     severity: string
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isActive?: boolean
     triggers?: number
     lastTriggered?: Date | string | null
-    credential: AwsCredentialCreateNestedOneWithoutSiemRulesInput
-  }
-
-  export type SiemRuleUncheckedCreateWithoutEventsInput = {
-    id?: string
-    name: string
-    description: string
-    type: string
-    query: string
-    severity: string
-    status?: string
+    lastExecuted?: Date | string | null
+    region?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    credential: AwsCredentialCreateNestedOneWithoutInsightsRulesInput
+  }
+
+  export type InsightsRuleUncheckedCreateWithoutDetectionsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    query: string
+    logGroup: string
+    severity: string
+    isActive?: boolean
     triggers?: number
     lastTriggered?: Date | string | null
+    lastExecuted?: Date | string | null
+    region?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     credentialId: string
   }
 
-  export type SiemRuleCreateOrConnectWithoutEventsInput = {
-    where: SiemRuleWhereUniqueInput
-    create: XOR<SiemRuleCreateWithoutEventsInput, SiemRuleUncheckedCreateWithoutEventsInput>
+  export type InsightsRuleCreateOrConnectWithoutDetectionsInput = {
+    where: InsightsRuleWhereUniqueInput
+    create: XOR<InsightsRuleCreateWithoutDetectionsInput, InsightsRuleUncheckedCreateWithoutDetectionsInput>
   }
 
-  export type AwsCredentialUpsertWithoutSiemEventsInput = {
-    update: XOR<AwsCredentialUpdateWithoutSiemEventsInput, AwsCredentialUncheckedUpdateWithoutSiemEventsInput>
-    create: XOR<AwsCredentialCreateWithoutSiemEventsInput, AwsCredentialUncheckedCreateWithoutSiemEventsInput>
-    where?: AwsCredentialWhereInput
+  export type InsightsRuleUpsertWithoutDetectionsInput = {
+    update: XOR<InsightsRuleUpdateWithoutDetectionsInput, InsightsRuleUncheckedUpdateWithoutDetectionsInput>
+    create: XOR<InsightsRuleCreateWithoutDetectionsInput, InsightsRuleUncheckedCreateWithoutDetectionsInput>
+    where?: InsightsRuleWhereInput
   }
 
-  export type AwsCredentialUpdateToOneWithWhereWithoutSiemEventsInput = {
-    where?: AwsCredentialWhereInput
-    data: XOR<AwsCredentialUpdateWithoutSiemEventsInput, AwsCredentialUncheckedUpdateWithoutSiemEventsInput>
+  export type InsightsRuleUpdateToOneWithWhereWithoutDetectionsInput = {
+    where?: InsightsRuleWhereInput
+    data: XOR<InsightsRuleUpdateWithoutDetectionsInput, InsightsRuleUncheckedUpdateWithoutDetectionsInput>
   }
 
-  export type AwsCredentialUpdateWithoutSiemEventsInput = {
+  export type InsightsRuleUpdateWithoutDetectionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    accessKeyId?: StringFieldUpdateOperationsInput | string
-    secretKey?: StringFieldUpdateOperationsInput | string
-    region?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutAwsCredentialsNestedInput
-    alerts?: AlertUpdateManyWithoutCredentialNestedInput
-    siemRules?: SiemRuleUpdateManyWithoutCredentialNestedInput
-  }
-
-  export type AwsCredentialUncheckedUpdateWithoutSiemEventsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    accessKeyId?: StringFieldUpdateOperationsInput | string
-    secretKey?: StringFieldUpdateOperationsInput | string
-    region?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: StringFieldUpdateOperationsInput | string
-    alerts?: AlertUncheckedUpdateManyWithoutCredentialNestedInput
-    siemRules?: SiemRuleUncheckedUpdateManyWithoutCredentialNestedInput
-  }
-
-  export type SiemRuleUpsertWithoutEventsInput = {
-    update: XOR<SiemRuleUpdateWithoutEventsInput, SiemRuleUncheckedUpdateWithoutEventsInput>
-    create: XOR<SiemRuleCreateWithoutEventsInput, SiemRuleUncheckedCreateWithoutEventsInput>
-    where?: SiemRuleWhereInput
-  }
-
-  export type SiemRuleUpdateToOneWithWhereWithoutEventsInput = {
-    where?: SiemRuleWhereInput
-    data: XOR<SiemRuleUpdateWithoutEventsInput, SiemRuleUncheckedUpdateWithoutEventsInput>
-  }
-
-  export type SiemRuleUpdateWithoutEventsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     query?: StringFieldUpdateOperationsInput | string
+    logGroup?: StringFieldUpdateOperationsInput | string
     severity?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     triggers?: IntFieldUpdateOperationsInput | number
     lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    credential?: AwsCredentialUpdateOneRequiredWithoutSiemRulesNestedInput
-  }
-
-  export type SiemRuleUncheckedUpdateWithoutEventsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    query?: StringFieldUpdateOperationsInput | string
-    severity?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    lastExecuted?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    credential?: AwsCredentialUpdateOneRequiredWithoutInsightsRulesNestedInput
+  }
+
+  export type InsightsRuleUncheckedUpdateWithoutDetectionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    query?: StringFieldUpdateOperationsInput | string
+    logGroup?: StringFieldUpdateOperationsInput | string
+    severity?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     triggers?: IntFieldUpdateOperationsInput | number
     lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastExecuted?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     credentialId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -9784,8 +9522,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     alerts?: AlertUpdateManyWithoutCredentialNestedInput
-    siemRules?: SiemRuleUpdateManyWithoutCredentialNestedInput
-    siemEvents?: SiemEventUpdateManyWithoutCredentialNestedInput
+    insightsRules?: InsightsRuleUpdateManyWithoutCredentialNestedInput
   }
 
   export type AwsCredentialUncheckedUpdateWithoutUserInput = {
@@ -9797,8 +9534,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     alerts?: AlertUncheckedUpdateManyWithoutCredentialNestedInput
-    siemRules?: SiemRuleUncheckedUpdateManyWithoutCredentialNestedInput
-    siemEvents?: SiemEventUncheckedUpdateManyWithoutCredentialNestedInput
+    insightsRules?: InsightsRuleUncheckedUpdateManyWithoutCredentialNestedInput
   }
 
   export type AwsCredentialUncheckedUpdateManyWithoutUserInput = {
@@ -9823,35 +9559,20 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type SiemRuleCreateManyCredentialInput = {
+  export type InsightsRuleCreateManyCredentialInput = {
     id?: string
     name: string
-    description: string
-    type: string
+    description?: string | null
     query: string
+    logGroup: string
     severity: string
-    status?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    isActive?: boolean
     triggers?: number
     lastTriggered?: Date | string | null
-  }
-
-  export type SiemEventCreateManyCredentialInput = {
-    id?: string
-    timestamp: Date | string
-    source: string
-    eventType: string
-    severity: string
-    status?: string
-    message: string
-    rawData: string
-    accountId?: string | null
+    lastExecuted?: Date | string | null
     region?: string | null
-    resource?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    ruleId?: string | null
   }
 
   export type AlertUpdateWithoutCredentialInput = {
@@ -9890,167 +9611,98 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SiemRuleUpdateWithoutCredentialInput = {
+  export type InsightsRuleUpdateWithoutCredentialInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     query?: StringFieldUpdateOperationsInput | string
+    logGroup?: StringFieldUpdateOperationsInput | string
     severity?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     triggers?: IntFieldUpdateOperationsInput | number
     lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    events?: SiemEventUpdateManyWithoutRuleNestedInput
+    lastExecuted?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    detections?: DetectionUpdateManyWithoutRuleNestedInput
   }
 
-  export type SiemRuleUncheckedUpdateWithoutCredentialInput = {
+  export type InsightsRuleUncheckedUpdateWithoutCredentialInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     query?: StringFieldUpdateOperationsInput | string
+    logGroup?: StringFieldUpdateOperationsInput | string
     severity?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     triggers?: IntFieldUpdateOperationsInput | number
     lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    events?: SiemEventUncheckedUpdateManyWithoutRuleNestedInput
+    lastExecuted?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    region?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    detections?: DetectionUncheckedUpdateManyWithoutRuleNestedInput
   }
 
-  export type SiemRuleUncheckedUpdateManyWithoutCredentialInput = {
+  export type InsightsRuleUncheckedUpdateManyWithoutCredentialInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     query?: StringFieldUpdateOperationsInput | string
+    logGroup?: StringFieldUpdateOperationsInput | string
     severity?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     triggers?: IntFieldUpdateOperationsInput | number
     lastTriggered?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type SiemEventUpdateWithoutCredentialInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    source?: StringFieldUpdateOperationsInput | string
-    eventType?: StringFieldUpdateOperationsInput | string
-    severity?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    rawData?: StringFieldUpdateOperationsInput | string
-    accountId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastExecuted?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     region?: NullableStringFieldUpdateOperationsInput | string | null
-    resource?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    rule?: SiemRuleUpdateOneWithoutEventsNestedInput
   }
 
-  export type SiemEventUncheckedUpdateWithoutCredentialInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    source?: StringFieldUpdateOperationsInput | string
-    eventType?: StringFieldUpdateOperationsInput | string
-    severity?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    rawData?: StringFieldUpdateOperationsInput | string
-    accountId?: NullableStringFieldUpdateOperationsInput | string | null
-    region?: NullableStringFieldUpdateOperationsInput | string | null
-    resource?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ruleId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type SiemEventUncheckedUpdateManyWithoutCredentialInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    source?: StringFieldUpdateOperationsInput | string
-    eventType?: StringFieldUpdateOperationsInput | string
-    severity?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    rawData?: StringFieldUpdateOperationsInput | string
-    accountId?: NullableStringFieldUpdateOperationsInput | string | null
-    region?: NullableStringFieldUpdateOperationsInput | string | null
-    resource?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ruleId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type SiemEventCreateManyRuleInput = {
+  export type DetectionCreateManyRuleInput = {
     id?: string
     timestamp: Date | string
-    source: string
-    eventType: string
-    severity: string
-    status?: string
     message: string
-    rawData: string
-    accountId?: string | null
-    region?: string | null
-    resource?: string | null
+    severity: string
+    fields: JsonNullValueInput | InputJsonValue
+    acknowledged?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    credentialId: string
   }
 
-  export type SiemEventUpdateWithoutRuleInput = {
+  export type DetectionUpdateWithoutRuleInput = {
     id?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    source?: StringFieldUpdateOperationsInput | string
-    eventType?: StringFieldUpdateOperationsInput | string
-    severity?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
-    rawData?: StringFieldUpdateOperationsInput | string
-    accountId?: NullableStringFieldUpdateOperationsInput | string | null
-    region?: NullableStringFieldUpdateOperationsInput | string | null
-    resource?: NullableStringFieldUpdateOperationsInput | string | null
+    severity?: StringFieldUpdateOperationsInput | string
+    fields?: JsonNullValueInput | InputJsonValue
+    acknowledged?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    credential?: AwsCredentialUpdateOneRequiredWithoutSiemEventsNestedInput
   }
 
-  export type SiemEventUncheckedUpdateWithoutRuleInput = {
+  export type DetectionUncheckedUpdateWithoutRuleInput = {
     id?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    source?: StringFieldUpdateOperationsInput | string
-    eventType?: StringFieldUpdateOperationsInput | string
-    severity?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
-    rawData?: StringFieldUpdateOperationsInput | string
-    accountId?: NullableStringFieldUpdateOperationsInput | string | null
-    region?: NullableStringFieldUpdateOperationsInput | string | null
-    resource?: NullableStringFieldUpdateOperationsInput | string | null
+    severity?: StringFieldUpdateOperationsInput | string
+    fields?: JsonNullValueInput | InputJsonValue
+    acknowledged?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    credentialId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type SiemEventUncheckedUpdateManyWithoutRuleInput = {
+  export type DetectionUncheckedUpdateManyWithoutRuleInput = {
     id?: StringFieldUpdateOperationsInput | string
     timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
-    source?: StringFieldUpdateOperationsInput | string
-    eventType?: StringFieldUpdateOperationsInput | string
-    severity?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
-    rawData?: StringFieldUpdateOperationsInput | string
-    accountId?: NullableStringFieldUpdateOperationsInput | string | null
-    region?: NullableStringFieldUpdateOperationsInput | string | null
-    resource?: NullableStringFieldUpdateOperationsInput | string | null
+    severity?: StringFieldUpdateOperationsInput | string
+    fields?: JsonNullValueInput | InputJsonValue
+    acknowledged?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    credentialId?: StringFieldUpdateOperationsInput | string
   }
 
 

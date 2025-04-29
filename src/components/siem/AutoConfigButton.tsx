@@ -35,18 +35,8 @@ export function AutoConfigButton() {
       status: 'pending'
     },
     {
-      name: 'Metric Filters',
-      description: 'Configure metric filters for security alerts',
-      status: 'pending'
-    },
-    {
-      name: 'CloudWatch Alarms',
-      description: 'Set up alarms to monitor security events',
-      status: 'pending'
-    },
-    {
-      name: 'SIEM Rules',
-      description: 'Configure SIEM detection rules',
+      name: 'CloudWatch Logs Insights',
+      description: 'Configure CloudWatch Logs Insights queries for security analysis',
       status: 'pending'
     }
   ]);
@@ -62,17 +52,7 @@ export function AutoConfigButton() {
       status: 'pending'
     },
     {
-      name: 'CloudWatch Alarms',
-      description: 'Remove CloudWatch alarms',
-      status: 'pending'
-    },
-    {
-      name: 'Metric Filters',
-      description: 'Remove CloudWatch metric filters',
-      status: 'pending'
-    },
-    {
-      name: 'Log Groups',
+      name: 'CloudWatch Logs',
       description: 'Remove CloudWatch log groups',
       status: 'pending'
     }
@@ -286,7 +266,28 @@ export function AutoConfigButton() {
               Confirm CloudSIEM Configuration
             </DialogTitle>
             <DialogDescription>
-              Review the AWS resources that will be created or modified by the auto-configuration process
+              <p className="text-sm">
+                This tool will configure your AWS environment with the necessary resources 
+                to set up a Security Information and Event Management (SIEM) system using 
+                CloudTrail, CloudWatch Logs, and CloudWatch Logs Insights.
+              </p>
+              <p className="text-sm">
+                <strong>CloudWatch Logs Insights</strong> is used for powerful real-time security analysis, 
+                providing advanced query capabilities for investigating security events, 
+                identifying threats, and monitoring your AWS environment.
+              </p>
+              
+              <div className="bg-yellow-50 border border-yellow-200 rounded p-3 mt-4 text-sm">
+                <div className="flex gap-2 items-center font-medium mb-1">
+                  <AlertCircle className="h-4 w-4 text-yellow-600" />
+                  Important
+                </div>
+                <p className="text-xs">
+                  This will create resources in your AWS account that may incur charges. 
+                  Make sure the credential has sufficient permissions to create and 
+                  manage CloudTrail trails, CloudWatch Logs, and IAM roles.
+                </p>
+              </div>
             </DialogDescription>
           </DialogHeader>
 
@@ -319,36 +320,10 @@ export function AutoConfigButton() {
 
               <h3 className="text-sm font-semibold flex items-center gap-2 mt-4">
                 <Info className="h-4 w-4 text-blue-500" />
-                Metric Filters
+                CloudWatch Logs Insights
               </h3>
               <ul className="text-sm space-y-1 pl-6 list-disc">
-                <li>Filters for failed security actions</li>
-                <li>Filters for failed authentication attempts</li>
-                <li>Filters for suspicious API activity</li>
-                <li>Filters for S3 bucket creation events</li>
-              </ul>
-
-              <h3 className="text-sm font-semibold flex items-center gap-2 mt-4">
-                <Info className="h-4 w-4 text-blue-500" />
-                CloudWatch Alarms
-              </h3>
-              <ul className="text-sm space-y-1 pl-6 list-disc">
-                <li>Alarm for high rate of failed authentication attempts</li>
-                <li>Alarm for critical security failures</li>
-                <li>Alarm for S3 bucket creation</li>
-              </ul>
-
-              <h3 className="text-sm font-semibold flex items-center gap-2 mt-4">
-                <Info className="h-4 w-4 text-blue-500" />
-                SIEM Rules
-              </h3>
-              <ul className="text-sm space-y-1 pl-6 list-disc">
-                <li>Detection rules for failed login attempts</li>
-                <li>Detection rules for root account usage</li>
-                <li>Detection rules for IAM policy changes</li>
-                <li>Detection rules for security group changes</li>
-                <li>Detection rules for admin group membership changes</li>
-                <li>Detection rules for S3 bucket creation</li>
+                <li>Configure CloudWatch Logs Insights queries for security analysis</li>
               </ul>
             </div>
 
@@ -402,7 +377,6 @@ export function AutoConfigButton() {
                 <li>CloudTrail trail for SIEM monitoring</li>
                 <li>CloudTrail IAM role and policy</li>
                 <li>CloudWatch log groups and their contents</li>
-                <li>CloudWatch metric filters and alarms</li>
                 <li>Subscription filters between log groups</li>
               </ul>
             </div>
@@ -487,8 +461,6 @@ export function AutoConfigButton() {
                 {removeResult.details && (
                   <div className="text-xs mt-2">
                     <div>• {removeResult.details.logGroups} Log groups removed</div>
-                    <div>• {removeResult.details.metricFilters} Metric filters removed</div>
-                    <div>• {removeResult.details.alarms} CloudWatch alarms removed</div>
                     <div>• CloudTrail: {removeResult.details.cloudTrail ? 'Removed' : 'Not found or not removed'}</div>
                     <div>• IAM Role: {removeResult.details.iamRole ? 'Removed' : 'Not found or not removed'}</div>
                     {removeResult.details.diagnostics && removeResult.details.diagnostics.length > 0 && (
@@ -570,10 +542,21 @@ export function AutoConfigButton() {
                 {configResult.details && (
                   <div className="text-xs mt-2">
                     <div>• {configResult.details.logGroups} Log groups configured</div>
-                    <div>• {configResult.details.metricFilters} Metric filters created</div>
-                    <div>• {configResult.details.alarms} CloudWatch alarms set up</div>
-                    <div>• {configResult.details.rules} SIEM rules configured</div>
                     <div>• CloudTrail: {configResult.details.cloudTrail || "Not configured"}</div>
+                    <div>• CloudWatch Logs Insights Queries: {configResult.details.insightsQueries || 0} configured</div>
+                    
+                    {configResult.details.insightsQueriesList && configResult.details.insightsQueriesList.length > 0 && (
+                      <div className="mt-2">
+                        <div className="font-medium">Configured Insights Queries:</div>
+                        <ul className="text-xs pl-4 list-disc">
+                          {configResult.details.insightsQueriesList.map((query: any, index: number) => (
+                            <li key={index}>{query.name} - {query.description}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    
+                    <div>• IAM Role: {configResult.details.iamRole ? 'Created' : 'Not created or already existed'}</div>
                     {configResult.details.diagnostics && configResult.details.diagnostics.length > 0 && (
                       <div className="mt-2 pt-2 border-t border-gray-200">
                         <details>
